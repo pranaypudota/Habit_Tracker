@@ -2,7 +2,7 @@ import type {
     Habit, HabitCreate, HabitEntry,
     Expense, ExpenseCreate,
     HabitStreak, MonthlyTotal,
-    DashboardToday,
+    DashboardToday, HabitStrength
 } from '../types';
 
 const BASE = 'http://localhost:8000/api/v1';
@@ -56,7 +56,7 @@ export const api = {
 
     analytics: {
         streaks: () => req<HabitStreak[]>('/analytics/streaks'),
-        habitStrength: () => req<{ habit_id: string, habit_name: string, habit_strength: number }[]>('/analytics/habit-strength'),
+        habitStrength: () => req<HabitStrength[]>('/analytics/habit-strength'),
         streakHeatmap: (id: string) => req<{ habit_id: string, heatmap: { date: string, level: number }[] }>(`/analytics/streak-heatmap/${id}`),
         monthlyTotals: () => req<MonthlyTotal[]>('/analytics/expenses/monthly'),
     },

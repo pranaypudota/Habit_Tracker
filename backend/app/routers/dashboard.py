@@ -57,7 +57,10 @@ async def dashboard_today(db: AsyncSession = Depends(get_db)):
         if h.tracking_model == "streak":
             streaks[h.id] = habit_service.compute_streak(entries)
         else:
-            habit_strengths[h.id] = habit_service.calculate_decay_score(entries)
+            habit_strengths[h.id] = {
+                "monthly": habit_service.calculate_decay_score(entries, window_type="month"),
+                "rolling": habit_service.calculate_decay_score(entries, window_type="rolling")
+            }
 
     # Recent expenses and monthly total
     recent_expenses = await expense_repo.get_recent(limit=5)

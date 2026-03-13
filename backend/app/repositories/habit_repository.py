@@ -41,6 +41,7 @@ class HabitRepository:
         category: str,
         period: str = "daily",
         target_per_period: int = 1,
+        target_completions_per_day: int = 1,
         tracking_model: str = "streak",
     ) -> Habit:
         habit = Habit(
@@ -49,6 +50,7 @@ class HabitRepository:
             category=category,
             period=period,
             target_per_period=target_per_period,
+            target_completions_per_day=target_completions_per_day,
             tracking_model=tracking_model,
         )
         self._db.add(habit)
@@ -93,19 +95,9 @@ class HabitRepository:
         return list(result.scalars().all())
 
     async def create_entry(self, habit_id: str, entry_date: date) -> HabitEntry:
-        """Idempotent — insert entry for the date; skip if already exists."""
-        existing = await self._db.execute(
-            select(HabitEntry).where(
-                and_(
-                    HabitEntry.habit_id == habit_id,
-                    HabitEntry.date == entry_date,
-                )
-            )
-        )
-        entry = existing.scalar_one_or_none()
-        if entry:
-            return entry  # already completed on this date
-
+        """Create a completion entry for the habit on a specific date.
+        Multiple calls for the same date are allowed (multi-completion).
+        """
         entry = HabitEntry(id=_uuid(), habit_id=habit_id, date=entry_date)
         self._db.add(entry)
         await self._db.flush()

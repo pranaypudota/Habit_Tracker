@@ -3,7 +3,7 @@ import { X, Check, Flame, Zap } from 'lucide-react';
 
 interface Props {
     onClose: () => void;
-    onAdd: (name: string, category: string, period: "daily" | "weekly", model: "streak" | "decay") => void;
+    onAdd: (name: string, category: string, period: "daily" | "weekly", model: "streak" | "decay", target_completions: number) => void;
 }
 
 const CATEGORIES = ['Health', 'Fitness', 'Learning', 'Mindfulness', 'Nutrition', 'Other'];
@@ -14,6 +14,7 @@ export function AddHabitModal({ onClose, onAdd }: Props) {
     const [category, setCategory] = useState('Health');
     const [period, setPeriod] = useState<"daily" | "weekly">('daily');
     const [model, setModel] = useState<"streak" | "decay">('streak');
+    const [targetCompletions, setTargetCompletions] = useState(1);
     const [error, setError] = useState('');
 
     const handleModelChange = (newModel: "streak" | "decay") => {
@@ -25,7 +26,7 @@ export function AddHabitModal({ onClose, onAdd }: Props) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (!name.trim()) { setError('Habit name is required'); return; }
-        onAdd(name.trim(), category, period, model);
+        onAdd(name.trim(), category, period, model, targetCompletions);
         onClose();
     };
 
@@ -83,6 +84,21 @@ export function AddHabitModal({ onClose, onAdd }: Props) {
                                 {PERIODS.map((p) => <option key={p} value={p}>{p}</option>)}
                             </select>
                         </div>
+                    </div>
+
+                    <div>
+                        <label className="label">Target Completions Per Day</label>
+                        <input
+                            type="number"
+                            min="1"
+                            max="100"
+                            className="input"
+                            value={targetCompletions}
+                            onChange={(e) => setTargetCompletions(parseInt(e.target.value) || 1)}
+                        />
+                        <p style={{ fontSize: '0.65rem', color: 'var(--color-text-muted)', marginTop: '4px' }}>
+                            How many times per day do you want to complete this?
+                        </p>
                     </div>
 
                     <div>

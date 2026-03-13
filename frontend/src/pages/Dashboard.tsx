@@ -79,7 +79,7 @@ export function Dashboard() {
                                 .map((h) => ({
                                     ...h,
                                     streak: streaksData[h.id] ?? 0,
-                                    strength: data?.habit_strengths?.[h.id] ?? 0
+                                    strength: data?.habit_strengths?.[h.id]?.rolling ?? 0
                                 }))
                                 .sort((a, b) => {
                                     // Sort by model then value

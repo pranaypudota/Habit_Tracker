@@ -35,6 +35,7 @@ async def create_habit(
         category=payload.category,
         period=payload.period,
         target_per_period=payload.target_per_period,
+        target_completions_per_day=payload.target_completions_per_day,
         tracking_model=payload.tracking_model,
     )
 

@@ -13,7 +13,7 @@ export function Habits() {
 
     const [showModal, setShowModal] = useState(false);
     const [streaks, setStreaks] = useState<Record<string, number>>({});
-    const [strengths, setStrengths] = useState<Record<string, number>>({});
+    const [strengths, setStrengths] = useState<Record<string, { monthly: number, rolling: number }>>({});
     const entries = useHabitStore((s) => s.entries);
 
     const refreshAnalytics = () => {
@@ -22,7 +22,10 @@ export function Habits() {
         }).catch(() => { });
 
         api.analytics.habitStrength().then((data) => {
-            setStrengths(Object.fromEntries(data.map((s) => [s.habit_id, s.habit_strength])));
+            setStrengths(Object.fromEntries(data.map((s) => [
+                s.habit_id, 
+                { monthly: s.strength_monthly, rolling: s.strength_rolling }
+            ])));
         }).catch(() => { });
     };
 
@@ -30,8 +33,8 @@ export function Habits() {
         refreshAnalytics();
     }, [habits]);
 
-    const handleAdd = async (name: string, category: string, period: "daily" | "weekly", tracking_model: "streak" | "decay") => {
-        await createHabit({ name, category, period, tracking_model });
+    const handleAdd = async (name: string, category: string, period: "daily" | "weekly", tracking_model: "streak" | "decay", target_completions_per_day: number) => {
+        await createHabit({ name, category, period, tracking_model, target_completions_per_day });
         refreshAnalytics();
     };
 
@@ -81,22 +84,25 @@ export function Habits() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(700px, 1fr))', gap: '1.5rem' }}>
                     {habits.map((habit) => {
-                        // Calculate 30-day completion rate
+                        const isDecay = habit.tracking_model === 'decay';
+                        const rollingStrength = strengths[habit.id]?.rolling ?? 0;
+                        const monthlyStrength = strengths[habit.id]?.monthly ?? 0;
+                        
+                        // Fallback rate calculation for standard habits
                         const habitEntries = entries[habit.id] || [];
                         const now = new Date();
                         const thirtyDaysAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 30);
                         const isoThirtyDaysAgo = thirtyDaysAgo.toISOString().split('T')[0];
-
                         const recentCompletions = habitEntries.filter(e => e.date >= isoThirtyDaysAgo).length;
-                        const rate = Math.round((recentCompletions / 30) * 100);
+                        const standardRate = Math.round((recentCompletions / 30) * 100);
 
                         return (
                             <HabitCard
                                 key={habit.id}
                                 habit={habit}
                                 streak={streaks[habit.id] ?? 0}
-                                habitStrength={strengths[habit.id] ?? 0}
-                                completionRate={rate}
+                                habitStrength={monthlyStrength}
+                                completionRate={isDecay ? Math.round(rollingStrength * 100) : standardRate}
                                 onDelete={deleteHabit}
                             />
                         );

@@ -15,6 +15,7 @@ class Habit(Base):
     # Replaces the old `frequency` field — more explicit naming
     period: Mapped[str] = mapped_column(String(20), nullable=False, default="daily")
     target_per_period: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
+    target_completions_per_day: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     tracking_model: Mapped[str] = mapped_column(String(20), nullable=False, default="streak")
     archived: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())

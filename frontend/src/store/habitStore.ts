@@ -62,15 +62,15 @@ export const useHabitStore = create<HabitStore>()(
             const entry = await api.habits.complete(id, date);
             set((s) => {
                 const existing = s.entries[id] ?? [];
-                const alreadyHas = existing.some((e) => e.date === date);
+                // Allow multiple entries for the same date (multi-completion)
                 return {
                     entries: {
                         ...s.entries,
-                        [id]: alreadyHas ? existing : [...existing, entry],
+                        [id]: [...existing, entry],
                     },
                 };
             });
-            // Re-fetch the heatmap and habits summary so the streak UI updates instantly
+            // Re-fetch the heatmap and habits summary so labels update
             await get().fetchHeatmap(id);
             await get().fetchHabits();
         },

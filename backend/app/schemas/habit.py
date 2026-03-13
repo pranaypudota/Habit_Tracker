@@ -10,6 +10,7 @@ class HabitBase(BaseModel):
     category: str = "General"
     period: str = "daily"
     target_per_period: int = 1
+    target_completions_per_day: int = 1
     tracking_model: str = "streak"
 
 

@@ -11,19 +11,40 @@ from app.models.habit import Habit, HabitEntry
 from app.repositories.habit_repository import HabitRepository
 
 
-def calculate_decay_score(entries: list[HabitEntry], lambda_val: float = 0.15, window_days: int = 30) -> float:
+# Habit memory decay constant
+# λ = 0.08
+# Half-life ≈ 8.66 days
+# Tuned for 30-day habit strength window
+DECAY_LAMBDA = 0.08
+
+
+def get_daily_counts(entries: list[HabitEntry]) -> dict[date, int]:
+    counts = {}
+    for e in entries:
+        counts[e.date] = counts.get(e.date, 0) + 1
+    return counts
+
+
+def calculate_decay_score(entries: list[HabitEntry], lambda_val: float = DECAY_LAMBDA, window_type: str = "month") -> float:
     """
     Calculate habit strength using an exponential decay model.
-    score = Σ (completion × weight) / max_possible_weight
-    weight = exp(-λ × days_ago)
+    - 'month': Localized to the start of the current calendar month.
+    - 'rolling': Looks back exactly 30 days from today.
     """
     today = date.today()
-    entry_dates = {e.date for e in entries}
+    
+    if window_type == "month":
+        month_start = today.replace(day=1)
+        days_to_check = (today - month_start).days + 1
+        entry_dates = {e.date for e in entries if e.date >= month_start}
+    else: # rolling 30 days
+        days_to_check = 30
+        entry_dates = {e.date for e in entries if e.date >= (today - timedelta(days=29))}
 
     weighted_sum = 0.0
     max_possible_weight = 0.0
 
-    for i in range(window_days):
+    for i in range(days_to_check):
         check_date = today - timedelta(days=i)
         weight = math.exp(-lambda_val * i)
         max_possible_weight += weight
@@ -37,60 +58,76 @@ def calculate_decay_score(entries: list[HabitEntry], lambda_val: float = 0.15, w
     return round(weighted_sum / max_possible_weight, 2)
 
 
-def compute_streak(entries: list[HabitEntry]) -> int:
+def compute_streak(entries: list[HabitEntry], target: int = 1) -> int:
     """
     Current consecutive streak.
-    If completed today: streak = 1 + check yesterday.
-    If NOT completed today: check if completed yesterday. If yes, streak is preserved (from yesterday).
-    If neither today nor yesterday: streak = 0.
+    Counts a day as 'completed' if entries >= target.
     """
-    entry_dates = {e.date for e in entries}
-    if not entry_dates:
+    daily_counts = get_daily_counts(entries)
+    if not daily_counts:
         return 0
 
     today = date.today()
     yesterday = today - timedelta(days=1)
     
-    # If not completed today AND not completed yesterday, streak is broken
-    if today not in entry_dates and yesterday not in entry_dates:
+    # If not enough today AND not enough yesterday, streak is broken
+    has_today = daily_counts.get(today, 0) >= target
+    has_yesterday = daily_counts.get(yesterday, 0) >= target
+
+    if not has_today and not has_yesterday:
         return 0
         
     streak = 0
     # Start checking from today if completed today, else start from yesterday
-    check_date = today if today in entry_dates else yesterday
+    check_date = today if has_today else yesterday
     
-    while check_date in entry_dates:
+    while daily_counts.get(check_date, 0) >= target:
         streak += 1
         check_date -= timedelta(days=1)
         
     return streak
 
 
-def calculate_streak_levels(entries: list[HabitEntry], window_days: int = 90) -> list[dict]:
+def calculate_streak_levels(entries: list[HabitEntry], target: int = 1, window_days: int = 90) -> list[dict]:
     """
-    Calculate the chronological streak level (0-5) for each day in the requested window.
-    This generates a GitHub-style progression that rewards rebuilding streaks.
-    Level resets to 0 on a missed day.
+    Calculate the chronological completion level (0-5) for each day.
+    
+    Strategies:
+    1. Single-hit (target=1): Level builds based on consecutive days (streak).
+    2. Multi-hit (target>1): Level depends on completion ratio for that day.
     """
-    entry_dates = {e.date for e in entries}
+    daily_counts = get_daily_counts(entries)
     today = date.today()
     start_date = today - timedelta(days=window_days - 1)
     
     results = []
     current_streak = 0
     
-    # Iterate chronologically from the start of the window
     for i in range(window_days):
         current_date = start_date + timedelta(days=i)
+        count = daily_counts.get(current_date, 0)
         
-        if current_date in entry_dates:
-            current_streak += 1
+        if target == 1:
+            # Traditional streak-building logic: intensity starts at Level 2 for day 1
+            if count >= 1:
+                current_streak += 1
+                # Day 1 -> Level 2, Day 2 -> Level 3, Day 3 -> Level 4, Day 4+ -> Level 5
+                level = min(current_streak + 1, 5)
+            else:
+                current_streak = 0
+                level = 0
         else:
-            current_streak = 0
-            
-        # Cap visual streak level at 5 (Peak Consistency)
-        level = min(current_streak, 5)
-        
+            # Multi-hit ratio logic: intensity acts as a progress bar
+            if count >= target and target > 0:
+                level = 5  # Instant Max Brightness / Glow on target hit
+            else:
+                ratio = count / target if target > 0 else (1 if count > 0 else 0)
+                level = min(math.floor(ratio * 5), 4) if count > 0 else 0
+                
+                # Ensure at least Level 1 if any progress made
+                if count > 0 and level == 0:
+                    level = 1
+
         results.append({
             "date": current_date.isoformat(),
             "level": level
@@ -102,7 +139,7 @@ def calculate_streak_levels(entries: list[HabitEntry], window_days: int = 90) ->
 def compute_completion_rate(entries: list[HabitEntry], days: int = 30) -> float:
     """Completion rate (%) over the last N days — presence = completed."""
     start = date.today() - timedelta(days=days - 1)
-    completed = sum(1 for e in entries if e.date >= start)
+    completed = len({e.date for e in entries if e.date >= start})
     return round((completed / days) * 100, 1)
 
 
@@ -120,14 +157,14 @@ async def get_streaks_for_all(repo: HabitRepository) -> list[dict]:
             "habit_id": h.id,
             "habit_name": h.name,
             "category": h.category,
-            "streak": compute_streak(entries_by_habit.get(h.id, [])),
+            "streak": compute_streak(entries_by_habit.get(h.id, []), h.target_completions_per_day),
         }
         for h in habits
     ]
 
 
 async def get_habit_strengths(repo: HabitRepository) -> list[dict]:
-    """Return strength for every non-archived habit."""
+    """Return both monthly and rolling strengths for every non-archived habit."""
     habits = await repo.get_all()
     if not habits:
         return []
@@ -139,7 +176,8 @@ async def get_habit_strengths(repo: HabitRepository) -> list[dict]:
         {
             "habit_id": h.id,
             "habit_name": h.name,
-            "habit_strength": calculate_decay_score(entries_by_habit.get(h.id, [])),
+            "strength_monthly": calculate_decay_score(entries_by_habit.get(h.id, []), window_type="month"),
+            "strength_rolling": calculate_decay_score(entries_by_habit.get(h.id, []), window_type="rolling"),
         }
         for h in habits
     ]
@@ -147,8 +185,12 @@ async def get_habit_strengths(repo: HabitRepository) -> list[dict]:
 
 async def get_streak_heatmap_for_habit(repo: HabitRepository, habit_id: str, window_days: int = 90) -> dict:
     """Return chronological streak level data for the heatmap visualization."""
+    habit = await repo.get_by_id(habit_id)
+    if not habit:
+        return {"habit_id": habit_id, "heatmap": []}
+        
     entries = await repo.get_entries(habit_id)
-    heatmap_data = calculate_streak_levels(entries, window_days)
+    heatmap_data = calculate_streak_levels(entries, habit.target_completions_per_day, window_days)
     
     return {
         "habit_id": habit_id,

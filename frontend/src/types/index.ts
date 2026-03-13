@@ -6,6 +6,7 @@ export interface Habit {
     category: string;
     period: "daily" | "weekly";
     target_per_period: number;
+    target_completions_per_day: number;
     tracking_model: "streak" | "decay";
     archived: boolean;
     created_at: string;
@@ -16,6 +17,7 @@ export interface HabitCreate {
     category?: string;
     period?: "daily" | "weekly";
     target_per_period?: number;
+    target_completions_per_day?: number;
     tracking_model?: "streak" | "decay";
 }
 
@@ -58,13 +60,20 @@ export interface MonthlyTotal {
     total: number;
 }
 
+export interface HabitStrength {
+    habit_id: string;
+    habit_name: string;
+    strength_monthly: number;
+    strength_rolling: number;
+}
+
 // ─── Dashboard ───────────────────────────────────────────────────────────────
 
 export interface DashboardToday {
     habits: Habit[];
     completed_today: string[];          // array of habit_ids
     streaks: Record<string, number>;    // habit_id → streak
-    habit_strengths: Record<string, number>; // habit_id → strength (0.0 - 1.0)
+    habit_strengths: Record<string, { monthly: number; rolling: number }>; // habit_id → strength
     recent_expenses: Expense[];
     monthly_expense_total: number;
 }

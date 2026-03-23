@@ -1,32 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
+@import "./styles/tokens.css";
+@import "./styles/themes/light.css";
+@import "./styles/themes/dark.css";
 
 @theme {
-  /* Color Palette — deep dark with vibrant accents */
-  --color-bg: oklch(0.12 0.01 260);
-  --color-surface: oklch(0.19 0.02 260 / 0.7);
-  /* Translucent for glassmorphism */
-  --color-surface-2: oklch(0.24 0.03 260 / 0.8);
-  --color-border: oklch(0.32 0.03 260 / 0.5);
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-2: var(--color-surface-2);
+  --color-border: var(--color-border);
 
-  --color-accent-green: oklch(0.72 0.18 150);
-  --color-accent-green-dim: oklch(0.60 0.14 150);
-  --color-accent-purple: oklch(0.68 0.20 295);
-  --color-accent-purple-dim: oklch(0.55 0.16 295);
-  --color-accent-amber: oklch(0.75 0.18 75);
+  --color-accent-green: var(--color-accent-green);
+  --color-accent-purple: var(--color-accent-purple);
+  --color-accent-amber: var(--color-accent-amber);
 
-  --color-text-primary: oklch(0.95 0.01 260);
-  --color-text-secondary: oklch(0.75 0.02 260);
-  --color-text-muted: oklch(0.55 0.015 260);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
 
   /* Typography */
-  --font-sans: 'JetBrains Mono', monospace;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 
-  /* Spacing */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1.25rem;
+  /* Spacing & Radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
 }
 
 @layer base {
@@ -47,14 +45,11 @@
 
   body {
     background-color: var(--color-bg);
-    background-image:
-      radial-gradient(at 0% 0%, oklch(0.18 0.05 260 / 0.3) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, oklch(0.68 0.20 295 / 0.1) 0px, transparent 50%);
-    background-attachment: fixed;
     color: var(--color-text-primary);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   ::-webkit-scrollbar {
@@ -70,23 +65,55 @@
     border-radius: 3px;
   }
 
-  /* Muscle Progress Bar */
-  .muscle-container {
-    padding: 1.25rem;
-    background: linear-gradient(135deg, oklch(1 0 0 / 0.03), oklch(1 0 0 / 0.01));
-    border: 1px solid oklch(1 0 0 / 0.05);
-    border-radius: 16px;
+  /* Shared Premium Base */
+  .premium-container {
+    background: color-mix(in oklch, var(--color-surface) 95%, black);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 0 20px oklch(0 0 0 / 0.2);
-    margin-top: 0.5rem;
+    box-shadow: 
+      inset 0 2px 10px oklch(0 0 0 / 0.1),
+      0 1px 0 oklch(1 0 0 / 0.05);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Main Progress Blocks (Current Month) */
+  .container-main {
+    padding: 0 1.25rem;
+    height: 76px; /* Absolute fixed height for grid locking */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  /* Historical Rows (FEB/JAN) */
+  .container-history {
+    padding: 0.5rem 0.75rem;
+    min-height: 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  /* Muscle Progress Bar Specific Style */
+  .muscle-container {
+    background: linear-gradient(135deg, oklch(1 0 0 / 0.03), oklch(1 0 0 / 0.01));
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 16px;
+    box-shadow: inset 0 0 20px oklch(0 0 0 / 0.15);
+    margin-top: 0.5rem; /* Reduced margin to use space above */
+    height: 92px; /* Increased height by 16px to maintain bottom-alignment with FEB boxes */
+    padding: 0.75rem 1.25rem; /* Balanced interior padding */
   }
 
   .muscle-bar-bg {
-    height: 16px;
+    height: 12px; /* Slightly thicker for better glow visibility */
     width: 100%;
     background-color: oklch(1 0 0 / 0.05);
-    border-radius: 8px;
+    border-radius: 6px;
     overflow: hidden;
     position: relative;
     border: 1px solid oklch(1 0 0 / 0.05);
@@ -123,26 +150,26 @@
   .muscle-label {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Align titles to top */
-    margin-bottom: 0.75rem;
+    align-items: flex-start; /* Align headings (Habit Muscle / Momentum) to the top */
+    margin-bottom: 0.5rem;
   }
 
   .muscle-strength-text {
     font-weight: 950;
     font-family: var(--font-mono);
-    font-size: 1.6rem; /* Slightly bigger */
+    font-size: 1.6rem; /* Restored size for maximum readability */
     letter-spacing: -0.04em;
-    line-height: 1.1;
+    line-height: 1;
   }
 
   .muscle-momentum-val {
     font-weight: 950;
-    font-size: 1.2rem;
+    font-size: 1.2rem; /* Restored size */
     color: var(--color-text-primary);
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-top: 4px;
+    margin-top: 0; /* Removed margin to align baseline with the 76% text */
     font-family: var(--font-mono);
   }
 
@@ -182,6 +209,18 @@
   }
 }
 
+/* Custom View Transition Animation Overrides */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.light::view-transition-old(root) { z-index: 1; }
+.light::view-transition-new(root) { z-index: 2147483646; }
+.dark::view-transition-old(root) { z-index: 2147483646; }
+.dark::view-transition-new(root) { z-index: 1; }
+
 @layer components {
   .glass {
     background-color: var(--color-surface);
@@ -199,10 +238,7 @@
     border-radius: var(--radius-lg);
     padding: 1.5rem;
     transition: all 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow:
-      0 4px 24px -1px oklch(0 0 0 / 0.1),
-      inset 0 0 0 1px oklch(1 0 0 / 0.05);
-    /* Inner refracted border */
+    box-shadow: 0 4px 24px -1px color-mix(in oklch, black 10%, transparent);
     position: relative;
     overflow: hidden;
   }
@@ -219,10 +255,8 @@
   }
 
   .card:hover {
-    border-color: oklch(0.45 0.05 260 / 0.8);
-    box-shadow:
-      0 20px 48px -8px oklch(0 0 0 / 0.5),
-      inset 0 0 0 1px oklch(1 0 0 / 0.1);
+    border-color: var(--color-accent-purple);
+    box-shadow: 0 20px 48px -8px color-mix(in oklch, black 30%, transparent);
     transform: translateY(-6px) scale(1.015);
   }
 
@@ -250,9 +284,9 @@
   }
 
   .btn-green {
-    background: linear-gradient(135deg, var(--color-accent-green), oklch(0.65 0.16 150));
-    color: oklch(0.05 0 0);
-    box-shadow: 0 4px 12px oklch(0.72 0.18 150 / 0.2);
+    background: var(--color-accent-green);
+    color: var(--color-bg);
+    box-shadow: 0 4px 12px color-mix(in oklch, var(--color-accent-green) 20%, transparent);
   }
 
   .btn-green:hover {
@@ -267,9 +301,9 @@
   }
 
   .btn-purple {
-    background: linear-gradient(135deg, var(--color-accent-purple), oklch(0.60 0.18 295));
+    background: var(--color-accent-purple);
     color: white;
-    box-shadow: 0 4px 12px oklch(0.68 0.20 295 / 0.2);
+    box-shadow: 0 4px 12px color-mix(in oklch, var(--color-accent-purple) 20%, transparent);
   }
 
   .btn-purple:hover {
@@ -279,15 +313,15 @@
   }
 
   .btn-ghost {
-    background-color: oklch(1 0 0 / 0.04);
+    background-color: var(--color-surface-2);
     color: var(--color-text-secondary);
     border: 1px solid var(--color-border);
   }
 
   .btn-ghost:hover {
-    background-color: oklch(1 0 0 / 0.08);
+    background-color: var(--color-surface);
     color: var(--color-text-primary);
-    border-color: oklch(1 0 0 / 0.2);
+    border-color: var(--color-text-muted);
   }
 
   .btn-danger {
@@ -316,8 +350,8 @@
 
   .input:focus {
     border-color: var(--color-accent-purple);
-    background-color: oklch(0 0 0 / 0.3);
-    box-shadow: 0 0 0 4px oklch(0.68 0.20 295 / 0.1);
+    background-color: var(--color-surface);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-accent-purple) 15%, transparent);
   }
 
   .label {
@@ -352,17 +386,16 @@
     max-width: 500px;
     min-height: 480px;
     padding: 2.5rem;
-    background-color: oklch(0.2 0.02 260 / 0.95);
-    border: 1px solid oklch(1 0 0 / 0.1);
+    background-color: var(--color-surface-2);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    box-shadow:
-      0 0 0 1px oklch(1 0 0 / 0.05),
-      0 20px 50px -12px oklch(0 0 0 / 0.5),
-      0 0 40px oklch(0.68 0.20 295 / 0.1);
+    box-shadow: 0 20px 50px -12px color-mix(in oklch, black 50%, transparent);
+    animation: modalSlideIn 400ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    color: var(--color-text-primary);
   }
 
   select.input {
@@ -480,81 +513,54 @@
     }
   }
 
-  /* Intensity-Modulated Heatmap */
+  /* Universal Heatmap / Timeline Day Styling */
   .timeline-day {
     transition: all 400ms cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+    position: relative;
+    border: 1px solid var(--color-border-subtle);
+    box-shadow: inset 0 2px 4px oklch(0 0 0 / 0.06);
+    background-color: var(--intensity-0);
   }
 
   .timeline-day:hover {
     transform: scale(1.4) translateY(-3px);
     filter: brightness(1.2) saturate(1.2);
-    box-shadow: 0 0 15px currentColor;
+    box-shadow: 0 0 15px currentColor, 0 8px 20px -4px oklch(0 0 0 / 0.3);
     z-index: 20;
   }
 
-  /* Momentum Gradient Scale - Higher vibrancy */
-  .intensity-0 {
-    background-color: oklch(0.2 0.02 260 / 0.5);
-    /* Deep empty slate */
+  /* Intensity-0 (Empty) Visibility Fix */
+  .intensity-0, .intensity-amber-0, .intensity-purple-0 {
+    background-color: var(--intensity-0);
+    border: 1px solid var(--color-border);
+    opacity: 0.6;
   }
 
-  .intensity-1 {
-    background-color: #1a5135;
+  /* Success Scale (Green) */
+  .intensity-1 { background-color: var(--color-success-1); }
+  .intensity-2 { background-color: var(--color-success-2); }
+  .intensity-3 { background-color: var(--color-success-3); }
+  .intensity-4 { 
+    background-color: var(--color-success-4);
+    box-shadow: 0 0 12px color-mix(in oklch, var(--color-success-4) 40%, transparent);
   }
 
-  .intensity-2 {
-    background-color: #22864c;
+  /* Amber Scale (Streak) */
+  .intensity-amber-1 { background-color: var(--color-streak-1); }
+  .intensity-amber-2 { background-color: var(--color-streak-2); }
+  .intensity-amber-3 { background-color: var(--color-streak-3); }
+  .intensity-amber-4 { 
+    background-color: var(--color-streak-4);
+    box-shadow: 0 0 12px color-mix(in oklch, var(--color-streak-4) 40%, transparent);
   }
 
-  .intensity-3 {
-    background-color: #2ebc60;
-  }
-
-  .intensity-4 {
-    background-color: #39d353;
-    box-shadow: 0 0 15px rgba(57, 211, 83, 0.3);
-  }
-
-  .intensity-5 {
-    background-color: #9affc3;
-    /* Distribute glow over more layers for a "cloud" effect */
-    box-shadow:
-      0 0 10px rgba(57, 211, 83, 0.5),
-      0 0 25px rgba(57, 211, 83, 0.3),
-      0 0 45px rgba(57, 211, 83, 0.15);
-    filter: brightness(1.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-  }
-
-  .intensity-purple-0 {
-    background-color: oklch(1 0 0 / 0.05);
-  }
-
-  .intensity-purple-1 {
-    background-color: oklch(0.40 0.12 295);
-  }
-
-  .intensity-purple-2 {
-    background-color: oklch(0.55 0.16 295);
-  }
-
-  .intensity-purple-3 {
-    background-color: oklch(0.70 0.20 295);
-  }
-
-  .intensity-purple-4 {
-    background-color: oklch(0.85 0.24 295);
-    box-shadow: 0 0 15px oklch(0.85 0.24 295 / 0.3);
-  }
-
-  .intensity-purple-5 {
-    background-color: oklch(0.95 0.15 295);
-    box-shadow:
-      0 0 10px oklch(0.7 0.2 295 / 0.5),
-      0 0 25px oklch(0.7 0.2 295 / 0.3),
-      0 0 45px oklch(0.7 0.2 295 / 0.15);
-    filter: brightness(1.1);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+  /* Purple Scale (Muscle) */
+  .intensity-purple-1 { background-color: var(--color-muscle-1); }
+  .intensity-purple-2 { background-color: var(--color-muscle-2); }
+  .intensity-purple-3 { background-color: var(--color-muscle-3); }
+  .intensity-purple-4 { 
+    background-color: var(--color-muscle-4);
+    box-shadow: 0 0 12px color-mix(in oklch, var(--color-muscle-4) 40%, transparent);
   }
 
   .timeline-day.is-today {

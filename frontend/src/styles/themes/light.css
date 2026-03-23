@@ -1,0 +1,31 @@
+.light {
+  /* Alabaster / Ghost White Base */
+  --color-bg: #fafafa; /* Alabaster */
+  --color-surface: oklch(1 0 0 / 0.8);
+  --color-surface-2: oklch(0.96 0 0 / 0.9);
+  --color-border: oklch(0.8 0 0); /* Darker gray for crisp borders */
+  --color-border-subtle: oklch(0.9 0 0);
+
+  /* Typography */
+  --color-text-primary: #111111;
+  --color-text-secondary: #333333;
+  --color-text-muted: #666666;
+
+  /* Accents - Calibrated for Light Background (Higher Chroma to prevent "wash out") */
+  --color-accent-green: oklch(0.6 0.18 150);
+  --color-accent-purple: oklch(0.55 0.22 295);
+  --color-accent-amber: oklch(0.65 0.18 75);
+  
+  /* Intensity Base */
+  --intensity-0: #e5e5e5;
+
+  /* Calibrated Success Scale (Green) - Defined for perfect visibility in Light Mode */
+  /* Stage 1: Very subtle but distinct */
+  --color-success-1: oklch(0.9 0.04 150);
+  /* Stage 2: Building intensity */
+  --color-success-2: oklch(0.8 0.10 150);
+  /* Stage 3: Clear meaningful progress */
+  --color-success-3: oklch(0.7 0.16 150);
+  /* Stage 4: Peak achievement (Vibrant & Deep) */
+  --color-success-4: oklch(0.55 0.22 150);
+}

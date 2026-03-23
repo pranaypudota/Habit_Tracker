@@ -56,7 +56,13 @@ export function HeatmapCalendar({ entries, weeks = 18 }: Props) {
                         {week.map((cell) => (
                             <div
                                 key={cell.date}
-                                className={`heat-cell heat-${cell.level}`}
+                                className={`timeline-day intensity-${cell.level}`}
+                                style={{
+                                    width: '12px',
+                                    height: '12px',
+                                    borderRadius: '2px',
+                                    border: '1px solid var(--color-border-subtle)'
+                                }}
                                 title={`${cell.date}${cell.level > 0 ? ' ✓' : ''}`}
                             />
                         ))}
@@ -67,7 +73,17 @@ export function HeatmapCalendar({ entries, weeks = 18 }: Props) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '8px' }}>
                 <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>Less</span>
                 {[0, 1, 2, 3, 4].map((l) => (
-                    <div key={l} className={`heat-cell heat-${l}`} style={{ cursor: 'default' }} />
+                    <div 
+                        key={l} 
+                        className={`timeline-day intensity-${l}`} 
+                        style={{ 
+                            width: '10px',
+                            height: '10px',
+                            borderRadius: '2px',
+                            border: '1px solid var(--color-border-subtle)',
+                            cursor: 'default' 
+                        }} 
+                    />
                 ))}
                 <span style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>More</span>
             </div>

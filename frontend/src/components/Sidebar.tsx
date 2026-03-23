@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Leaf, CreditCard, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ThemeToggle } from './ui/theme-toggle';
 
 const navLinks = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -62,7 +63,7 @@ export function Sidebar() {
                 {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
             </button>
             <div style={{ marginBottom: '2.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', justifyContent: isCollapsed ? 'center' : 'flex-start' }}>
-                <Zap size={28} color="white" fill="white" strokeWidth={1} style={{ flexShrink: 0, opacity: 0.9 }} />
+                <Zap size={28} color="var(--color-text-primary)" fill="currentColor" strokeWidth={1} style={{ flexShrink: 0, opacity: 0.9 }} />
                 {!isCollapsed && (
                     <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', opacity: isCollapsed ? 0 : 1, transition: 'opacity 200ms ease' }}>
                         <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--color-text-primary)', letterSpacing: '-0.03em', fontFamily: 'var(--font-mono)' }}>
@@ -103,13 +104,18 @@ export function Sidebar() {
                 ))}
             </nav>
 
-            {/* Footer */}
-            {!isCollapsed && (
-                <div style={{ marginTop: 'auto', padding: '1rem', borderRadius: '12px', backgroundColor: 'oklch(1 0 0 / 0.03)', fontSize: '0.7rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap', overflow: 'hidden' }}>
-                    <div style={{ fontWeight: 600, color: 'var(--color-text-secondary)', marginBottom: '2px' }}>Personal Data</div>
-                    Locked to your device
+            {/* Footer & Theme Toggle */}
+            <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div style={{ display: 'flex', justifyContent: isCollapsed ? 'center' : 'flex-start' }}>
+                    <ThemeToggle />
                 </div>
-            )}
+                {!isCollapsed && (
+                    <div style={{ padding: '1rem', borderRadius: '12px', backgroundColor: 'oklch(1 0 0 / 0.03)', fontSize: '0.7rem', color: 'var(--color-text-muted)', whiteSpace: 'nowrap', overflow: 'hidden' }}>
+                        <div style={{ fontWeight: 600, color: 'var(--color-text-secondary)', marginBottom: '2px' }}>Personal Data</div>
+                        Locked to your device
+                    </div>
+                )}
+            </div>
         </aside>
     );
 }

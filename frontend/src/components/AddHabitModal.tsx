@@ -38,7 +38,7 @@ export function AddHabitModal({ onClose, onAdd }: Props) {
                             onChange={(e) => setName(e.target.value)}
                             autoFocus
                         />
-                        {error && <div style={{ color: 'oklch(0.65 0.20 25)', fontSize: '0.75rem', marginTop: '4px' }}>{error}</div>}
+                        {error && <div style={{ color: 'var(--color-accent-amber)', fontSize: '0.75rem', marginTop: '4px' }}>{error}</div>}
                     </div>
                     <div>
                         <label className="label">Category</label>

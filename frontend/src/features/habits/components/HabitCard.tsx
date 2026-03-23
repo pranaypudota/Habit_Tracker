@@ -97,8 +97,9 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
     };
     const isDecay = habit.tracking_model === 'decay';
     const themeColor = isDecay ? 'var(--color-accent-purple)' : 'var(--color-accent-amber)';
-    const complementaryColor = isDecay ? 'var(--color-accent-amber)' : 'var(--color-accent-purple)';
-    const complementaryBg = isDecay ? 'oklch(0.75 0.18 75 / 0.1)' : 'oklch(0.7 0.2 300 / 0.1)';
+    // Stats and highlights now stay true to the habit's theme color
+    const complementaryColor = themeColor;
+    const complementaryBg = isDecay ? 'color-mix(in oklch, var(--color-accent-purple) 15%, transparent)' : 'color-mix(in oklch, var(--color-accent-amber) 15%, transparent)';
 
     return (
         <div
@@ -107,9 +108,13 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1.25rem',
-                borderLeft: completedToday ? `4px solid ${themeColor}` : (todayCount > 0 ? `4px solid oklch(0.5 0.05 260 / 0.5)` : '4px solid var(--color-border)'),
+                borderLeft: `6px solid ${themeColor}`,
                 cursor: 'pointer',
-                userSelect: 'none'
+                userSelect: 'none',
+                backgroundColor: 'var(--color-surface)',
+                borderColor: 'var(--color-border)',
+                transition: 'var(--transition-slow)',
+                opacity: completedToday ? 1 : 0.9
             }}
             onClick={() => setIsExpanded(!isExpanded)}
         >
@@ -150,10 +155,16 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
                         <button
                             id={`complete-${habit.id}`}
-                            className={`btn ${completedToday ? 'btn-green' : 'btn-ghost'}`}
-                            style={{ padding: '0.6rem 1rem', minWidth: '130px' }}
+                            className={`btn ${completedToday ? 'btn-ghost' : 'btn-green'}`}
+                            style={{ 
+                                padding: '0.6rem 1rem', 
+                                minWidth: '130px',
+                                opacity: completedToday ? 0.5 : 1,
+                                cursor: completedToday ? 'not-allowed' : 'pointer',
+                                filter: completedToday ? 'grayscale(1)' : 'none'
+                            }}
                             onClick={handleToggle}
-                            disabled={completing}
+                            disabled={completing || completedToday}
                         >
                             {completedToday ? <Check size={16} strokeWidth={3} /> : <Target size={16} />}
                             <span style={{ marginLeft: '6px' }}>
@@ -222,34 +233,18 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                                 </div>
                             );
                         })()}
-                        <div className="muscle-container">
+                        <div className="muscle-container container-main" style={{ position: 'relative', overflow: 'hidden' }}>
                             <div className="muscle-label">
                                 <div>
                                     <div className="muscle-subtext">Habit Muscle</div>
                                     {(() => {
                                         const percent = Math.round(habitStrength * 100);
-                                        // Smoother color interpolation using OKLCH
+                                        // Smoother color interpolation using habit-specific tokens
                                         const getInterpolatedColor = (p: number) => {
-                                            let l, c, h = 145; // Base green hue
-                                            if (p <= 25) {
-                                                const t = p / 25;
-                                                l = 0.25 + t * (0.45 - 0.25);
-                                                c = 0.05 + t * (0.12 - 0.05);
-                                            } else if (p <= 50) {
-                                                const t = (p - 25) / 25;
-                                                l = 0.45 + t * (0.7 - 0.45);
-                                                c = 0.12 + t * (0.18 - 0.12);
-                                            } else if (p <= 75) {
-                                                const t = (p - 50) / 25;
-                                                l = 0.7 + t * (0.85 - 0.7);
-                                                c = 0.18 + t * (0.22 - 0.18);
-                                            } else {
-                                                const t = (p - 75) / 25;
-                                                l = 0.85 + t * (0.95 - 0.85);
-                                                c = 0.22 + t * (0.28 - 0.22);
-                                                h = 145 + t * (10 - 145); // Shift slightly toward mint
-                                            }
-                                            return `oklch(${l} ${c} ${h})`;
+                                            if (p <= 25) return 'var(--color-success-1)';
+                                            if (p <= 50) return 'var(--color-success-2)';
+                                            if (p <= 75) return 'var(--color-success-3)';
+                                            return 'var(--color-success-4)';
                                         };
 
                                         const muscleColor = getInterpolatedColor(percent);
@@ -275,26 +270,10 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                                     
                                     // Utility to get interpolated color for the bar
                                     const getBarColor = (p: number) => {
-                                        let l, c, h = 145;
-                                        if (p <= 25) {
-                                            const t = p / 25;
-                                            l = 0.25 + t * (0.45 - 0.25);
-                                            c = 0.05 + t * (0.12 - 0.05);
-                                        } else if (p <= 50) {
-                                            const t = (p - 25) / 25;
-                                            l = 0.45 + t * (0.7 - 0.45);
-                                            c = 0.12 + t * (0.18 - 0.12);
-                                        } else if (p <= 75) {
-                                            const t = (p - 50) / 25;
-                                            l = 0.7 + t * (0.85 - 0.7);
-                                            c = 0.18 + t * (0.22 - 0.18);
-                                        } else {
-                                            const t = (p - 75) / 25;
-                                            l = 0.85 + t * (0.95 - 0.85);
-                                            c = 0.22 + t * (0.28 - 0.22);
-                                            h = 145 + t * 5; 
-                                        }
-                                        return { color: `oklch(${l} ${c} ${h})`, glow: `oklch(${l} ${c} ${h} / 0.5)` };
+                                        if (p <= 25) return { color: 'var(--color-success-1)', glow: 'color-mix(in oklch, var(--color-success-1) 40%, transparent)' };
+                                        if (p <= 50) return { color: 'var(--color-success-2)', glow: 'color-mix(in oklch, var(--color-success-2) 40%, transparent)' };
+                                        if (p <= 75) return { color: 'var(--color-success-3)', glow: 'color-mix(in oklch, var(--color-success-3) 40%, transparent)' };
+                                        return { color: 'var(--color-success-4)', glow: 'color-mix(in oklch, var(--color-success-4) 40%, transparent)' };
                                     };
 
                                     const { color, glow } = getBarColor(percent);
@@ -304,8 +283,8 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                                             className="muscle-bar-fill" 
                                             style={{ 
                                                 width: `${percent}%`,
-                                                background: `linear-gradient(90deg, oklch(0.25 0.05 145), ${color})`,
-                                                boxShadow: percent > 25 ? `0 0 10px ${glow}, 0 0 30px oklch(from ${color} l c h / 0.2)` : 'none'
+                                                background: `linear-gradient(90deg, var(--color-success-1), ${color})`,
+                                                boxShadow: percent > 25 ? `0 4px 12px ${glow}` : 'none'
                                             }} 
                                         />
                                     );
@@ -329,31 +308,32 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                                         {progressPercent}% EFFECTIVE
                                     </div>
                                 </div>
-                                <div style={{ height: '4px', width: '100%', backgroundColor: 'oklch(1 0 0 / 0.05)', borderRadius: '2px', overflow: 'hidden', marginBottom: '4px' }}>
+                                <div style={{ height: '8px', width: '100%', backgroundColor: 'oklch(1 0 0 / 0.08)', borderRadius: '4px', overflow: 'hidden', marginBottom: '8px', border: '1px solid oklch(1 0 0 / 0.05)' }}>
                                     <div style={{
                                         height: '100%',
                                         width: `${progressPercent}%`,
-                                        backgroundColor: progressPercent > 0 ? themeColor : 'var(--color-accent-muted)',
-                                        boxShadow: progressPercent > 80 ? `0 0 8px ${themeColor}` : 'none',
+                                        backgroundColor: progressPercent > 0 ? 'var(--color-success-3)' : 'var(--color-accent-muted)',
+                                        boxShadow: progressPercent > 80 ? '0 0 8px var(--color-success-4)' : 'none',
                                         transition: 'width 1s cubic-bezier(0.34, 1.56, 0.64, 1)'
                                     }} />
                                 </div>
-                                <div style={{
-                                    display: 'flex', flexWrap: 'nowrap', justifyContent: 'space-between', width: '100%', padding: '10px',
-                                    background: 'linear-gradient(135deg, oklch(1 0 0 / 0.02), transparent)', border: '1px solid oklch(1 0 0 / 0.04)',
-                                    borderRadius: '12px', backdropFilter: 'blur(4px)'
-                                }}>
-                                    {month.days.map((day) => {
-                                        const isDone = completedDates.has(day.date);
-                                        const isToday = day.date === today;
-                                        const intensity = heatmaps[habit.id]?.[day.date] ?? 0;
-                                        return (
-                                            <div key={day.date} title={day.date} className={`timeline-day intensity-${intensity} ${isToday ? 'is-today' : ''}`}
-                                                // @ts-ignore
-                                                style={{ '--today-color': themeColor, width: '12px', height: '24px', borderRadius: '4px', position: 'relative', opacity: isDecay && isDone ? 0.6 + (habitStrength * 0.4) : 1 } as React.CSSProperties}
-                                            />
-                                        );
-                                    })}
+                                <div className="premium-container container-main">
+                                    <div style={{
+                                        display: 'flex', flexWrap: 'nowrap', justifyContent: 'space-between', width: '100%',
+                                    }}>
+                                        {month.days.map((day) => {
+                                            const isDone = completedDates.has(day.date);
+                                            const isToday = day.date === today;
+                                            const intensityMap = heatmaps[habit.id]?.[day.date] ?? 0;
+                                            const intensityClass = `intensity-${intensityMap}`;
+                                            return (
+                                                <div key={day.date} title={day.date} className={`timeline-day ${intensityClass} ${isToday ? 'is-today' : ''}`}
+                                                    // @ts-ignore
+                                                    style={{ '--today-color': themeColor, width: '12px', height: '24px', borderRadius: '4px', position: 'relative', opacity: isDecay && isDone ? 0.6 + (habitStrength * 0.4) : 1 } as React.CSSProperties}
+                                                />
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             </div>
                         );
@@ -368,10 +348,9 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                             const color = progressPercent > 0 ? themeColor : 'var(--color-text-primary)';
 
                             return (
-                                <div key={`pill-${idx}`} style={{
+                                <div key={`pill-${idx}`} className="premium-container" style={{
                                     display: 'flex', flexDirection: 'column', gap: '6px',
-                                    backgroundColor: 'oklch(1 0 0 / 0.02)', border: '1px solid oklch(1 0 0 / 0.05)',
-                                    padding: '8px 12px', borderRadius: '8px'
+                                    padding: '8px 12px'
                                 }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                                         <span style={{ color: 'var(--color-text-muted)', fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -385,8 +364,8 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                                         <div style={{
                                             height: '100%',
                                             width: `${progressPercent}%`,
-                                            backgroundColor: progressPercent > 0 ? themeColor : 'var(--color-accent-muted)',
-                                            boxShadow: progressPercent > 80 ? `0 0 6px ${themeColor}` : 'none',
+                                            backgroundColor: progressPercent > 0 ? 'var(--color-success-3)' : 'var(--color-accent-muted)',
+                                            boxShadow: progressPercent > 80 ? '0 0 6px var(--color-success-4)' : 'none',
                                             transition: 'width 1s cubic-bezier(0.34, 1.56, 0.64, 1)'
                                         }} />
                                     </div>
@@ -421,27 +400,26 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                                     )}
                                 </div>
                                 {!isDecay && (
-                                    <div style={{ height: '4px', width: '100%', backgroundColor: 'oklch(1 0 0 / 0.05)', borderRadius: '2px', overflow: 'hidden', marginBottom: '4px' }}>
-                                        <div style={{
-                                            height: '100%',
-                                            width: `${progressPercent}%`,
-                                            backgroundColor: progressPercent > 0 ? themeColor : 'var(--color-accent-muted)',
-                                            transition: 'width 1s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                                        }} />
-                                    </div>
-                                )}
-                                {!isDecay && (
+                                <div style={{ height: '8px', width: '100%', backgroundColor: 'oklch(1 0 0 / 0.05)', borderRadius: '4px', overflow: 'hidden', marginBottom: '6px', border: '1px solid oklch(1 0 0 / 0.05)' }}>
                                     <div style={{
-                                        display: 'flex', flexWrap: 'nowrap', justifyContent: 'space-between', width: '100%', padding: '10px',
-                                        background: 'linear-gradient(135deg, oklch(1 0 0 / 0.01), transparent)', border: '1px solid oklch(1 0 0 / 0.02)',
-                                        borderRadius: '12px'
+                                        height: '100%',
+                                        width: `${progressPercent}%`,
+                                        backgroundColor: progressPercent > 0 ? 'var(--color-success-2)' : 'var(--color-accent-muted)',
+                                        transition: 'width 1s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                    }} />
+                                </div>
+                                )}
+                                {month && (
+                                    <div className="premium-container container-history" style={{
+                                        display: 'flex', flexWrap: 'nowrap', justifyContent: 'space-between', width: '100%',
                                     }}>
                                         {month.days.map((day) => {
                                             const isDone = completedDates.has(day.date);
                                             const isToday = day.date === today;
-                                            const intensity = heatmaps[habit.id]?.[day.date] ?? 0;
+                                            const intensityMap = heatmaps[habit.id]?.[day.date] ?? 0;
+                                            const intensityClass = `intensity-${intensityMap}`;
                                             return (
-                                                <div key={day.date} title={day.date} className={`timeline-day intensity-${intensity} ${isToday ? 'is-today' : ''}`}
+                                                <div key={day.date} title={day.date} className={`timeline-day ${intensityClass} ${isToday ? 'is-today' : ''}`}
                                                     // @ts-ignore
                                                     style={{ '--today-color': themeColor, width: '12px', height: '24px', borderRadius: '4px', position: 'relative', opacity: isDecay && isDone ? 0.6 + (habitStrength * 0.4) : 1 } as React.CSSProperties}
                                                 />

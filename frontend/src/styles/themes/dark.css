@@ -1,0 +1,31 @@
+.dark {
+  /* Smokey Black / Jet Base */
+  --color-bg: #100c08; /* Smokey Black */
+  --color-surface: oklch(0.18 0.01 0 / 0.7);
+  --color-surface-2: oklch(0.24 0.01 0 / 0.82);
+  --color-border: #343434; /* Jet */
+  --color-border-subtle: oklch(1 0 0 / 0.05);
+
+  /* Typography */
+  --color-text-primary: #f8f8ff; /* Ghost White */
+  --color-text-secondary: #9ca3af;
+  --color-text-muted: #555555;
+
+  /* Accents - Vibrant for Dark Background (Glowing) */
+  --color-accent-green: oklch(0.75 0.18 150);
+  --color-accent-purple: oklch(0.7 0.22 295);
+  --color-accent-amber: oklch(0.8 0.20 75);
+
+  /* Intensity Base */
+  --intensity-0: oklch(0.22 0.02 0 / 0.5);
+
+  /* Calibrated Success Scale (Green) - Defined for "Stage" hierarchy in Dark Mode */
+  /* Stage 1: Dark/Subtle completion hint */
+  --color-success-1: oklch(0.3 0.06 150);
+  /* Stage 2: Noticeable glow starting */
+  --color-success-2: oklch(0.45 0.12 150);
+  /* Stage 3: Vibrant middle stage */
+  --color-success-3: oklch(0.65 0.20 150);
+  /* Stage 4: High Performance (Brilliant & Glowing) */
+  --color-success-4: oklch(0.85 0.25 150);
+}

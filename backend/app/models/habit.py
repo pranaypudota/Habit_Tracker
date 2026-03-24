@@ -1,6 +1,6 @@
 import uuid
 from datetime import date, datetime
-from sqlalchemy import String, Boolean, Integer, Date, DateTime, ForeignKey, func
+from sqlalchemy import String, Boolean, Integer, Date, DateTime, ForeignKey, Index, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.database import Base
@@ -32,6 +32,10 @@ class HabitEntry(Base):
     existence of the record is the completion signal.
     """
     __tablename__ = "habit_entries"
+    __table_args__ = (
+        # Composite index speeds up all per-habit date range queries
+        Index("ix_habit_entry_habit_date", "habit_id", "date"),
+    )
 
     id: Mapped[str] = mapped_column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     habit_id: Mapped[str] = mapped_column(
@@ -40,3 +44,4 @@ class HabitEntry(Base):
     date: Mapped[date] = mapped_column(Date, nullable=False)
 
     habit: Mapped["Habit"] = relationship("Habit", back_populates="entries")
+

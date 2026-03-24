@@ -1,0 +1,19 @@
+[package]
+name = "habit_core"
+version = "0.1.0"
+edition = "2021"
+description = "Native Rust compute core for HabitOS — streak, decay, and heatmap calculations"
+
+[lib]
+name = "habit_core"
+crate-type = ["cdylib"]  # Required for Python extension (.pyd / .so)
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+chrono = { version = "0.4", features = ["serde"] }
+
+[profile.release]
+opt-level = 3
+lto = true         # Link-time optimisation → smaller + faster binary
+codegen-units = 1  # Maximum optimisation (slower compile, faster runtime)
+strip = true       # Strip debug symbols from release wheel

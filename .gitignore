@@ -1,22 +1,48 @@
-# AI
+# ──────────────────────────────────────────────
+# AI / Tooling / Testing
+# ──────────────────────────────────────────────
 .gemini/
+tests/
+test_*.py
+seed_*.py
 
-# Python
+# ──────────────────────────────────────────────
+# Python / backend
+# ──────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
 .venv/
 .env
 .env.*
-.sqlite
+.env.local
+
+# SQLite databases + WAL/SHM side-car files
 *.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
 *.log
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .uv/
 
-# Node
+# ──────────────────────────────────────────────
+# Rust / habit_core
+# ──────────────────────────────────────────────
+habit_core/target/
+# Keep Cargo.lock for reproducible builds (it's a binary crate)
+# but ignore intermediate build artifacts
+**/*.pyd
+**/*.so
+
+# ──────────────────────────────────────────────
+# Node / frontend
+# ──────────────────────────────────────────────
 node_modules/
 dist/
 dist-ssr/
@@ -24,13 +50,21 @@ dist-ssr/
 .eslintcache
 .stylelintcache
 *.tsbuildinfo
+.parcel-cache/
 
+# ──────────────────────────────────────────────
 # IDE
+# ──────────────────────────────────────────────
 .vscode/
 .idea/
 *.swp
 *.swo
+*.suo
+*.user
 
+# ──────────────────────────────────────────────
 # OS
+# ──────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+desktop.ini

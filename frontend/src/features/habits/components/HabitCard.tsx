@@ -2,11 +2,12 @@
  * HabitCard — feature component in features/habits/components/
  * Uses react-calendar-heatmap for the completion history visualization.
  */
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 
 import type { Habit } from '../../../types';
 import { useHabitStore } from '../../../store/habitStore';
-import { Check, Target, ChevronDown, Trash2, Calendar, Flame } from 'lucide-react';
+import { Check, Target, Trash2, Calendar, Flame } from 'lucide-react';
 
 interface Props {
     habit: Habit;
@@ -31,12 +32,7 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
 
     const [completing, setCompleting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const [isExpanded, setIsExpanded] = useState(false);
 
-    useEffect(() => {
-        useHabitStore.getState().fetchEntries(habit.id);
-        useHabitStore.getState().fetchHeatmap(habit.id);
-    }, [habit.id]);
 
     const today = toISO(new Date());
     const todayEntries = entries.filter((e) => e.date === today);
@@ -102,29 +98,30 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
     const complementaryBg = isDecay ? 'color-mix(in oklch, var(--color-accent-purple) 15%, transparent)' : 'color-mix(in oklch, var(--color-accent-amber) 15%, transparent)';
 
     return (
-        <div
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: completedToday ? 1 : 0.9, y: 0 }}
+            viewport={{ once: true, margin: "-20px" }}
+            transition={{
+                duration: 0.6,
+                type: "spring",
+                bounce: 0.4
+            }}
             className={`card ${isSuccess ? 'success-pulse' : ''}`}
             style={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1.25rem',
                 borderLeft: `6px solid ${themeColor}`,
-                cursor: 'pointer',
                 userSelect: 'none',
                 backgroundColor: 'var(--color-surface)',
                 borderColor: 'var(--color-border)',
-                transition: 'var(--transition-slow)',
-                opacity: completedToday ? 1 : 0.9
             }}
-            onClick={() => setIsExpanded(!isExpanded)}
         >
             <div
                 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', zIndex: 1 }}
             >
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                    <div style={{ color: 'var(--color-text-muted)', marginTop: '4px', transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-                        <ChevronDown size={24} strokeWidth={2.5} />
-                    </div>
                     <div>
                         <div style={{
                             fontWeight: 800,
@@ -340,98 +337,39 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                     })()
                 )}
 
-                {/* Collapsed Pill View */}
-                {!isExpanded && (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '-4px', animation: 'fadeIn 0.3s ease' }}>
-                        {monthData.slice(1).map((month, idx) => {
-                            const progressPercent = Math.round((month.completedCount / month.totalInMonth) * 100) || 0;
-                            const color = progressPercent > 0 ? themeColor : 'var(--color-text-primary)';
-
-                            return (
-                                <div key={`pill-${idx}`} className="premium-container" style={{
-                                    display: 'flex', flexDirection: 'column', gap: '6px',
-                                    padding: '8px 12px'
-                                }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                                        <span style={{ color: 'var(--color-text-muted)', fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                                            {month.label}
-                                        </span>
-                                        <span style={{ color: color, fontSize: '0.7rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
-                                            {progressPercent}%
-                                        </span>
-                                    </div>
-                                    <div style={{ height: '3px', width: '100%', backgroundColor: 'oklch(1 0 0 / 0.05)', borderRadius: '1.5px', overflow: 'hidden' }}>
-                                        <div style={{
-                                            height: '100%',
-                                            width: `${progressPercent}%`,
-                                            backgroundColor: progressPercent > 0 ? 'var(--color-success-3)' : 'var(--color-accent-muted)',
-                                            boxShadow: progressPercent > 80 ? '0 0 6px var(--color-success-4)' : 'none',
-                                            transition: 'width 1s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                                        }} />
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                )}
-
-                {/* Expanded Historical Months */}
-                <div style={{
-                    display: 'flex', flexDirection: 'column', gap: '1.25rem',
-                    maxHeight: isExpanded ? '500px' : '0px',
-                    opacity: isExpanded ? 1 : 0,
-                    overflow: 'hidden',
-                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                    marginTop: isExpanded ? '0.5rem' : '0'
-                }}>
-                    {monthData.slice(1).map((month) => {
+                {/* Historical Pill View */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '-4px' }}>
+                    {monthData.slice(1).map((month, idx) => {
                         const progressPercent = Math.round((month.completedCount / month.totalInMonth) * 100) || 0;
+                        const color = progressPercent > 0 ? themeColor : 'var(--color-text-primary)';
+
                         return (
-                            <div key={month.label} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '0 4px' }}>
-                                    <div style={{ fontSize: '0.75rem', fontWeight: 900, color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-                                        {month.label} <span style={{ color: 'var(--color-text-muted)', fontWeight: 400, margin: '0 4px' }}>//</span>
-                                        <span style={{ color: progressPercent > 0 ? themeColor : 'var(--color-text-muted)' }}>{month.completedCount}/{month.totalInMonth}</span>
-                                    </div>
-                                    {!isDecay && (
-                                        <div style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--color-text-muted)', fontFamily: 'var(--font-mono)' }}>
-                                            {progressPercent}% EFFECTIVE
-                                        </div>
-                                    )}
+                            <div key={`pill-${idx}`} className="premium-container" style={{
+                                display: 'flex', flexDirection: 'column', gap: '6px',
+                                padding: '8px 12px'
+                            }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                                    <span style={{ color: 'var(--color-text-muted)', fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                        {month.label}
+                                    </span>
+                                    <span style={{ color: color, fontSize: '0.7rem', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+                                        {progressPercent}%
+                                    </span>
                                 </div>
-                                {!isDecay && (
-                                <div style={{ height: '8px', width: '100%', backgroundColor: 'oklch(1 0 0 / 0.05)', borderRadius: '4px', overflow: 'hidden', marginBottom: '6px', border: '1px solid oklch(1 0 0 / 0.05)' }}>
+                                <div style={{ height: '3px', width: '100%', backgroundColor: 'oklch(1 0 0 / 0.05)', borderRadius: '1.5px', overflow: 'hidden' }}>
                                     <div style={{
                                         height: '100%',
                                         width: `${progressPercent}%`,
-                                        backgroundColor: progressPercent > 0 ? 'var(--color-success-2)' : 'var(--color-accent-muted)',
+                                        backgroundColor: progressPercent > 0 ? 'var(--color-success-3)' : 'var(--color-accent-muted)',
+                                        boxShadow: progressPercent > 80 ? '0 0 6px var(--color-success-4)' : 'none',
                                         transition: 'width 1s cubic-bezier(0.34, 1.56, 0.64, 1)'
                                     }} />
                                 </div>
-                                )}
-                                {month && (
-                                    <div className="premium-container container-history" style={{
-                                        display: 'flex', flexWrap: 'nowrap', justifyContent: 'space-between', width: '100%',
-                                    }}>
-                                        {month.days.map((day) => {
-                                            const isDone = completedDates.has(day.date);
-                                            const isToday = day.date === today;
-                                            const intensityMap = heatmaps[habit.id]?.[day.date] ?? 0;
-                                            const intensityClass = `intensity-${intensityMap}`;
-                                            return (
-                                                <div key={day.date} title={day.date} className={`timeline-day ${intensityClass} ${isToday ? 'is-today' : ''}`}
-                                                    // @ts-ignore
-                                                    style={{ '--today-color': themeColor, width: '12px', height: '24px', borderRadius: '4px', position: 'relative', opacity: isDecay && isDone ? 0.6 + (habitStrength * 0.4) : 1 } as React.CSSProperties}
-                                                />
-                                            );
-                                        })}
-                                    </div>
-                                )}
                             </div>
-                        );
+                        )
                     })}
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }

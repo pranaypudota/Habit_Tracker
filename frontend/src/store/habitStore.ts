@@ -7,11 +7,17 @@ interface HabitState {
     habits: Habit[];
     entries: Record<string, HabitEntry[]>; // habit_id → entries
     heatmaps: Record<string, Record<string, number>>; // habit_id → { date: level }
+    streaks: Record<string, number>;
+    strengths: Record<string, { monthly: number, rolling: number }>;
+    completedToday: string[];
+    recentExpenses: any[];
+    monthlyExpenseTotal: number;
     isLoading: boolean;
     error: string | null;
 }
 
 interface HabitActions {
+    fetchAll: () => Promise<void>;
     fetchHabits: () => Promise<void>;
     createHabit: (data: HabitCreate) => Promise<void>;
     deleteHabit: (id: string) => Promise<void>;
@@ -27,14 +33,40 @@ export const useHabitStore = create<HabitStore>()(
         habits: [],
         entries: {},
         heatmaps: {},
+        streaks: {},
+        strengths: {},
+        completedToday: [],
+        recentExpenses: [],
+        monthlyExpenseTotal: 0,
         isLoading: false,
         error: null,
+
+        fetchAll: async () => {
+            set({ isLoading: true, error: null });
+            try {
+                const data = await api.dashboard.today();
+                set({
+                    habits: data.habits,
+                    streaks: data.streaks,
+                    strengths: data.habit_strengths,
+                    completedToday: data.completed_today,
+                    entries: data.entries_today, // Populate today's entries directly
+                    heatmaps: data.heatmaps,
+                    recentExpenses: data.recent_expenses,
+                    monthlyExpenseTotal: data.monthly_expense_total,
+                });
+            } catch (e: unknown) {
+                set({ error: e instanceof Error ? e.message : String(e) });
+            } finally {
+                set({ isLoading: false });
+            }
+        },
 
         fetchHabits: async () => {
             set({ isLoading: true, error: null });
             try {
-                const habits = await api.habits.list();
-                set({ habits });
+                // To keep it simple, fetchAll handles everything now
+                await get().fetchAll();
             } catch (e: unknown) {
                 set({ error: e instanceof Error ? e.message : String(e) });
             } finally {

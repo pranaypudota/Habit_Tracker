@@ -28,41 +28,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
 
   const toggleTheme = () => {
     const nextTheme = isDark ? "light" : "dark"
-    
-    // Check for View Transition API support
-    if (!document.startViewTransition) {
-      setTheme(nextTheme)
-      return
-    }
-
-    const transition = document.startViewTransition(() => {
-      setTheme(nextTheme)
-    })
-
-    transition.ready.then(() => {
-      const x = window.innerWidth / 2
-      const y = window.innerHeight / 2
-      
-      const endRadius = Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y)
-      )
-
-      // The circular reveal animation
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${endRadius}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration: 500,
-          easing: "cubic-bezier(0.16, 1, 0.3, 1)", // More "premium" feel
-          pseudoElement: "::view-transition-new(root)",
-        }
-      )
-    })
+    setTheme(nextTheme)
   }
 
   return (

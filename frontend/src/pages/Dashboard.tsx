@@ -1,27 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { StatCard } from '../components/StatCard';
-import type { DashboardToday } from '../types';
+import { useHabitStore } from '../store/habitStore';
 import { CheckCircle2, Flame, Zap, CreditCard, Activity, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export function Dashboard() {
-    const [data, setData] = useState<DashboardToday | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const {
+        habits, streaks: streaksData, strengths: strengthsMap, completedToday, 
+        recentExpenses, monthlyExpenseTotal, isLoading, fetchAll,
+    } = useHabitStore();
 
     useEffect(() => {
-        import('../lib/api').then(({ api }) => {
-            api.dashboard.today()
-                .then(setData)
-                .catch(() => { })
-                .finally(() => setIsLoading(false));
-        });
+        fetchAll();
     }, []);
 
     const now = new Date();
 
-    if (isLoading) {
+    if (isLoading && habits.length === 0) {
         return (
             <div className="animate-fade-in" style={{ padding: '2rem', textAlign: 'center' }}>
                 <div style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>Analyzing tracker data...</div>
@@ -29,11 +26,7 @@ export function Dashboard() {
         );
     }
 
-    const habits = data?.habits ?? [];
-    const completedTodayCount = data?.completed_today?.length ?? 0;
-    const streaksData = data?.streaks ?? {};
-    const recentExpenses = data?.recent_expenses ?? [];
-    const totalSpent = data?.monthly_expense_total ?? 0;
+    const completedTodayCount = completedToday.length;
 
     const longestStreak = Object.values(streaksData).length
         ? Math.max(...Object.values(streaksData))
@@ -57,7 +50,7 @@ export function Dashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
                 <StatCard title="Today" value={todayCompletion} icon={CheckCircle2} accent="green" subtitle="habits completed" />
                 <StatCard title="Best Streak" value={`${longestStreak}d`} icon={Flame} accent="amber" subtitle="keep it going" />
-                <StatCard title="Monthly Spend" value={`₹${totalSpent.toLocaleString()}`} icon={CreditCard} accent="purple" subtitle={MONTH_NAMES[now.getMonth()]} />
+                <StatCard title="Monthly Spend" value={`₹${monthlyExpenseTotal.toLocaleString()}`} icon={CreditCard} accent="purple" subtitle={MONTH_NAMES[now.getMonth()]} />
                 <StatCard title="Activity" value={habits.length} icon={Activity} accent="green" subtitle="tracked habits" />
             </div>
 
@@ -79,7 +72,7 @@ export function Dashboard() {
                                 .map((h) => ({
                                     ...h,
                                     streak: streaksData[h.id] ?? 0,
-                                    strength: data?.habit_strengths?.[h.id]?.rolling ?? 0
+                                    strength: strengthsMap[h.id]?.rolling ?? 0
                                 }))
                                 .sort((a, b) => {
                                     // Sort by model then value
@@ -99,7 +92,7 @@ export function Dashboard() {
                                             <span style={{ fontWeight: 600, fontSize: '0.95rem' }}>{h.name}</span>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                            {data?.completed_today?.includes(h.id) && (
+                                            {completedToday.includes(h.id) && (
                                                 <span className="badge badge-green" style={{ fontSize: '0.6rem' }}>Done Today</span>
                                             )}
                                             {h.tracking_model === 'streak' ? (

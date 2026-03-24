@@ -1,46 +1,33 @@
 import { useState, useEffect } from 'react';
-import { api } from '../lib/api';
 import { useHabitStore } from '../store/habitStore';
 import { HabitCard } from '../features/habits/components/HabitCard';
 import { AddHabitModal } from '../features/habits/components/AddHabitModal';
-import { useHabits } from '../features/habits/hooks/useHabits';
 import { Plus, Leaf } from 'lucide-react';
 
 export function Habits() {
     const {
-        habits, isLoading, createHabit, deleteHabit,
-    } = useHabits();
+        habits, streaks, strengths, isLoading, createHabit, deleteHabit, fetchAll,
+    } = useHabitStore();
 
     const [showModal, setShowModal] = useState(false);
-    const [streaks, setStreaks] = useState<Record<string, number>>({});
-    const [strengths, setStrengths] = useState<Record<string, { monthly: number, rolling: number }>>({});
     const entries = useHabitStore((s) => s.entries);
 
-    const refreshAnalytics = () => {
-        api.analytics.streaks().then((data) => {
-            setStreaks(Object.fromEntries(data.map((s) => [s.habit_id, s.streak])));
-        }).catch(() => { });
-
-        api.analytics.habitStrength().then((data) => {
-            setStrengths(Object.fromEntries(data.map((s) => [
-                s.habit_id, 
-                { monthly: s.strength_monthly, rolling: s.strength_rolling }
-            ])));
-        }).catch(() => { });
-    };
-
+    // Initial load handled by store
     useEffect(() => {
-        refreshAnalytics();
-    }, [habits]);
+        if (habits.length === 0) {
+            fetchAll();
+        }
+    }, []);
 
     const handleAdd = async (name: string, category: string, period: "daily" | "weekly", tracking_model: "streak" | "decay", target_completions_per_day: number) => {
         await createHabit({ name, category, period, tracking_model, target_completions_per_day });
-        refreshAnalytics();
+        // Instead of manual refresh, fetchAll keeps it clean
+        await fetchAll();
     };
 
     return (
         <>
-            <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                     <div>
                         <h1 style={{ margin: 0, fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.03em' }}>Habits</h1>

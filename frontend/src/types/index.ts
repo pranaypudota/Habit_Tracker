@@ -72,8 +72,10 @@ export interface HabitStrength {
 export interface DashboardToday {
     habits: Habit[];
     completed_today: string[];          // array of habit_ids
+    entries_today: Record<string, HabitEntry[]>; // habit_id → entries for today
     streaks: Record<string, number>;    // habit_id → streak
     habit_strengths: Record<string, { monthly: number; rolling: number }>; // habit_id → strength
+    heatmaps: Record<string, Record<string, number>>; // habit_id → { date: level }
     recent_expenses: Expense[];
     monthly_expense_total: number;
 }

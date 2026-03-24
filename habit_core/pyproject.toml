@@ -1,0 +1,14 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "habit-core"
+version = "0.1.0"
+description = "Native Rust compute core for HabitOS"
+requires-python = ">=3.11"
+
+[tool.maturin]
+# The Python module name. After `maturin develop`, you do: from habit_core import compute_streak
+module-name = "habit_core"
+features = ["pyo3/extension-module"]

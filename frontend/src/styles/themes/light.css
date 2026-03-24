@@ -16,16 +16,24 @@
   --color-accent-purple: oklch(0.55 0.22 295);
   --color-accent-amber: oklch(0.65 0.18 75);
   
-  /* Intensity Base */
-  --intensity-0: #e5e5e5;
+  /* Intensity Base - Empty GitHub Blocks */
+  --intensity-0: #ebedf0;
 
-  /* Calibrated Success Scale (Green) - Defined for perfect visibility in Light Mode */
-  /* Stage 1: Very subtle but distinct */
-  --color-success-1: oklch(0.9 0.04 150);
-  /* Stage 2: Building intensity */
-  --color-success-2: oklch(0.8 0.10 150);
-  /* Stage 3: Clear meaningful progress */
-  --color-success-3: oklch(0.7 0.16 150);
-  /* Stage 4: Peak achievement (Vibrant & Deep) */
-  --color-success-4: oklch(0.55 0.22 150);
+  /* Exact GitHub Light Mode Contribution Colors */
+  --color-success-1: #9be9a8;
+  --color-success-2: #40c463;
+  --color-success-3: #30a14e;
+  --color-success-4: #216e39;
+
+  /* Calibrated Streak Scale (Amber) - Follows GitHub Light Logic */
+  --color-streak-1: #ffdf5d;
+  --color-streak-2: #f9c513;
+  --color-streak-3: #dbab09;
+  --color-streak-4: #b08800;
+
+  /* Calibrated Muscle Scale (Purple) - Follows GitHub Light Logic */
+  --color-muscle-1: #e1c4ff;
+  --color-muscle-2: #bc8cff;
+  --color-muscle-3: #a371f7;
+  --color-muscle-4: #8957e5;
 }

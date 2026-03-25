@@ -3,17 +3,13 @@ HabitRepository — pure persistence layer.
 
 Business logic (streak, rates, analytics) lives in habit_service.py.
 """
-import uuid
 from datetime import date
 from typing import Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_, delete
 
 from app.models.habit import Habit, HabitEntry
-
-
-def _uuid() -> str:
-    return str(uuid.uuid4())
+from app.core.utils import uuid4_str as _uuid
 
 
 class HabitRepository:
@@ -135,3 +131,15 @@ class HabitRepository:
         for entry in result.scalars().all():
             by_habit[entry.habit_id].append(entry)
         return by_habit
+
+    async def delete_entries(self, habit_id: str, dates: list[date]) -> int:
+        """Delete multiple entries at once (batch cleanup)."""
+        result = await self._db.execute(
+            delete(HabitEntry).where(
+                and_(
+                    HabitEntry.habit_id == habit_id,
+                    HabitEntry.date.in_(dates),
+                )
+            )
+        )
+        return result.rowcount

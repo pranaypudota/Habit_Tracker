@@ -94,13 +94,18 @@ async def habit_history(
 
 # ─── Backward-compat alias ────────────────────────────────────────────────────
 @router.post("/{habit_id}/entries", response_model=HabitEntryResponse, status_code=201,
-             include_in_schema=False)
+             deprecated=True)
 async def mark_completion_legacy(
     habit_id: str,
     payload: HabitCompleteRequest,
     repo: HabitRepository = Depends(_repo),
 ):
-    """Deprecated: use POST /habits/{id}/complete instead."""
+    """
+    Deprecated: Use `POST /habits/{habit_id}/complete` instead.
+    
+    This endpoint is kept for temporary backward compatibility with older
+    frontend builds but will be removed in a future release.
+    """
     habit = await repo.get_by_id(habit_id)
     if not habit:
         raise HTTPException(status_code=404, detail="Habit not found")

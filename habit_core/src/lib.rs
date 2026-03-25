@@ -1,25 +1,44 @@
-/*
- * habit_core — Native Rust compute module for HabitOS
- *
- * This version uses the standard 'chrono' crate for reliable date arithmetic.
- */
-
+use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use pyo3::types::{PyDict, PyList};
 use std::collections::{HashMap, HashSet};
-use chrono::{NaiveDate, Local, Duration};
+use chrono::{NaiveDate, Local, Days};
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-/// Parse a slice of ISO date strings ("YYYY-MM-DD") into NaiveDate objects.
-fn parse_dates(date_strings: &[String]) -> Vec<NaiveDate> {
-    date_strings
-        .iter()
-        .filter_map(|s| NaiveDate::parse_from_str(s, "%Y-%m-%d").ok())
-        .collect()
+struct HabitState {
+    daily_counts: HashMap<NaiveDate, u32>,
+    today: NaiveDate,
 }
+
+impl HabitState {
+    fn new(dates: &[String]) -> Self {
+        let mut daily_counts: HashMap<NaiveDate, u32> = HashMap::new();
+        for d in dates {
+            if let Ok(naive) = NaiveDate::parse_from_str(d, "%Y-%m-%d") {
+                *daily_counts.entry(naive).or_insert(0) += 1;
+            }
+        }
+        HabitState {
+            daily_counts,
+            today: Local::now().date_naive(),
+        }
+    }
+
+    /// Helper for checked subtraction of days. 
+    /// If subtracting exceeds NaiveDate limits, returns a very old date.
+    fn days_back(&self, n: u32) -> NaiveDate {
+        self.today.checked_sub_days(Days::new(n as u64)).unwrap_or(NaiveDate::MIN)
+    }
+
+    /// Helper for checked addition of days from a start point.
+    fn days_forward(from: NaiveDate, n: u32) -> NaiveDate {
+        from.checked_add_days(Days::new(n as u64)).unwrap_or(NaiveDate::MAX)
+    }
+}
+
 
 // ---------------------------------------------------------------------------
 // Exported Python functions
@@ -31,29 +50,33 @@ fn compute_streak(dates: Vec<String>, target: u32) -> PyResult<u32> {
     if dates.is_empty() {
         return Ok(0);
     }
-
-    let parsed = parse_dates(&dates);
-    let mut daily_counts: HashMap<NaiveDate, u32> = HashMap::new();
-    for d in parsed {
-        *daily_counts.entry(d).or_insert(0) += 1;
+    
+    // Validation
+    if target == 0 {
+        return Err(PyValueError::new_err("Target completions per day must be at least 1"));
     }
 
-    let today = Local::now().date_naive();
-    let yesterday = today - Duration::days(1);
+    let state = HabitState::new(&dates);
+    let yesterday = state.days_back(1);
 
-    let has_today = daily_counts.get(&today).copied().unwrap_or(0) >= target;
-    let has_yesterday = daily_counts.get(&yesterday).copied().unwrap_or(0) >= target;
+    let has_today = state.daily_counts.get(&state.today).copied().unwrap_or(0) >= target;
+    let has_yesterday = state.daily_counts.get(&yesterday).copied().unwrap_or(0) >= target;
 
     if !has_today && !has_yesterday {
         return Ok(0);
     }
 
     let mut streak = 0u32;
-    let mut check = if has_today { today } else { yesterday };
+    let mut check = if has_today { state.today } else { yesterday };
     
-    while daily_counts.get(&check).copied().unwrap_or(0) >= target {
+    while state.daily_counts.get(&check).copied().unwrap_or(0) >= target {
         streak += 1;
-        check = check - Duration::days(1);
+        // Avoid infinite loop if we hit MIN date (unlikely)
+        if let Some(prev) = check.pred_opt() {
+            check = prev;
+        } else {
+            break;
+        }
     }
 
     Ok(streak)
@@ -66,18 +89,21 @@ fn calculate_decay_score(
     lambda_val: f64,
     window_days: u32,
 ) -> PyResult<f64> {
-    if window_days == 0 {
-        return Ok(0.0);
+    // Validation
+    if window_days == 0 { return Ok(0.0); }
+    if window_days > 1000 { 
+        return Err(PyValueError::new_err("window_days exceeds safety limit (1000)"));
+    }
+    if lambda_val < 0.0 {
+        return Err(PyValueError::new_err("lambda_val cannot be negative"));
     }
 
-    let parsed = parse_dates(&dates);
-    let today = Local::now().date_naive();
-    let cutoff = today - Duration::days(window_days as i64 - 1);
-
-    let entry_days: HashSet<NaiveDate> = parsed
-        .into_iter()
-        .filter(|&d| d >= cutoff)
-        .collect();
+    let state = HabitState::new(&dates);
+    
+    // For decay, we just need a set of dates that have ANY entry (for multi-hit fallback)
+    // Actually, calculate_decay_score usually works on a binary 'was completed' basis or similar.
+    // The Python implementation uses boolean check: `if check_date in entry_dates`.
+    let entry_set: HashSet<NaiveDate> = state.daily_counts.keys().copied().collect();
 
     let mut weighted_sum = 0.0f64;
     let mut max_possible = 0.0f64;
@@ -86,8 +112,8 @@ fn calculate_decay_score(
         let weight = (-lambda_val * i as f64).exp();
         max_possible += weight;
         
-        let check_day = today - Duration::days(i as i64);
-        if entry_days.contains(&check_day) {
+        let check_day = state.days_back(i);
+        if entry_set.contains(&check_day) {
             weighted_sum += weight;
         }
     }
@@ -107,21 +133,23 @@ fn calculate_streak_levels(
     target: u32,
     window_days: u32,
 ) -> PyResult<Py<PyList>> {
-    let parsed = parse_dates(&dates);
-    let mut daily_counts: HashMap<NaiveDate, u32> = HashMap::new();
-    for d in parsed {
-        *daily_counts.entry(d).or_insert(0) += 1;
+    // Validation
+    if target == 0 {
+        return Err(PyValueError::new_err("Target completions per day must be at least 1"));
+    }
+    if window_days > 1000 {
+        return Err(PyValueError::new_err("window_days exceeds safety limit (1000)"));
     }
 
-    let today = Local::now().date_naive();
-    let start_day = today - Duration::days(window_days as i64 - 1);
+    let state = HabitState::new(&dates);
+    let start_day = state.days_back(window_days - 1);
 
     let output = PyList::empty_bound(py);
     let mut current_streak = 0u32;
 
     for offset in 0..window_days {
-        let current_date = start_day + Duration::days(offset as i64);
-        let count = daily_counts.get(&current_date).copied().unwrap_or(0);
+        let current_date = HabitState::days_forward(start_day, offset);
+        let count = state.daily_counts.get(&current_date).copied().unwrap_or(0);
 
         let level: u8 = if target == 1 {
             if count >= 1 {
@@ -132,14 +160,11 @@ fn calculate_streak_levels(
                 0
             }
         } else if count >= target {
-            current_streak = 0;
             5
         } else if count > 0 {
-            current_streak = 0;
             let ratio = count as f64 / target as f64;
             ((ratio * 5.0).floor() as u8).clamp(1, 4)
         } else {
-            current_streak = 0;
             0
         };
 
@@ -158,4 +183,41 @@ fn habit_core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(calculate_decay_score, m)?)?;
     m.add_function(wrap_pyfunction!(calculate_streak_levels, m)?)?;
     Ok(())
+}
+
+// ---------------------------------------------------------------------------
+// Native tests
+// ---------------------------------------------------------------------------
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_streak_calculation() {
+        let today = Local::now().date_naive();
+        let dates = vec![
+            today.format("%Y-%m-%d").to_string(),
+            today.pred_opt().unwrap().format("%Y-%m-%d").to_string(),
+        ];
+        
+        let result = compute_streak(dates, 1).unwrap();
+        assert_eq!(result, 2);
+    }
+
+    #[test]
+    fn test_decay_score() {
+        let today = Local::now().date_naive();
+        let dates = vec![today.format("%Y-%m-%d").to_string()];
+        
+        // window_days=1, lambda=0.08, today exists -> score = 1.0 (100%)
+        let result = calculate_decay_score(dates, 0.08, 1).unwrap();
+        assert_eq!(result, 1.0);
+    }
+
+#[test]
+fn test_validation_errors() {
+    let dates = vec!["2026-03-25".to_string()];
+    let result = compute_streak(dates, 0); // target=0 is invalid
+    assert!(result.is_err());
+}
 }

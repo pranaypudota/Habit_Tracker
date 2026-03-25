@@ -1,7 +1,6 @@
 """
 ExpenseRepository — pure persistence layer for expenses.
 """
-import uuid
 from datetime import date
 from decimal import Decimal
 from typing import Optional
@@ -9,10 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_, func, extract
 
 from app.models.expense import Expense
-
-
-def _uuid() -> str:
-    return str(uuid.uuid4())
+from app.core.utils import uuid4_str as _uuid
 
 
 class ExpenseRepository:
@@ -69,15 +65,17 @@ class ExpenseRepository:
         return True
 
     async def get_monthly_totals(self) -> list[dict]:
-        """Total expenses grouped by year-month."""
+        """Total expenses grouped by year-month with proper column references."""
+        year_col = extract("year", Expense.date).label("year")
+        month_col = extract("month", Expense.date).label("month")
         result = await self._db.execute(
             select(
-                extract("year", Expense.date).label("year"),
-                extract("month", Expense.date).label("month"),
+                year_col,
+                month_col,
                 func.sum(Expense.amount).label("total"),
             )
-            .group_by("year", "month")
-            .order_by("year", "month")
+            .group_by(year_col, month_col)
+            .order_by(year_col, month_col)
         )
         return [
             {"year": int(r.year), "month": int(r.month), "total": float(r.total)}

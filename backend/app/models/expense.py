@@ -1,7 +1,7 @@
 import uuid
 from datetime import date, datetime
 from decimal import Decimal
-from sqlalchemy import String, Date, DateTime, Numeric, func
+from sqlalchemy import String, Date, DateTime, Numeric, func, Index
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.database import Base
@@ -13,6 +13,9 @@ def generate_uuid() -> str:
 
 class Expense(Base):
     __tablename__ = "expenses"
+    __table_args__ = (
+        Index("ix_expense_date", "date"),
+    )
 
     id: Mapped[str] = mapped_column(String, primary_key=True, default=generate_uuid)
     amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)

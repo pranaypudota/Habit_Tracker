@@ -1,4 +1,4 @@
-# 🧠 Habit & Expense Tracker
+# Habit & Expense Tracker
 
 A **local-first** personal tracking app for habits, streaks, and monthly expenses. No cloud, no auth, no bloat — just your data, stored locally on your machine.
 
@@ -116,16 +116,16 @@ Visit **http://localhost:5173** in your browser.
 
 ## Features
 
-- ✅ Create and delete habits with category and frequency
-- ✅ Mark habits as complete per day (upsert behavior)
-- ✅ Streak calculation (consecutive days from today)
-- ✅ 18-week GitHub-style heatmap calendar per habit
-- ✅ 30-day completion rate tracking
-- ✅ Add and delete expenses with amount, category, date, note
-- ✅ Monthly expense filtering + category breakdown bar chart
-- ✅ Dashboard with top streaks + monthly spend overview
-- ✅ Dark mode UI with OKLCH-based color palette
-- ✅ All data saved locally in SQLite — zero external dependencies
+- Create and delete habits with category and frequency
+- Mark habits as complete per day (upsert behavior)
+- Streak calculation (consecutive days from today)
+- 18-week GitHub-style heatmap calendar per habit
+- 30-day completion rate tracking
+- Add and delete expenses with amount, category, date, note
+- Monthly expense filtering + category breakdown bar chart
+- Dashboard with top streaks + monthly spend overview
+- Dark mode UI with OKLCH-based color palette
+- All data saved locally in SQLite — zero external dependencies
 
 ---
 

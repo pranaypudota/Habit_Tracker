@@ -7,7 +7,7 @@ from loguru import logger
 from app.core.config import settings
 from app.core.logger import setup_app_logging
 from app.db.database import create_db_tables
-from app.routers import habits, expenses, analytics, dashboard, export
+from app.routers import habits, expenses, analytics, dashboard, export, subscriptions
 
 # Initialize high-quality logging
 setup_app_logging()
@@ -61,6 +61,7 @@ app.include_router(expenses.router, prefix="/api/v1")
 app.include_router(analytics.router, prefix="/api/v1")
 app.include_router(dashboard.router, prefix="/api/v1")
 app.include_router(export.router, prefix="/api/v1")
+app.include_router(subscriptions.router, prefix="/api/v1")
 
 
 @app.get("/")

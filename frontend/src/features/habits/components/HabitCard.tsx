@@ -9,6 +9,21 @@ import type { Habit } from '../../../types';
 import { useHabitStore } from '../../../store/habitStore';
 import { Check, Target, Trash2, Calendar, Flame } from 'lucide-react';
 
+const categoryColors: Record<string, string> = {
+  'Health': 'badge-cyan',
+  'Nutrition': 'badge-green',
+  'Fitness': 'badge-red',
+  'Learning': 'badge-blue',
+  'Mindfulness': 'badge-teal',
+  'Work': 'badge-indigo',
+  'Creative': 'badge-pink',
+  'Social': 'badge-lavender',
+  'Finance': 'badge-emerald',
+  'Self-Care': 'badge-coral',
+  'Outdoor': 'badge-lime',
+  'Other': 'badge-gray',
+};
+
 interface Props {
     habit: Habit;
     streak: number;
@@ -112,10 +127,10 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1.25rem',
+                border: '1px solid var(--color-border)',
                 borderLeft: `6px solid ${themeColor}`,
                 userSelect: 'none',
                 backgroundColor: 'var(--color-surface)',
-                borderColor: 'var(--color-border)',
             }}
         >
             <div
@@ -133,7 +148,7 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                             {habit.name}
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span className={`badge ${habit.tracking_model === 'streak' ? 'badge-amber' : 'badge-purple'}`}>
+                            <span className={`badge ${categoryColors[habit.category] || categoryColors.default}`}>
                                 {habit.category}
                             </span>
                             <span style={{

@@ -45,6 +45,37 @@ export interface ExpenseCreate {
     note?: string;
 }
 
+// ─── Subscription ────────────────────────────────────────────────────────────
+
+export interface Subscription {
+    id: string;
+    name: string;
+    amount: number;
+    category: string;
+    start_date: string;
+    end_date: string | null;
+    status: "active" | "paused" | "inactive";
+    billing_day: number;
+}
+
+export interface SubscriptionCreate {
+    name: string;
+    amount: number;
+    category?: string;
+    start_date?: string;
+    billing_day?: number;
+}
+
+export interface SubscriptionUpdate {
+    name?: string;
+    amount?: number;
+    category?: string;
+    start_date?: string;
+    end_date?: string | null;
+    status?: "active" | "paused" | "inactive";
+    billing_day?: number;
+}
+
 // ─── Analytics ───────────────────────────────────────────────────────────────
 
 export interface HabitStreak {
@@ -78,4 +109,6 @@ export interface DashboardToday {
     heatmaps: Record<string, Record<string, number>>; // habit_id → { date: level }
     recent_expenses: Expense[];
     monthly_expense_total: number;
+    active_subscriptions?: Subscription[];
+    monthly_committed_burn?: number;
 }

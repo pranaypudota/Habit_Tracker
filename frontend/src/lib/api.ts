@@ -1,6 +1,7 @@
 import type {
     Habit, HabitCreate, HabitEntry,
     Expense, ExpenseCreate,
+    Subscription, SubscriptionCreate, SubscriptionUpdate,
     HabitStreak, MonthlyTotal,
     DashboardToday, HabitStrength
 } from '../types';
@@ -52,6 +53,21 @@ export const api = {
             req<Expense>('/expenses/', { method: 'POST', body: JSON.stringify(data) }),
         delete: (id: string) =>
             req<void>(`/expenses/${id}`, { method: 'DELETE' }),
+    },
+
+    subscriptions: {
+        list: (year?: number, month?: number) => {
+            const params = new URLSearchParams();
+            if (year) params.set('year', String(year));
+            if (month) params.set('month', String(month));
+            return req<Subscription[]>(`/subscriptions/?${params}`);
+        },
+        create: (data: SubscriptionCreate) =>
+            req<Subscription>('/subscriptions/', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: SubscriptionUpdate) =>
+            req<Subscription>(`/subscriptions/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+        delete: (id: string) =>
+            req<void>(`/subscriptions/${id}`, { method: 'DELETE' }),
     },
 
     analytics: {

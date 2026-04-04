@@ -1,12 +1,18 @@
 import { useState } from 'react';
-import { X, Check, Flame, Zap } from 'lucide-react';
+import { X, Check, Flame, Zap, ChevronDown, Minus, Plus } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface Props {
     onClose: () => void;
     onAdd: (name: string, category: string, period: "daily" | "weekly", model: "streak" | "decay", target_completions: number) => void;
 }
 
-const CATEGORIES = ['Health', 'Fitness', 'Learning', 'Mindfulness', 'Nutrition', 'Other'];
+const CATEGORIES = ['Health', 'Nutrition', 'Fitness', 'Learning', 'Mindfulness', 'Work', 'Creative', 'Social', 'Finance', 'Self-Care', 'Outdoor', 'Other'];
 const PERIODS = ['daily', 'weekly'] as const;
 
 export function AddHabitModal({ onClose, onAdd }: Props) {
@@ -69,33 +75,87 @@ export function AddHabitModal({ onClose, onAdd }: Props) {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
                         <div>
                             <label className="label">Category</label>
-                            <select id="habit-category" className="input" value={category} onChange={(e) => setCategory(e.target.value)}>
-                                {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
-                            </select>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <button
+                                        id="habit-category"
+                                        className="input"
+                                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', width: '100%' }}
+                                    >
+                                        {category}
+                                        <ChevronDown size={16} style={{ opacity: 0.6 }} />
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-[200px]">
+                                    {CATEGORIES.map((c) => (
+                                        <DropdownMenuItem
+                                            key={c}
+                                            onSelect={() => setCategory(c)}
+                                            className={c === category ? 'bg-accent/50' : ''}
+                                        >
+                                            {c}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                         <div>
                             <label className="label">Period</label>
-                            <select
-                                id="habit-period"
-                                className="input"
-                                value={period}
-                                onChange={(e) => setPeriod(e.target.value as "daily" | "weekly")}
-                            >
-                                {PERIODS.map((p) => <option key={p} value={p}>{p}</option>)}
-                            </select>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <button
+                                        id="habit-period"
+                                        className="input"
+                                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', width: '100%' }}
+                                    >
+                                        {period}
+                                        <ChevronDown size={16} style={{ opacity: 0.6 }} />
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-[200px]">
+                                    {PERIODS.map((p) => (
+                                        <DropdownMenuItem
+                                            key={p}
+                                            onSelect={() => setPeriod(p)}
+                                            className={p === period ? 'bg-accent/50' : ''}
+                                        >
+                                            {p}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                     </div>
 
                     <div>
                         <label className="label">Target Completions Per Day</label>
-                        <input
-                            type="number"
-                            min="1"
-                            max="100"
-                            className="input"
-                            value={targetCompletions}
-                            onChange={(e) => setTargetCompletions(parseInt(e.target.value) || 1)}
-                        />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <button
+                                type="button"
+                                className="btn btn-ghost"
+                                style={{ padding: '0.5rem', minWidth: '40px' }}
+                                onClick={() => setTargetCompletions(Math.max(1, targetCompletions - 1))}
+                            >
+                                <Minus size={16} />
+                            </button>
+                            <div style={{ 
+                                flex: 1, 
+                                textAlign: 'center', 
+                                fontWeight: 700, 
+                                fontSize: '1.1rem',
+                                color: 'var(--color-text-primary)'
+                            }}>
+                                {targetCompletions}x
+                            </div>
+                            <button
+                                type="button"
+                                className="btn btn-ghost"
+                                style={{ padding: '0.5rem', minWidth: '40px' }}
+                                onClick={() => setTargetCompletions(Math.min(10, targetCompletions + 1))}
+                            >
+                                <Plus size={16} />
+                            </button>
+                        </div>
                         <p style={{ fontSize: '0.65rem', color: 'var(--color-text-muted)', marginTop: '4px' }}>
                             How many times per day do you want to complete this?
                         </p>

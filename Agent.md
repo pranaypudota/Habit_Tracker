@@ -34,3 +34,4 @@ This file serves as the system rulebook for the AI Agent (Antigravity). It outli
 1. **Analyze First:** Treat every user request with a localized architectural lens. Does this require a schema update? Is there a performance hit?
 2. **Documentation & Memory:** Reference `.planning/` directory when dealing with multi-step implementations or performance analysis.
 3. **No Placeholders:** Generate fully functioning, robust code. Implement full logic instead of `# TODO: implement this`.
+4. **Agent Orchestration:** Utilize the specialized **Agency Agent Repository** (110+ personas) when a task requires deep domain expertise (e.g., `agency-security-engineer` for audits, `agency-seo-specialist` for meta-data optimization).

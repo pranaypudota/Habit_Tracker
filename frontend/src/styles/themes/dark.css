@@ -11,6 +11,20 @@
   --color-text-secondary: #9ca3af;
   --color-text-muted: #555555;
 
+  /* Select/Dropdown */
+  --color-select-option-bg: oklch(0.12 0.01 260);
+  --color-select-option-hover: oklch(0.18 0.01 260);
+
+  /* Radix Dropdown */
+  --color-background: #100c08;
+  --color-foreground: #f8f8ff;
+  --color-popover: oklch(0.12 0.01 260);
+  --color-popover-foreground: #f8f8ff;
+  --color-accent: oklch(0.24 0.01 260);
+  --color-accent-foreground: #f8f8ff;
+  --color-muted: oklch(0.24 0.01 260);
+  --color-muted-foreground: #9ca3af;
+
   /* Accents - Vibrant for Dark Background (Glowing) */
   --color-accent-green: oklch(0.75 0.18 150);
   --color-accent-purple: oklch(0.7 0.22 295);

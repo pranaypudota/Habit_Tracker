@@ -15,14 +15,14 @@ export function Sidebar() {
     return (
         <aside
             style={{
-                width: isCollapsed ? '80px' : '240px',
+                width: isCollapsed ? '120px' : '240px',
                 height: '100vh',
                 backgroundColor: 'var(--color-surface)',
                 backdropFilter: 'blur(12px)',
                 borderRight: '1px solid var(--color-border)',
                 display: 'flex',
                 flexDirection: 'column',
-                padding: isCollapsed ? '2rem 1rem' : '2rem 1.25rem',
+                padding: isCollapsed ? '2rem 1.25rem' : '2rem 1.25rem',
                 flexShrink: 0,
                 transition: 'width 300ms cubic-bezier(0.2, 0.8, 0.2, 1), padding 300ms cubic-bezier(0.2, 0.8, 0.2, 1)',
                 position: 'relative',

@@ -12,6 +12,8 @@ interface HabitState {
     completedToday: string[];
     recentExpenses: any[];
     monthlyExpenseTotal: number;
+    monthlyBurn: number;
+    activeSubscriptions: any[];
     isLoading: boolean;
     error: string | null;
 }
@@ -38,6 +40,8 @@ export const useHabitStore = create<HabitStore>()(
         completedToday: [],
         recentExpenses: [],
         monthlyExpenseTotal: 0,
+        monthlyBurn: 0,
+        activeSubscriptions: [],
         isLoading: false,
         error: null,
 
@@ -54,6 +58,8 @@ export const useHabitStore = create<HabitStore>()(
                     heatmaps: data.heatmaps,
                     recentExpenses: data.recent_expenses,
                     monthlyExpenseTotal: data.monthly_expense_total,
+                    monthlyBurn: data.monthly_committed_burn,
+                    activeSubscriptions: data.active_subscriptions || [],
                 });
             } catch (e: unknown) {
                 set({ error: e instanceof Error ? e.message : String(e) });

@@ -41,6 +41,14 @@ Instead of relying on a bloated set of generic capabilities, the Agent should fo
   - Executing precise codebase refactors systematically (e.g., extracting shared utilities or eliminating duplicate code).
   - Anticipating future complexities (e.g., user exporting data, habit scoring algorithms) and ensuring current implementations are adaptable.
 
+## 6. 🤖 Specialized Agency Agent Repository
+**Context:** Global Skills Directory (`C:\Users\HP\.gemini\antigravity\skills\`).
+- **Skillset:**
+  - **Orchestration:** Deploying `agency-agents-orchestrator` to manage complex multi-agent workflows.
+  - **Technical Depth:** Invoking specific architects (Backend, Frontend, UI, Security) for hyper-specialized code reviews and implementations.
+  - **Growth & Compliance:** Utilizing `agency-seo-specialist`, `agency-tracking-measurement-specialist`, and `agency-compliance-auditor` to ensure the project meets professional standards beyond core logic.
+  - **Market Localization:** Applying `agency-china-market-localization-strategist` or other regional specialists if the local-first application targets specific demographics.
+
 ## 🔮 Anticipable Future Skills Requirements
 As the codebase evolves past the MVP stage, the Agent must prepare to invoke these advanced capabilities:
 - **Data Export Parsing:** Writing performant CSV/JSON exporters directly from SQLite.

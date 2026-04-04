@@ -51,6 +51,8 @@ To maintain the repository efficiently, the agent must prioritize deploying thes
 5. **Technical Documentation & Planning:**
    - Reading and updating the `.planning/` directory logically before heavy refactors.
    - **Professional Tone:** NEVER use emojis in documentation files, inline comments, or markdown structures. Maintain a strictly professional and technical tone.
+6. **Specialized Agency Personas:**
+   - Leveraging a repository of 110+ specialized AI agents (e.g., `agency-backend-architect`, `agency-frontend-developer`, `agency-ui-designer`, `agency-seo-specialist`) to perform niche technical roles with high precision and cross-domain expertise.
 
 ---
 

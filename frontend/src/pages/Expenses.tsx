@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { StatCard } from '../components/StatCard';
 import { ExpenseRow } from '../features/expenses/components/ExpenseRow';
 import { AddExpenseModal } from '../features/expenses/components/AddExpenseModal';
+import { SubscriptionList } from '../features/expenses/components/SubscriptionList';
 import { useExpenses } from '../features/expenses/hooks/useExpenses';
-import { Plus, CreditCard, Receipt, BarChart3, CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plus, CreditCard, Receipt, CalendarDays, ChevronLeft, ChevronRight, Hash, ArrowRight } from 'lucide-react';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -13,12 +14,16 @@ export function Expenses() {
     const [selectedMonth, setSelectedMonth] = useState(now.getMonth() + 1);
     const [showModal, setShowModal] = useState(false);
 
-    const { expenses, createExpense, deleteExpense } = useExpenses(selectedYear, selectedMonth);
+    const { 
+        expenses, subscriptions, burn, 
+        createExpense, deleteExpense, 
+        createSubscription, deleteSubscription 
+    } = useExpenses(selectedYear, selectedMonth);
 
-    const totalAmount = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
+    const totalAmount = expenses.reduce((sum, e) => sum + Number(e.amount), 0) + burn;
 
-    const categoryMap = expenses.reduce<Record<string, number>>((acc, e) => {
-        acc[e.category] = (acc[e.category] ?? 0) + Number(e.amount);
+    const categoryMap = [...expenses, ...subscriptions].reduce<Record<string, number>>((acc, item) => {
+        acc[item.category] = (acc[item.category] ?? 0) + Number(item.amount);
         return acc;
     }, {});
     const categoryTotals = Object.entries(categoryMap)
@@ -27,6 +32,10 @@ export function Expenses() {
 
     const handleAdd = async (amount: number, category: string, date: string, note: string) => {
         await createExpense({ amount, category, date, note });
+    };
+
+    const handleAddSub = async (name: string, amount: number, category: string, billingDay: number, startDate: string) => {
+        await createSubscription({ name, amount, category, billing_day: billingDay, start_date: startDate });
     };
 
     const nextMonth = () => {
@@ -71,10 +80,11 @@ export function Expenses() {
                 </div>
 
                 {/* Stats */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
-                    <StatCard title="Total Spent" value={`₹${totalAmount.toLocaleString()}`} icon={CreditCard} accent="purple" />
-                    <StatCard title="Transactions" value={expenses.length} icon={Receipt} accent="amber" />
-                    <StatCard title="Top Category" value={categoryTotals[0]?.category ?? 'None'} icon={BarChart3} accent="green" />
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.25rem' }}>
+                    <StatCard title="Total Projected" value={`₹${totalAmount.toLocaleString()}`} icon={CreditCard} accent="purple" />
+                    <StatCard title="Committed Burn" value={`₹${burn.toLocaleString()}`} icon={ArrowRight} accent="amber" />
+                    <StatCard title="Transactions" value={expenses.length} icon={Receipt} accent="cyan" />
+                    <StatCard title="Subscriptions" value={subscriptions.length} icon={Hash} accent="green" />
                 </div>
 
                 {/* Main Content Grid */}
@@ -128,13 +138,30 @@ export function Expenses() {
                                 <p style={{ margin: 0, color: 'var(--color-text-muted)' }}>Log expenses to see breakdown.</p>
                             </div>
                         )}
+
+                        {/* Subscriptions List */}
+                        <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                            <h2 style={{ margin: '0 0 0.5rem', fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                                Subscriptions
+                            </h2>
+                            <SubscriptionList 
+                                subscriptions={subscriptions} 
+                                onDelete={deleteSubscription} 
+                            />
+                        </div>
                     </div>
                 </div>
 
                 {/* Close the animate-slide-up div here so the modal is outside its transform context */}
             </div>
 
-            {showModal && <AddExpenseModal onClose={() => setShowModal(false)} onAdd={handleAdd} />}
+            {showModal && (
+                <AddExpenseModal 
+                    onClose={() => setShowModal(false)} 
+                    onAdd={handleAdd} 
+                    onAddSubscription={handleAddSub} 
+                />
+            )}
         </>
     );
 }

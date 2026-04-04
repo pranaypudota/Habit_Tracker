@@ -1,18 +1,27 @@
 import { useState } from 'react';
-import { X, Check, IndianRupee } from 'lucide-react';
+import { X, Check, IndianRupee, ChevronDown } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface Props {
     onClose: () => void;
     onAdd: (amount: number, category: string, date: string, note: string) => void;
+    onAddSubscription: (name: string, amount: number, category: string, billingDay: number, startDate: string) => void;
 }
 
 const CATEGORIES = ['Food', 'Transport', 'Entertainment', 'Health', 'Shopping', 'Utilities', 'Other'];
 
-export function AddExpenseModal({ onClose, onAdd }: Props) {
+export function AddExpenseModal({ onClose, onAdd, onAddSubscription }: Props) {
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('Food');
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
     const [note, setNote] = useState('');
+    const [isSubscription, setIsSubscription] = useState(false);
+    const [billingDay, setBillingDay] = useState('1');
     const [error, setError] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -22,7 +31,16 @@ export function AddExpenseModal({ onClose, onAdd }: Props) {
             setError('Please enter a valid amount');
             return;
         }
-        onAdd(num, category, date, note);
+
+        if (isSubscription) {
+            if (!note.trim()) {
+                setError('Subscription name is required (use Note field)');
+                return;
+            }
+            onAddSubscription(note, num, category, parseInt(billingDay), date);
+        } else {
+            onAdd(num, category, date, note);
+        }
         onClose();
     };
 
@@ -34,10 +52,43 @@ export function AddExpenseModal({ onClose, onAdd }: Props) {
             >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2.5rem' }}>
                     <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.03em' }}>
-                        Log Expense
+                        {isSubscription ? 'Add Subscription' : 'Log Expense'}
                     </h2>
                     <button onClick={onClose} className="btn btn-ghost" style={{ padding: '0.5rem', border: 'none', borderRadius: '50%' }}>
                         <X size={20} />
+                    </button>
+                </div>
+
+                <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', backgroundColor: 'oklch(1 0 0 / 0.05)', padding: '0.75rem', borderRadius: '12px' }}>
+                    <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.9rem', fontWeight: 700 }}>Monthly Subscription?</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>Automatically carries over every month</div>
+                    </div>
+                    <button 
+                        type="button"
+                        onClick={() => setIsSubscription(!isSubscription)}
+                        style={{
+                            width: '44px',
+                            height: '24px',
+                            borderRadius: '12px',
+                            backgroundColor: isSubscription ? 'var(--color-accent-purple)' : 'oklch(1 0 0 / 0.1)',
+                            position: 'relative',
+                            border: 'none',
+                            cursor: 'pointer',
+                            transition: 'all 200ms ease'
+                        }}
+                    >
+                        <div style={{
+                            width: '18px',
+                            height: '18px',
+                            borderRadius: '50%',
+                            backgroundColor: 'white',
+                            position: 'absolute',
+                            top: '3px',
+                            left: isSubscription ? '23px' : '3px',
+                            transition: 'all 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                        }} />
                     </button>
                 </div>
 
@@ -66,12 +117,32 @@ export function AddExpenseModal({ onClose, onAdd }: Props) {
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
                         <div>
                             <label className="label">Category</label>
-                            <select id="expense-category" className="input" value={category} onChange={(e) => setCategory(e.target.value)}>
-                                {CATEGORIES.map((c) => <option key={c}>{c}</option>)}
-                            </select>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <button
+                                        id="expense-category"
+                                        className="input"
+                                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', width: '100%' }}
+                                    >
+                                        {category}
+                                        <ChevronDown size={16} style={{ opacity: 0.6 }} />
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-[200px]">
+                                    {CATEGORIES.map((c) => (
+                                        <DropdownMenuItem
+                                            key={c}
+                                            onSelect={() => setCategory(c)}
+                                            className={c === category ? 'bg-accent/50' : ''}
+                                        >
+                                            {c}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                         <div>
-                            <label className="label">Date</label>
+                            <label className="label">{isSubscription ? 'Start Date' : 'Date'}</label>
                             <input
                                 id="expense-date"
                                 className="input"
@@ -81,6 +152,19 @@ export function AddExpenseModal({ onClose, onAdd }: Props) {
                             />
                         </div>
                     </div>
+                    
+                    {isSubscription && (
+                        <div>
+                            <label className="label">Billing Day (1-31)</label>
+                            <input 
+                                className="input" 
+                                type="number" 
+                                min="1" max="31" 
+                                value={billingDay} 
+                                onChange={(e) => setBillingDay(e.target.value)} 
+                            />
+                        </div>
+                    )}
 
                     <div>
                         <label className="label">Note (Optional)</label>
@@ -98,7 +182,7 @@ export function AddExpenseModal({ onClose, onAdd }: Props) {
                         <button type="button" className="btn btn-ghost" style={{ flex: 1 }} onClick={onClose}>Cancel</button>
                         <button type="submit" className="btn btn-purple" style={{ flex: 2 }}>
                             <Check size={18} strokeWidth={3} />
-                            Log Transaction
+                            {isSubscription ? 'Save Subscription' : 'Log Transaction'}
                         </button>
                     </div>
                 </form>

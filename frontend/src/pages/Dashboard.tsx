@@ -9,7 +9,7 @@ const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Se
 export function Dashboard() {
     const {
         habits, streaks: streaksData, strengths: strengthsMap, completedToday, 
-        recentExpenses, monthlyExpenseTotal, isLoading, fetchAll,
+        recentExpenses, monthlyExpenseTotal, monthlyBurn, isLoading, fetchAll,
     } = useHabitStore();
 
     useEffect(() => {
@@ -47,11 +47,11 @@ export function Dashboard() {
             </div>
 
             {/* Stats grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.25rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem' }}>
                 <StatCard title="Today" value={todayCompletion} icon={CheckCircle2} accent="green" subtitle="habits completed" />
                 <StatCard title="Best Streak" value={`${longestStreak}d`} icon={Flame} accent="amber" subtitle="keep it going" />
                 <StatCard title="Monthly Spend" value={`₹${monthlyExpenseTotal.toLocaleString()}`} icon={CreditCard} accent="purple" subtitle={MONTH_NAMES[now.getMonth()]} />
-                <StatCard title="Activity" value={habits.length} icon={Activity} accent="green" subtitle="tracked habits" />
+                <StatCard title="Committed Burn" value={`₹${monthlyBurn.toLocaleString()}`} icon={Zap} accent="cyan" subtitle="monthly subs" />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.5rem' }}>

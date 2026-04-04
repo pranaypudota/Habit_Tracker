@@ -35,8 +35,11 @@ async def get_streak_heatmap(habit_id: str, db: AsyncSession = Depends(get_db)):
     return await habit_service.get_streak_heatmap_for_habit(repo, habit_id)
 
 
+from app.repositories.subscription_repository import SubscriptionRepository
+
 @router.get("/expenses/monthly")
 async def monthly_totals(db: AsyncSession = Depends(get_db)):
     """Total expenses grouped by year-month."""
-    repo = ExpenseRepository(db)
-    return await expense_service.get_monthly_totals(repo)
+    expense_repo = ExpenseRepository(db)
+    sub_repo = SubscriptionRepository(db)
+    return await expense_service.get_monthly_totals(expense_repo, sub_repo)

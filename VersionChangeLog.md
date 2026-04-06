@@ -1,15 +1,37 @@
 # Version Change Log
 
-## [2026-04-04] - Integrated Agency Agents Framework
-- **What:** Integrated the 110+ persona Agency Agent Repository into the project's core documentation and orchestration workflow.
-- **Why:** To enable the main agent (Antigravity) to leverage hyper-specialized sub-agents for niche tasks (e.g., Security, SEO, UI/UX refinement), ensuring professional-grade implementation across all domains.
-- **How:** Updated `GEMINI.md`, `Agent.md`, and `SKILLS.md` to define the orchestration protocol and recognized the global skills directory as a primary resource for specialized intelligence.
+This document records the modifications, logical updates, and architecture changes made to the codebase. It follows the "2 W's & 1 H" structure (What, Why, How) using concise terminology.
 
 ---
 
-This document records the modifications, logical updates, and architecture changes made to the codebase. It follows the "2 W's & 1 H" structure (What, Why, How) using concise terminology.
+## 2026-04-06
+
+### Premium Sidebar & Security Modal integration
+- **What:** Replaced the browser's native `confirm()` alert with a custom glassmorphic Modal and optimized the sidebar's footer for high-fidelity responsiveness.
+- **Why:** Native dialogs broke the premium aesthetic of the HabitOS experience; the new layout ensures system controls (Theme/Lock) are balanced in both collapsed and expanded states.
+- **How:** Constructed `Modal.tsx` and `Button.tsx` using `framer-motion` for spring-based backdrop blurs; implemented adaptive flex-logic in `Sidebar.tsx` (side-by-side when open, stacked when closed); restored 'Zap' brand identity and calibrated `ThemeToggle` to 64px for perfect visual weight.
+
+### Auth Polish & Settings Completion
+- **What:** Finalized the implementation of the secure Settings page, multi-format data export (JSON/CSV), and systemic security hardening.
+- **Why:** To ensure user data portability, provide a professional management interface, and enhance privacy through passive security measures like idle timeouts.
+- **How:** Implemented `useIdleLock` for automatic session termination, integrated native Browser Haptics for authentication feedback, and constructed streaming CSV export endpoints on the backend. Upgraded the Expense UI with an icon-enriched category selection system for superior UX.
+
+### PIN-Based Authentication System (Secure Privacy Gate)
+- **What:** Implemented a local-first, recovery-enabled PIN authentication system.
+- **Why:** To provide a secure privacy layer for local data without requiring cloud accounts or complex encryption, ensuring one-time setup and brute-force protection.
+- **How:** Added `bcrypt` and `pyjwt` to FastAPI; built `AuthService` with atomic lockout logic; created a glassmorphism `LockScreen` in React with `framer-motion` animations and `Zustand` state persistence.
+
+### Auth Cleanup and Optimization
+- **What:** Removed unused imports and stale variables from `authStore.ts` and `LockScreen.tsx`.
+- **Why:** To reduce bundle size and eliminate potential runtime errors caused by dangling references or unused state hooks.
+- **How:** Audited `authStore.ts` for unused state selectors and cleaned up `LockScreen.tsx` imports to ensure only necessary dependencies are loaded.
 
 ## 2026-04-04
+
+### Integrated Agency Agents Framework
+- **What:** Integrated the 110+ persona Agency Agent Repository into the project's core documentation and orchestration workflow.
+- **Why:** To enable the main agent (Antigravity) to leverage hyper-specialized sub-agents for niche tasks (e.g., Security, SEO, UI/UX refinement), ensuring professional-grade implementation across all domains.
+- **How:** Updated `GEMINI.md`, `Agent.md`, and `SKILLS.md` to define the orchestration protocol and recognized the global skills directory as a primary resource for specialized intelligence.
 
 ### Analytics Backend Upgrade and Subscription Overlaps
 - **What:** Refactored `get_monthly_totals` analytics pipeline to structurally merge active and historic subscription rates into global expense totals based on `start_date` and `end_date` overlaps.

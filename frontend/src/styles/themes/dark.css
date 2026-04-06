@@ -8,8 +8,8 @@
 
   /* Typography */
   --color-text-primary: #f8f8ff; /* Ghost White */
-  --color-text-secondary: #9ca3af;
-  --color-text-muted: #555555;
+  --color-text-secondary: #a1a1aa; /* Zinc 400 for better differentiation */
+  --color-text-muted: #82828b; /* Zinc 500 for better dark mode visibility */
 
   /* Select/Dropdown */
   --color-select-option-bg: oklch(0.12 0.01 260);

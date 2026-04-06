@@ -10,6 +10,11 @@ This document tracks upcoming and planned changes for the Habit Tracker project.
 - [x] Expand collapsed sidebar width for theme toggle space.
 - [x] Redesign target completions input with +/- counter.
 - [x] Finish stripping emojis from secondary `.planning/` markdown files.
+- [x] **Feature: PIN-Based Authentication (Core System)**
+  - [x] Backend Auth Layer (Bcrypt, JWT, Atomic Lockout).
+  - [x] Security-first `get_current_user` dependency guard.
+  - [x] Frontend `LockScreen` with Setup and Recovery flows.
+  - [x] Global 401 interceptor and persistence via Zustand.
 - [x] Update Lucide React to v1.7.0 (latest).
 - [x] Update TypeScript to v6.0.2 (latest) - verify compatibility.
 - [x] **Feature: Expense Subscriptions and Burn Rate**
@@ -22,9 +27,24 @@ This document tracks upcoming and planned changes for the Habit Tracker project.
 - [x] Remove unused `select.input` CSS (no native selects remain).
 - [x] Remove stale duplicate components from `src/components/`.
 - [x] Remove completed planning docs (`PLAN.md`, `frontend-improvments-implementation-guide.md`).
+- [x] **Feature: Auth Polish & Settings**
+  - [x] Change PIN functionality (In Settings)
+  - [x] Logout/Lock button in Sidebar
+  - [x] Idle-timeout auto-lock mechanism
+  - [x] Haptic feedback for failed PIN (Native Browser Haptics)
+  - [x] Export Data: JSON Support
+  - [x] Export Data: CSV Support
+  - [x] Premium Expense Category Dropdown (with icons)
+- [x] **UI: Premium Sidebar & Modal**
+  - [x] Custom Glassmorphic Confirmation Modal (Framer Motion)
+  - [x] Adaptive Footer Layout (Side-by-side / Stacked)
+  - [x] Re-calibrated Theme Toggle (64px) and justified icons
+  - [x] Spring-based side panel transitions
 
-## Pending Tasks
-- [ ] Implement PIN-based Authentication.
-- [ ] Add JSON/CSV Data Export functionality for local SQLite database.
+## Pending Tasks (Priority Order)
+
+### 1. [LOW] UI: Feature Polishing
+- [ ] Visual "shake" animation on failed login.
 - [ ] Implement custom dropdown for expense category selection (follow habit pattern).
 - [ ] Test dropdown in light/dark mode for consistency.
+- [ ] Audit all tooltips for uniform delay and animation.

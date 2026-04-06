@@ -3,25 +3,66 @@ import type {
     Expense, ExpenseCreate,
     Subscription, SubscriptionCreate, SubscriptionUpdate,
     HabitStreak, MonthlyTotal,
-    DashboardToday, HabitStrength
+    DashboardToday, HabitStrength,
+    AuthStatus, TokenResponse
 } from '../types';
 
 const BASE = 'http://localhost:8000/api/v1';
 
 async function req<T>(path: string, options?: RequestInit): Promise<T> {
+    // Get token directly from localStorage to skip circular dependency
+    // (Zustand state persists to 'auth-storage')
+    const rawVal = localStorage.getItem('auth-storage');
+    const token = rawVal ? JSON.parse(rawVal).state?.token : null;
+
+    const headers: Record<string, string> = { 
+        'Content-Type': 'application/json' 
+    };
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
     const res = await fetch(`${BASE}${path}`, {
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         ...options,
     });
+
     if (!res.ok) {
+        // Handle 401 Unauthorized globally
+        if (res.status === 401) {
+             // Dispatch a custom event so the UI can force re-lock
+             window.dispatchEvent(new Event('auth-unauthorized'));
+        }
+
         const msg = await res.text().catch(() => res.statusText);
         throw new Error(`API ${res.status}: ${msg}`);
     }
+
     if (res.status === 204) return undefined as T;
     return res.json();
 }
 
 export const api = {
+    auth: {
+        status: () => req<AuthStatus>('/auth/status'),
+        setup: (pin: string) => 
+            req<{ status: string, recovery_key: string }>('/auth/setup', { 
+                method: 'POST', body: JSON.stringify({ pin }) 
+            }),
+        login: (pin: string) => 
+            req<TokenResponse>('/auth/login', { 
+                method: 'POST', body: JSON.stringify({ pin }) 
+            }),
+        changePin: (current: string, next: string) => 
+            req<TokenResponse>('/auth/change-pin', { 
+                method: 'POST', body: JSON.stringify({ current_pin: current, new_pin: next }) 
+            }),
+        recover: (key: string, next: string) => 
+            req<TokenResponse>('/auth/recover', { 
+                method: 'POST', body: JSON.stringify({ recovery_key: key, new_pin: next }) 
+            }),
+    },
     habits: {
         list: (includeArchived = false) =>
             req<Habit[]>(`/habits/?include_archived=${includeArchived}`),

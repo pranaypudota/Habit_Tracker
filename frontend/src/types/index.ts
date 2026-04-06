@@ -112,3 +112,16 @@ export interface DashboardToday {
     active_subscriptions?: Subscription[];
     monthly_committed_burn?: number;
 }
+
+// ── Auth ───────────────────────────────────────────────────────────────────
+
+export interface AuthStatus {
+    is_configured: boolean;
+    is_locked: boolean;
+    locked_until: string | null;
+}
+
+export interface TokenResponse {
+    access_token: string;
+    token_type: string;
+}

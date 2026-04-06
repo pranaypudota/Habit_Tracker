@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Check, IndianRupee, ChevronDown } from 'lucide-react';
+import { X, Check, IndianRupee, ChevronDown, Utensils, Car, Play, Heart, ShoppingBag, Zap, MoreHorizontal } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,17 @@ interface Props {
     onAddSubscription: (name: string, amount: number, category: string, billingDay: number, startDate: string) => void;
 }
 
-const CATEGORIES = ['Food', 'Transport', 'Entertainment', 'Health', 'Shopping', 'Utilities', 'Other'];
+const CATEGORY_MAP = {
+    'Food': { icon: Utensils, color: 'var(--color-accent-amber)' },
+    'Transport': { icon: Car, color: 'var(--color-accent-blue)' },
+    'Entertainment': { icon: Play, color: 'var(--color-accent-purple)' },
+    'Health': { icon: Heart, color: 'var(--color-accent-red)' },
+    'Shopping': { icon: ShoppingBag, color: 'var(--color-accent-pink)' },
+    'Utilities': { icon: Zap, color: 'var(--color-accent-cyan)' },
+    'Other': { icon: MoreHorizontal, color: 'var(--color-text-muted)' }
+};
+
+const CATEGORIES = Object.keys(CATEGORY_MAP) as (keyof typeof CATEGORY_MAP)[];
 
 export function AddExpenseModal({ onClose, onAdd, onAddSubscription }: Props) {
     const [amount, setAmount] = useState('');
@@ -122,22 +132,52 @@ export function AddExpenseModal({ onClose, onAdd, onAddSubscription }: Props) {
                                     <button
                                         id="expense-category"
                                         className="input"
-                                        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', width: '100%' }}
+                                        style={{ 
+                                            display: 'flex', 
+                                            justifyContent: 'space-between', 
+                                            alignItems: 'center', 
+                                            cursor: 'pointer', 
+                                            width: '100%',
+                                            gap: '0.75rem'
+                                        }}
                                     >
-                                        {category}
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                            {(() => {
+                                                const Icon = CATEGORY_MAP[category as keyof typeof CATEGORY_MAP]?.icon || MoreHorizontal;
+                                                return <Icon size={16} style={{ color: CATEGORY_MAP[category as keyof typeof CATEGORY_MAP]?.color }} />;
+                                            })()}
+                                            {category}
+                                        </div>
                                         <ChevronDown size={16} style={{ opacity: 0.6 }} />
                                     </button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-[200px]">
-                                    {CATEGORIES.map((c) => (
-                                        <DropdownMenuItem
-                                            key={c}
-                                            onSelect={() => setCategory(c)}
-                                            className={c === category ? 'bg-accent/50' : ''}
-                                        >
-                                            {c}
-                                        </DropdownMenuItem>
-                                    ))}
+                                <DropdownMenuContent className="w-[200px]" style={{ backgroundColor: 'var(--color-bg-card)', backdropFilter: 'blur(10px)', border: '1px solid var(--color-border)', borderRadius: '12px', padding: '0.5rem' }}>
+                                    {CATEGORIES.map((c) => {
+                                        const Icon = CATEGORY_MAP[c].icon;
+                                        return (
+                                            <DropdownMenuItem
+                                                key={c}
+                                                onSelect={() => setCategory(c)}
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '0.75rem',
+                                                    padding: '0.75rem',
+                                                    borderRadius: '8px',
+                                                    cursor: 'pointer',
+                                                    fontSize: '0.9rem',
+                                                    fontWeight: 500,
+                                                    transition: 'all 0.2s ease',
+                                                    backgroundColor: c === category ? 'oklch(1 0 0 / 0.05)' : 'transparent',
+                                                    color: c === category ? 'var(--color-text-primary)' : 'var(--color-text-secondary)'
+                                                }}
+                                            >
+                                                <Icon size={16} style={{ color: CATEGORY_MAP[c].color }} />
+                                                {c}
+                                                {c === category && <Check size={14} style={{ marginLeft: 'auto', color: 'var(--color-accent-green)' }} />}
+                                            </DropdownMenuItem>
+                                        );
+                                    })}
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </div>

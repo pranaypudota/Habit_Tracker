@@ -85,15 +85,15 @@ export const LockScreen: React.FC = () => {
     };
 
     const shakeAnimation = {
-        x: [0, -10, 10, -10, 10, 0],
-        transition: { duration: 0.4 }
+        x: [0, -4, 4, -4, 4, -2, 2, 0],
+        transition: { duration: 0.4, ease: "easeInOut" }
     };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-bg)]/90 backdrop-blur-xl transition-all duration-500">
             <motion.div 
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
+                animate={error ? { ...shakeAnimation, opacity: 1, scale: 1, y: 0 } : { opacity: 1, scale: 1, y: 0 }}
                 className="w-full max-w-sm p-8 glass border border-[var(--color-border)] rounded-3xl shadow-2xl flex flex-col items-center gap-8"
             >
                 <div className="flex flex-col items-center gap-3">
@@ -152,7 +152,7 @@ export const LockScreen: React.FC = () => {
                                         value={recoveryInput}
                                         onChange={(e) => setRecoveryInput(e.target.value.toUpperCase())}
                                         className="w-full p-4 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent-green)]/50 transition-all font-mono"
-                                    />
+                                     />
                                     <input 
                                         type="password" 
                                         placeholder="Enter New PIN (4-6 digits)"
@@ -185,17 +185,14 @@ export const LockScreen: React.FC = () => {
                                     className="w-full flex flex-col gap-8"
                                 >
                                     <div className="flex flex-col items-center gap-8">
-                                        <motion.div 
-                                            animate={error ? shakeAnimation : {}}
-                                            className="flex gap-4"
-                                        >
+                                        <div className="flex gap-4">
                                             {Array.from({ length: 6 }).map((_, i) => (
                                                 <div 
                                                         key={i}
                                                         className={`w-4 h-4 rounded-full border border-[var(--color-border)] transition-all duration-300 ${pin.length > i ? 'bg-[var(--color-accent-green)] border-none shadow-[0_0_12px_rgba(74,222,128,0.5)]' : 'bg-[var(--color-surface)]'}`}
                                                 />
                                             ))}
-                                        </motion.div>
+                                        </div>
 
                                         <div className="grid grid-cols-3 gap-4 w-full">
                                             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (

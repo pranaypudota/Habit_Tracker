@@ -1,5 +1,6 @@
 import type { Expense } from '../../../types';
 import { Trash2, ShoppingBag } from 'lucide-react';
+import { TooltipSimple } from '@/components/ui/tooltip';
 
 interface Props {
     expense: Expense;
@@ -56,14 +57,15 @@ export function ExpenseRow({ expense, onDelete }: Props) {
                 <div style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--color-accent-purple)' }}>
                     ₹{Number(expense.amount).toLocaleString()}
                 </div>
-                <button
-                    className="btn btn-danger"
-                    style={{ padding: '0.5rem', minWidth: '38px', borderRadius: '10px' }}
-                    onClick={() => onDelete(expense.id)}
-                    title="Delete expense"
-                >
-                    <Trash2 size={16} />
-                </button>
+                <TooltipSimple label="Delete expense">
+                    <button
+                        className="btn btn-danger"
+                        style={{ padding: '0.5rem', minWidth: '38px', borderRadius: '10px' }}
+                        onClick={() => onDelete(expense.id)}
+                    >
+                        <Trash2 size={16} />
+                    </button>
+                </TooltipSimple>
             </div>
         </div>
     );

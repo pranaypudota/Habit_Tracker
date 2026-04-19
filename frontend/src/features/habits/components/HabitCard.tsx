@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import type { Habit } from '../../../types';
 import { useHabitStore } from '../../../store/habitStore';
 import { Check, Target, Trash2, Calendar, Flame } from 'lucide-react';
+import { TooltipSimple } from '@/components/ui/tooltip';
 
 const categoryColors: Record<string, string> = {
   'Health': 'badge-cyan',
@@ -339,10 +340,12 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, onDele
                                             const intensityMap = heatmaps[habit.id]?.[day.date] ?? 0;
                                             const intensityClass = `intensity-${intensityMap}`;
                                             return (
-                                                <div key={day.date} title={day.date} className={`timeline-day ${intensityClass} ${isToday ? 'is-today' : ''}`}
-                                                    // @ts-ignore
-                                                    style={{ '--today-color': themeColor, width: '12px', height: '24px', borderRadius: '4px', position: 'relative', opacity: isDecay && isDone ? 0.6 + (habitStrength * 0.4) : 1 } as React.CSSProperties}
-                                                />
+                                                <TooltipSimple key={day.date} label={`${day.date}${isDone ? ' (Completed)' : ''}`}>
+                                                    <div className={`timeline-day ${intensityClass} ${isToday ? 'is-today' : ''}`}
+                                                        // @ts-ignore
+                                                        style={{ '--today-color': themeColor, width: '12px', height: '24px', borderRadius: '4px', position: 'relative', opacity: isDecay && isDone ? 0.6 + (habitStrength * 0.4) : 1 } as React.CSSProperties}
+                                                    />
+                                                </TooltipSimple>
                                             );
                                         })}
                                     </div>

@@ -7,6 +7,8 @@ import { useAuthStore } from '../store/authStore';
 import { Modal } from './ui/Modal';
 import { Button } from './ui/button';
 
+import { TooltipSimple } from './ui/tooltip';
+
 const navLinks = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/habits', label: 'Habits', icon: Leaf },
@@ -102,33 +104,42 @@ export function Sidebar() {
                 </div>
 
                 <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', padding: '0 1rem' }}>
-                    {navLinks.map((link) => (
-                        <NavLink
-                            key={link.to}
-                            to={link.to}
-                            title={isCollapsed ? link.label : undefined}
-                            className={({ isActive }) =>
-                                `flex items-center rounded-2xl transition-all duration-300 group ${
-                                    isCollapsed ? 'justify-center w-12 h-12 mx-auto' : 'px-4 py-3.5 gap-4 w-full'
-                                } ${
-                                    isActive
-                                        ? 'bg-primary/10 text-primary shadow-sm shadow-primary/5'
-                                        : 'text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100'
-                                }`
-                            }
-                        >
-                            <link.icon size={22} strokeWidth={2.5} />
-                            {!isCollapsed && (
-                                <motion.span 
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    className="font-bold text-[0.95rem]"
-                                >
-                                    {link.label}
-                                </motion.span>
-                            )}
-                        </NavLink>
-                    ))}
+                    {navLinks.map((link) => {
+                        const linkContent = (
+                            <NavLink
+                                key={link.to}
+                                to={link.to}
+                                className={({ isActive }) =>
+                                    `flex items-center rounded-2xl transition-all duration-300 group ${
+                                        isCollapsed ? 'justify-center w-12 h-12 mx-auto' : 'px-4 py-3.5 gap-4 w-full'
+                                    } ${
+                                        isActive
+                                            ? 'bg-primary/10 text-primary shadow-sm shadow-primary/5'
+                                            : 'text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100'
+                                    }`
+                                }
+                            >
+                                <link.icon size={22} strokeWidth={2.5} />
+                                {!isCollapsed && (
+                                    <motion.span 
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        className="font-bold text-[0.95rem]"
+                                    >
+                                        {link.label}
+                                    </motion.span>
+                                )}
+                            </NavLink>
+                        );
+
+                        return isCollapsed ? (
+                            <TooltipSimple key={link.to} label={link.label} side="right">
+                                {linkContent}
+                            </TooltipSimple>
+                        ) : (
+                            linkContent
+                        );
+                    })}
                 </nav>
 
                 {/* Footer Section */}
@@ -203,7 +214,7 @@ export function Sidebar() {
                             }}
                         >
                             <div style={{ opacity: 0.6, fontWeight: 600 }}>PRIVATE LOCAL STORAGE</div>
-                            <div style={{ fontWeight: 800, marginTop: '2px', color: 'var(--color-text-secondary)' }}>HabitOS PRO v1.0.4</div>
+                            <div style={{ fontWeight: 800, marginTop: '2px', color: 'var(--color-text-secondary)' }}>HabitOS PRO v1.1.0</div>
                         </motion.div>
                     )}
                 </div>

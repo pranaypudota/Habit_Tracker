@@ -40,11 +40,21 @@ This document tracks upcoming and planned changes for the Habit Tracker project.
   - [x] Adaptive Footer Layout (Side-by-side / Stacked)
   - [x] Re-calibrated Theme Toggle (64px) and justified icons
   - [x] Spring-based side panel transitions
+- [x] **Infrastructure: Codebase Mapping**
+  - [x] Generated structural maps (STACK, ARCH, STRUCTURE, etc.).
+  - [x] Identified 0% test coverage as high-priority risk.
+- [x] **Infrastructure: Initial Testing Framework**
+  - [x] Initialize `pytest` and `httpx` for backend API integration tests.
+  - [x] Initialize `vitest` for frontend logic validation.
+  - [x] Implement property-based tests for Python/Rust parity (`hypothesis`).
+  - [x] Establish `.bat` Runners for whole-stack validation.
+- [x] Implement custom dropdown for expense category selection (follow habit pattern).
+- [x] Visual "shake" animation on failed login (Escalated to entire card).
+- [x] Audit all tooltips for uniform delay and animation (Custom Radix Tooltip System).
+- [x] Implement glassmorphic premium tooltips across Sidebar, HabitCard, and Expenses.
 
 ## Pending Tasks (Priority Order)
 
-### 1. [LOW] UI: Feature Polishing
-- [ ] Visual "shake" animation on failed login.
-- [ ] Implement custom dropdown for expense category selection (follow habit pattern).
-- [ ] Test dropdown in light/dark mode for consistency.
-- [ ] Audit all tooltips for uniform delay and animation.
+### 1. [LOW] Future Expansion
+- [ ] Mobile-first grid optimization (deferred for native app).
+- [ ] Multi-stage habit habituation tracking logic.

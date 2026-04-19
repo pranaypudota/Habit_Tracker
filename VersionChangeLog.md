@@ -2,6 +2,23 @@
 
 This document records the modifications, logical updates, and architecture changes made to the codebase. It follows the "2 W's & 1 H" structure (What, Why, How) using concise terminology.
 
+## 2026-04-19
+
+### Phase 4: UI Refinement & Premium Polish
+- **What:** Implemented a unified premium tooltip system (Radix UI + Framer Motion) and escalated critical micro-interactions.
+- **Why:** To replace inconsistent native browser tooltips with a high-fidelity glassmorphic solution and enhance the sensory feedback of authentication failures.
+- **How:** Built `Tooltip.tsx` primitive using `@radix-ui/react-tooltip`; systematically replaced native `title` attributes in `Sidebar.tsx`, `HabitCard.tsx`, and `ExpenseRow.tsx`; refactored `LockScreen.tsx` to move the failed login "shake" animation from the keypad dots to the entire container card; bumped project version to **v1.1.0**.
+
+### Initial Testing Framework & Parity Verification
+- **What:** Implemented a comprehensive testing suite including `pytest` (backend), `vitest` (frontend), and `Hypothesis` for parity verification.
+- **Why:** To resolve the 0% test coverage security/infrastructure risk and ensure absolute mathematical consistency between the Rust core and Python fallback logic.
+- **How:** Configured `pytest-asyncio` with in-memory SQLite mocks for isolation; implemented property-based tests verifying 100+ random habit scenarios match bit-for-bit between stacks; established `test_backend.bat` and `test_frontend.bat` runners for one-click validation.
+
+### Codebase Mapping and Health Audit
+- **What:** Generated a comprehensive codebase map including `STACK.md`, `INTEGRATIONS.md`, `ARCHITECTURE.md`, `STRUCTURE.md`, `CONVENTIONS.md`, and `TESTING.md` within `.planning/codebase/`.
+- **Why:** To provide standardized architectural documentation for both human and AI coordination, enabling faster onboarding and preventing drift in system design.
+- **How:** Analyzed backend (FastAPI/SQLAlchemy/Rust), frontend (React/Vite/Tailwind v4), and native core (`habit_core`) structures; verified the "hot-swap" performance strategy in `habit_service.py`; updated `CONCERNS.md` to flag 0% automated testing coverage as a high-priority risk.
+
 ---
 
 ## 2026-04-06

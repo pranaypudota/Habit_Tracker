@@ -1,0 +1,2761 @@
+{
+  "version": 1,
+  "timestamp": "2026-04-19T17:42:20.261Z",
+  "nodes": [
+    {
+      "label": "audit_db.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\audit_db.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_audit_db_py",
+      "community": 29,
+      "norm_label": "audit_db.py"
+    },
+    {
+      "label": "audit_db_bak.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\audit_db_bak.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_audit_db_bak_py",
+      "community": 30,
+      "norm_label": "audit_db_bak.py"
+    },
+    {
+      "label": "audit_db_v3.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\audit_db_v3.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_audit_db_v3_py",
+      "community": 31,
+      "norm_label": "audit_db_v3.py"
+    },
+    {
+      "label": "diag_db.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\diag_db.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_diag_db_py",
+      "community": 17,
+      "norm_label": "diag_db.py"
+    },
+    {
+      "label": "check_db()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\diag_db.py",
+      "source_location": "L6",
+      "id": "diag_db_check_db",
+      "community": 17,
+      "norm_label": "check_db()"
+    },
+    {
+      "label": "final_restore.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\final_restore.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_final_restore_py",
+      "community": 18,
+      "norm_label": "final_restore.py"
+    },
+    {
+      "label": "robust_restore()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\final_restore.py",
+      "source_location": "L7",
+      "id": "final_restore_robust_restore",
+      "community": 18,
+      "norm_label": "robust_restore()"
+    },
+    {
+      "label": "migrate.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\migrate.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_migrate_py",
+      "community": 32,
+      "norm_label": "migrate.py"
+    },
+    {
+      "label": "restore_all.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\restore_all.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_restore_all_py",
+      "community": 19,
+      "norm_label": "restore_all.py"
+    },
+    {
+      "label": "restore()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\restore_all.py",
+      "source_location": "L7",
+      "id": "restore_all_restore",
+      "community": 19,
+      "norm_label": "restore()"
+    },
+    {
+      "label": "main.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\main.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_main_py",
+      "community": 7,
+      "norm_label": "main.py"
+    },
+    {
+      "label": "lifespan()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\main.py",
+      "source_location": "L20",
+      "id": "main_lifespan",
+      "community": 7,
+      "norm_label": "lifespan()"
+    },
+    {
+      "label": "log_requests()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\main.py",
+      "source_location": "L40",
+      "id": "main_log_requests",
+      "community": 7,
+      "norm_label": "log_requests()"
+    },
+    {
+      "label": "root()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\main.py",
+      "source_location": "L98",
+      "id": "main_root",
+      "community": 7,
+      "norm_label": "root()"
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\__init__.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_init_py",
+      "community": 33,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "config.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\config.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_core_config_py",
+      "community": 20,
+      "norm_label": "config.py"
+    },
+    {
+      "label": "Settings",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\config.py",
+      "source_location": "L9",
+      "id": "config_settings",
+      "community": 20,
+      "norm_label": "settings"
+    },
+    {
+      "label": "logger.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\logger.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_core_logger_py",
+      "community": 9,
+      "norm_label": "logger.py"
+    },
+    {
+      "label": "InterceptHandler",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\logger.py",
+      "source_location": "L7",
+      "id": "logger_intercepthandler",
+      "community": 9,
+      "norm_label": "intercepthandler"
+    },
+    {
+      "label": ".emit()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\logger.py",
+      "source_location": "L12",
+      "id": "logger_intercepthandler_emit",
+      "community": 9,
+      "norm_label": ".emit()"
+    },
+    {
+      "label": "setup_app_logging()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\logger.py",
+      "source_location": "L28",
+      "id": "logger_setup_app_logging",
+      "community": 9,
+      "norm_label": "setup_app_logging()"
+    },
+    {
+      "label": "Default handler from Python logging to Loguru.     Ensures uvicorn and library l",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\logger.py",
+      "source_location": "L8",
+      "id": "logger_rationale_8",
+      "community": 9,
+      "norm_label": "default handler from python logging to loguru.     ensures uvicorn and library l"
+    },
+    {
+      "label": "Configures the entire app to use Loguru for structured, colored output.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\logger.py",
+      "source_location": "L29",
+      "id": "logger_rationale_29",
+      "community": 9,
+      "norm_label": "configures the entire app to use loguru for structured, colored output."
+    },
+    {
+      "label": "security.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\security.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_core_security_py",
+      "community": 1,
+      "norm_label": "security.py"
+    },
+    {
+      "label": "create_access_token()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\security.py",
+      "source_location": "L23",
+      "id": "security_create_access_token",
+      "community": 1,
+      "norm_label": "create_access_token()"
+    },
+    {
+      "label": "decode_access_token()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\security.py",
+      "source_location": "L30",
+      "id": "security_decode_access_token",
+      "community": 1,
+      "norm_label": "decode_access_token()"
+    },
+    {
+      "label": "get_current_user()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\security.py",
+      "source_location": "L40",
+      "id": "security_get_current_user",
+      "community": 1,
+      "norm_label": "get_current_user()"
+    },
+    {
+      "label": "Issue time-limited JWT with HS256.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\security.py",
+      "source_location": "L24",
+      "id": "security_rationale_24",
+      "community": 1,
+      "norm_label": "issue time-limited jwt with hs256."
+    },
+    {
+      "label": "Verify and decode JWT.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\security.py",
+      "source_location": "L31",
+      "id": "security_rationale_31",
+      "community": 1,
+      "norm_label": "verify and decode jwt."
+    },
+    {
+      "label": "Antigravity's Authentication Guard:     1. Check if PIN setup is skip-mode (no A",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\security.py",
+      "source_location": "L44",
+      "id": "security_rationale_44",
+      "community": 1,
+      "norm_label": "antigravity's authentication guard:     1. check if pin setup is skip-mode (no a"
+    },
+    {
+      "label": "utils.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\utils.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_core_utils_py",
+      "community": 15,
+      "norm_label": "utils.py"
+    },
+    {
+      "label": "uuid4_str()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\utils.py",
+      "source_location": "L3",
+      "id": "utils_uuid4_str",
+      "community": 15,
+      "norm_label": "uuid4_str()"
+    },
+    {
+      "label": "Generate a string representation of a random UUID (version 4).",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\utils.py",
+      "source_location": "L4",
+      "id": "utils_rationale_4",
+      "community": 15,
+      "norm_label": "generate a string representation of a random uuid (version 4)."
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\core\\__init__.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_core_init_py",
+      "community": 34,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "database.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\db\\database.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_db_database_py",
+      "community": 7,
+      "norm_label": "database.py"
+    },
+    {
+      "label": "_set_sqlite_pragmas()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\db\\database.py",
+      "source_location": "L15",
+      "id": "database_set_sqlite_pragmas",
+      "community": 7,
+      "norm_label": "_set_sqlite_pragmas()"
+    },
+    {
+      "label": "Base",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\db\\database.py",
+      "source_location": "L33",
+      "id": "database_base",
+      "community": 1,
+      "norm_label": "base"
+    },
+    {
+      "label": "DeclarativeBase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "declarativebase",
+      "community": 1,
+      "norm_label": "declarativebase"
+    },
+    {
+      "label": "create_db_tables()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\db\\database.py",
+      "source_location": "L37",
+      "id": "database_create_db_tables",
+      "community": 7,
+      "norm_label": "create_db_tables()"
+    },
+    {
+      "label": "get_db()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\db\\database.py",
+      "source_location": "L43",
+      "id": "database_get_db",
+      "community": 7,
+      "norm_label": "get_db()"
+    },
+    {
+      "label": "Apply high-performance SQLite settings on every new connection.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\db\\database.py",
+      "source_location": "L16",
+      "id": "database_rationale_16",
+      "community": 7,
+      "norm_label": "apply high-performance sqlite settings on every new connection."
+    },
+    {
+      "label": "Create all tables on startup.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\db\\database.py",
+      "source_location": "L38",
+      "id": "database_rationale_38",
+      "community": 7,
+      "norm_label": "create all tables on startup."
+    },
+    {
+      "label": "FastAPI dependency: async DB session.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\db\\database.py",
+      "source_location": "L44",
+      "id": "database_rationale_44",
+      "community": 7,
+      "norm_label": "fastapi dependency: async db session."
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\db\\__init__.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_db_init_py",
+      "community": 35,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "auth.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\auth.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_models_auth_py",
+      "community": 1,
+      "norm_label": "auth.py"
+    },
+    {
+      "label": "AuthConfig",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\auth.py",
+      "source_location": "L8",
+      "id": "auth_authconfig",
+      "community": 1,
+      "norm_label": "authconfig"
+    },
+    {
+      "label": "Base",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "base",
+      "community": 0,
+      "norm_label": "base"
+    },
+    {
+      "label": "Single-row configuration table for local-first PIN authentication.     id is alw",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\auth.py",
+      "source_location": "L9",
+      "id": "auth_rationale_9",
+      "community": 1,
+      "norm_label": "single-row configuration table for local-first pin authentication.     id is alw"
+    },
+    {
+      "label": "expense.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\expense.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_models_expense_py",
+      "community": 3,
+      "norm_label": "expense.py"
+    },
+    {
+      "label": "generate_uuid()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\expense.py",
+      "source_location": "L10",
+      "id": "expense_generate_uuid",
+      "community": 3,
+      "norm_label": "generate_uuid()"
+    },
+    {
+      "label": "Expense",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\expense.py",
+      "source_location": "L14",
+      "id": "expense_expense",
+      "community": 3,
+      "norm_label": "expense"
+    },
+    {
+      "label": "habit.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\habit.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_models_habit_py",
+      "community": 0,
+      "norm_label": "habit.py"
+    },
+    {
+      "label": "Habit",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\habit.py",
+      "source_location": "L9",
+      "id": "habit_habit",
+      "community": 0,
+      "norm_label": "habit"
+    },
+    {
+      "label": "HabitEntry",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\habit.py",
+      "source_location": "L28",
+      "id": "habit_habitentry",
+      "community": 0,
+      "norm_label": "habitentry"
+    },
+    {
+      "label": "Presence of a row = habit completed on that date.     The old `completed` boole",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\habit.py",
+      "source_location": "L29",
+      "id": "habit_rationale_29",
+      "community": 0,
+      "norm_label": "presence of a row = habit completed on that date.     the old `completed` boole"
+    },
+    {
+      "label": "subscription.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\subscription.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_models_subscription_py",
+      "community": 2,
+      "norm_label": "subscription.py"
+    },
+    {
+      "label": "generate_uuid()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\subscription.py",
+      "source_location": "L10",
+      "id": "subscription_generate_uuid",
+      "community": 2,
+      "norm_label": "generate_uuid()"
+    },
+    {
+      "label": "Subscription",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\subscription.py",
+      "source_location": "L14",
+      "id": "subscription_subscription",
+      "community": 2,
+      "norm_label": "subscription"
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\models\\__init__.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_models_init_py",
+      "community": 36,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "expense_repository.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_repositories_expense_repository_py",
+      "community": 3,
+      "norm_label": "expense_repository.py"
+    },
+    {
+      "label": "ExpenseRepository",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L14",
+      "id": "expense_repository_expenserepository",
+      "community": 3,
+      "norm_label": "expenserepository"
+    },
+    {
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L15",
+      "id": "expense_repository_expenserepository_init",
+      "community": 3,
+      "norm_label": ".__init__()"
+    },
+    {
+      "label": ".get_all()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L18",
+      "id": "expense_repository_expenserepository_get_all",
+      "community": 3,
+      "norm_label": ".get_all()"
+    },
+    {
+      "label": ".get_by_id()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L35",
+      "id": "expense_repository_expenserepository_get_by_id",
+      "community": 3,
+      "norm_label": ".get_by_id()"
+    },
+    {
+      "label": ".create()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L41",
+      "id": "expense_repository_expenserepository_create",
+      "community": 3,
+      "norm_label": ".create()"
+    },
+    {
+      "label": ".delete()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L60",
+      "id": "expense_repository_expenserepository_delete",
+      "community": 3,
+      "norm_label": ".delete()"
+    },
+    {
+      "label": ".get_monthly_totals()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L67",
+      "id": "expense_repository_expenserepository_get_monthly_totals",
+      "community": 3,
+      "norm_label": ".get_monthly_totals()"
+    },
+    {
+      "label": ".get_monthly_total_single()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L85",
+      "id": "expense_repository_expenserepository_get_monthly_total_single",
+      "community": 3,
+      "norm_label": ".get_monthly_total_single()"
+    },
+    {
+      "label": ".get_recent()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L100",
+      "id": "expense_repository_expenserepository_get_recent",
+      "community": 3,
+      "norm_label": ".get_recent()"
+    },
+    {
+      "label": "ExpenseRepository — pure persistence layer for expenses.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L1",
+      "id": "expense_repository_rationale_1",
+      "community": 3,
+      "norm_label": "expenserepository — pure persistence layer for expenses."
+    },
+    {
+      "label": "Total expenses grouped by year-month with proper column references.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L68",
+      "id": "expense_repository_rationale_68",
+      "community": 3,
+      "norm_label": "total expenses grouped by year-month with proper column references."
+    },
+    {
+      "label": "Single month total — for dashboard aggregation.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\expense_repository.py",
+      "source_location": "L88",
+      "id": "expense_repository_rationale_88",
+      "community": 3,
+      "norm_label": "single month total — for dashboard aggregation."
+    },
+    {
+      "label": "habit_repository.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_repositories_habit_repository_py",
+      "community": 0,
+      "norm_label": "habit_repository.py"
+    },
+    {
+      "label": "HabitRepository",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L15",
+      "id": "habit_repository_habitrepository",
+      "community": 0,
+      "norm_label": "habitrepository"
+    },
+    {
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L16",
+      "id": "habit_repository_habitrepository_init",
+      "community": 0,
+      "norm_label": ".__init__()"
+    },
+    {
+      "label": ".get_all()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L21",
+      "id": "habit_repository_habitrepository_get_all",
+      "community": 0,
+      "norm_label": ".get_all()"
+    },
+    {
+      "label": ".get_by_id()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L28",
+      "id": "habit_repository_habitrepository_get_by_id",
+      "community": 0,
+      "norm_label": ".get_by_id()"
+    },
+    {
+      "label": ".create()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L34",
+      "id": "habit_repository_habitrepository_create",
+      "community": 0,
+      "norm_label": ".create()"
+    },
+    {
+      "label": ".delete()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L57",
+      "id": "habit_repository_habitrepository_delete",
+      "community": 0,
+      "norm_label": ".delete()"
+    },
+    {
+      "label": ".archive()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L64",
+      "id": "habit_repository_habitrepository_archive",
+      "community": 0,
+      "norm_label": ".archive()"
+    },
+    {
+      "label": ".get_entries()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L74",
+      "id": "habit_repository_habitrepository_get_entries",
+      "community": 5,
+      "norm_label": ".get_entries()"
+    },
+    {
+      "label": ".create_entry()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L93",
+      "id": "habit_repository_habitrepository_create_entry",
+      "community": 5,
+      "norm_label": ".create_entry()"
+    },
+    {
+      "label": ".delete_entry()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L103",
+      "id": "habit_repository_habitrepository_delete_entry",
+      "community": 0,
+      "norm_label": ".delete_entry()"
+    },
+    {
+      "label": ".get_entries_for_all_habits()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L119",
+      "id": "habit_repository_habitrepository_get_entries_for_all_habits",
+      "community": 0,
+      "norm_label": ".get_entries_for_all_habits()"
+    },
+    {
+      "label": ".delete_entries()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L135",
+      "id": "habit_repository_habitrepository_delete_entries",
+      "community": 0,
+      "norm_label": ".delete_entries()"
+    },
+    {
+      "label": "HabitRepository — pure persistence layer.  Business logic (streak, rates, anal",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L1",
+      "id": "habit_repository_rationale_1",
+      "community": 0,
+      "norm_label": "habitrepository — pure persistence layer.  business logic (streak, rates, anal"
+    },
+    {
+      "label": "Create a completion entry for the habit on a specific date.         Multiple ca",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L94",
+      "id": "habit_repository_rationale_94",
+      "community": 0,
+      "norm_label": "create a completion entry for the habit on a specific date.         multiple ca"
+    },
+    {
+      "label": "Remove completion entry for a specific date (undo).",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L104",
+      "id": "habit_repository_rationale_104",
+      "community": 0,
+      "norm_label": "remove completion entry for a specific date (undo)."
+    },
+    {
+      "label": "Batch-load entries for multiple habits (for dashboard efficiency).",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L122",
+      "id": "habit_repository_rationale_122",
+      "community": 0,
+      "norm_label": "batch-load entries for multiple habits (for dashboard efficiency)."
+    },
+    {
+      "label": "Delete multiple entries at once (batch cleanup).",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\habit_repository.py",
+      "source_location": "L136",
+      "id": "habit_repository_rationale_136",
+      "community": 0,
+      "norm_label": "delete multiple entries at once (batch cleanup)."
+    },
+    {
+      "label": "subscription_repository.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_repositories_subscription_repository_py",
+      "community": 2,
+      "norm_label": "subscription_repository.py"
+    },
+    {
+      "label": "SubscriptionRepository",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L10",
+      "id": "subscription_repository_subscriptionrepository",
+      "community": 2,
+      "norm_label": "subscriptionrepository"
+    },
+    {
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L11",
+      "id": "subscription_repository_subscriptionrepository_init",
+      "community": 2,
+      "norm_label": ".__init__()"
+    },
+    {
+      "label": ".get_all_historical()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L14",
+      "id": "subscription_repository_subscriptionrepository_get_all_historical",
+      "community": 2,
+      "norm_label": ".get_all_historical()"
+    },
+    {
+      "label": ".get_all_active()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L20",
+      "id": "subscription_repository_subscriptionrepository_get_all_active",
+      "community": 2,
+      "norm_label": ".get_all_active()"
+    },
+    {
+      "label": ".get_by_id()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L51",
+      "id": "subscription_repository_subscriptionrepository_get_by_id",
+      "community": 5,
+      "norm_label": ".get_by_id()"
+    },
+    {
+      "label": ".create()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L57",
+      "id": "subscription_repository_subscriptionrepository_create",
+      "community": 2,
+      "norm_label": ".create()"
+    },
+    {
+      "label": ".update()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L81",
+      "id": "subscription_repository_subscriptionrepository_update",
+      "community": 1,
+      "norm_label": ".update()"
+    },
+    {
+      "label": ".delete()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L98",
+      "id": "subscription_repository_subscriptionrepository_delete",
+      "community": 2,
+      "norm_label": ".delete()"
+    },
+    {
+      "label": ".get_effective_monthly_total()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L105",
+      "id": "subscription_repository_subscriptionrepository_get_effective_monthly_total",
+      "community": 2,
+      "norm_label": ".get_effective_monthly_total()"
+    },
+    {
+      "label": "Fetch all subscriptions including inactive ones for historical reporting.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L15",
+      "id": "subscription_repository_rationale_15",
+      "community": 2,
+      "norm_label": "fetch all subscriptions including inactive ones for historical reporting."
+    },
+    {
+      "label": "Get all subscriptions effective during a specific period.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L21",
+      "id": "subscription_repository_rationale_21",
+      "community": 2,
+      "norm_label": "get all subscriptions effective during a specific period."
+    },
+    {
+      "label": "Calculate total commitments for a month.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\subscription_repository.py",
+      "source_location": "L106",
+      "id": "subscription_repository_rationale_106",
+      "community": 2,
+      "norm_label": "calculate total commitments for a month."
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\repositories\\__init__.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_repositories_init_py",
+      "community": 37,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "analytics.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\analytics.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_routers_analytics_py",
+      "community": 0,
+      "norm_label": "analytics.py"
+    },
+    {
+      "label": "get_streaks()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\analytics.py",
+      "source_location": "L18",
+      "id": "analytics_get_streaks",
+      "community": 0,
+      "norm_label": "get_streaks()"
+    },
+    {
+      "label": "get_habit_strength()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\analytics.py",
+      "source_location": "L25",
+      "id": "analytics_get_habit_strength",
+      "community": 0,
+      "norm_label": "get_habit_strength()"
+    },
+    {
+      "label": "get_streak_heatmap()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\analytics.py",
+      "source_location": "L32",
+      "id": "analytics_get_streak_heatmap",
+      "community": 0,
+      "norm_label": "get_streak_heatmap()"
+    },
+    {
+      "label": "monthly_totals()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\analytics.py",
+      "source_location": "L41",
+      "id": "analytics_monthly_totals",
+      "community": 2,
+      "norm_label": "monthly_totals()"
+    },
+    {
+      "label": "Analytics router — MVP subset only:   GET /analytics/streaks   GET /analytics/",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\analytics.py",
+      "source_location": "L1",
+      "id": "analytics_rationale_1",
+      "community": 0,
+      "norm_label": "analytics router — mvp subset only:   get /analytics/streaks   get /analytics/"
+    },
+    {
+      "label": "Current streak for every active habit.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\analytics.py",
+      "source_location": "L19",
+      "id": "analytics_rationale_19",
+      "community": 0,
+      "norm_label": "current streak for every active habit."
+    },
+    {
+      "label": "Consistency score (decay model) for every habit.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\analytics.py",
+      "source_location": "L26",
+      "id": "analytics_rationale_26",
+      "community": 0,
+      "norm_label": "consistency score (decay model) for every habit."
+    },
+    {
+      "label": "GitHub-style historical streak levels for a specific habit.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\analytics.py",
+      "source_location": "L33",
+      "id": "analytics_rationale_33",
+      "community": 0,
+      "norm_label": "github-style historical streak levels for a specific habit."
+    },
+    {
+      "label": "Total expenses grouped by year-month.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\analytics.py",
+      "source_location": "L42",
+      "id": "analytics_rationale_42",
+      "community": 2,
+      "norm_label": "total expenses grouped by year-month."
+    },
+    {
+      "label": "auth.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_routers_auth_py",
+      "community": 1,
+      "norm_label": "auth.py"
+    },
+    {
+      "label": "get_auth_status()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L19",
+      "id": "auth_get_auth_status",
+      "community": 1,
+      "norm_label": "get_auth_status()"
+    },
+    {
+      "label": "setup_auth_pin()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L36",
+      "id": "auth_setup_auth_pin",
+      "community": 4,
+      "norm_label": "setup_auth_pin()"
+    },
+    {
+      "label": "login_via_pin()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L51",
+      "id": "auth_login_via_pin",
+      "community": 1,
+      "norm_label": "login_via_pin()"
+    },
+    {
+      "label": "change_auth_pin()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L85",
+      "id": "auth_change_auth_pin",
+      "community": 1,
+      "norm_label": "change_auth_pin()"
+    },
+    {
+      "label": "recover_auth_pin()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L116",
+      "id": "auth_recover_auth_pin",
+      "community": 1,
+      "norm_label": "recover_auth_pin()"
+    },
+    {
+      "label": "Check configuration and lockout state.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L20",
+      "id": "auth_rationale_20",
+      "community": 4,
+      "norm_label": "check configuration and lockout state."
+    },
+    {
+      "label": "First-time setup. Generates and returns recovery key.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L37",
+      "id": "auth_rationale_37",
+      "community": 4,
+      "norm_label": "first-time setup. generates and returns recovery key."
+    },
+    {
+      "label": "Verify PIN and issue 24-hr token.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L52",
+      "id": "auth_rationale_52",
+      "community": 4,
+      "norm_label": "verify pin and issue 24-hr token."
+    },
+    {
+      "label": "Update existing PIN. Requires valid session + current PIN verification.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L90",
+      "id": "auth_rationale_90",
+      "community": 4,
+      "norm_label": "update existing pin. requires valid session + current pin verification."
+    },
+    {
+      "label": "Emergency reset using Recovery Key.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\auth.py",
+      "source_location": "L117",
+      "id": "auth_rationale_117",
+      "community": 4,
+      "norm_label": "emergency reset using recovery key."
+    },
+    {
+      "label": "dashboard.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\dashboard.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_routers_dashboard_py",
+      "community": 3,
+      "norm_label": "dashboard.py"
+    },
+    {
+      "label": "dashboard_today()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\dashboard.py",
+      "source_location": "L25",
+      "id": "dashboard_dashboard_today",
+      "community": 3,
+      "norm_label": "dashboard_today()"
+    },
+    {
+      "label": "Dashboard aggregation endpoint.  GET /dashboard/today Returns all data needed",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\dashboard.py",
+      "source_location": "L1",
+      "id": "dashboard_rationale_1",
+      "community": 3,
+      "norm_label": "dashboard aggregation endpoint.  get /dashboard/today returns all data needed"
+    },
+    {
+      "label": "Aggregated dashboard data — single request for the frontend dashboard page.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\dashboard.py",
+      "source_location": "L26",
+      "id": "dashboard_rationale_26",
+      "community": 3,
+      "norm_label": "aggregated dashboard data — single request for the frontend dashboard page."
+    },
+    {
+      "label": "expenses.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\expenses.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_routers_expenses_py",
+      "community": 8,
+      "norm_label": "expenses.py"
+    },
+    {
+      "label": "_repo()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\expenses.py",
+      "source_location": "L12",
+      "id": "expenses_repo",
+      "community": 8,
+      "norm_label": "_repo()"
+    },
+    {
+      "label": "list_expenses()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\expenses.py",
+      "source_location": "L17",
+      "id": "expenses_list_expenses",
+      "community": 0,
+      "norm_label": "list_expenses()"
+    },
+    {
+      "label": "add_expense()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\expenses.py",
+      "source_location": "L26",
+      "id": "expenses_add_expense",
+      "community": 2,
+      "norm_label": "add_expense()"
+    },
+    {
+      "label": "delete_expense()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\expenses.py",
+      "source_location": "L39",
+      "id": "expenses_delete_expense",
+      "community": 8,
+      "norm_label": "delete_expense()"
+    },
+    {
+      "label": "export.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\export.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_routers_export_py",
+      "community": 8,
+      "norm_label": "export.py"
+    },
+    {
+      "label": "export_all_data()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\export.py",
+      "source_location": "L14",
+      "id": "export_export_all_data",
+      "community": 8,
+      "norm_label": "export_all_data()"
+    },
+    {
+      "label": "Exports all user data in a portable JSON format for local backup or migration.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\export.py",
+      "source_location": "L15",
+      "id": "export_rationale_15",
+      "community": 0,
+      "norm_label": "exports all user data in a portable json format for local backup or migration."
+    },
+    {
+      "label": "export_csv.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\export_csv.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_routers_export_csv_py",
+      "community": 8,
+      "norm_label": "export_csv.py"
+    },
+    {
+      "label": "export_habits_csv()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\export_csv.py",
+      "source_location": "L15",
+      "id": "export_csv_export_habits_csv",
+      "community": 8,
+      "norm_label": "export_habits_csv()"
+    },
+    {
+      "label": "export_expenses_csv()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\export_csv.py",
+      "source_location": "L32",
+      "id": "export_csv_export_expenses_csv",
+      "community": 8,
+      "norm_label": "export_expenses_csv()"
+    },
+    {
+      "label": "habits.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_routers_habits_py",
+      "community": 5,
+      "norm_label": "habits.py"
+    },
+    {
+      "label": "_repo()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L16",
+      "id": "habits_repo",
+      "community": 5,
+      "norm_label": "_repo()"
+    },
+    {
+      "label": "list_habits()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L21",
+      "id": "habits_list_habits",
+      "community": 0,
+      "norm_label": "list_habits()"
+    },
+    {
+      "label": "create_habit()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L29",
+      "id": "habits_create_habit",
+      "community": 2,
+      "norm_label": "create_habit()"
+    },
+    {
+      "label": "delete_habit()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L44",
+      "id": "habits_delete_habit",
+      "community": 2,
+      "norm_label": "delete_habit()"
+    },
+    {
+      "label": "complete_habit()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L54",
+      "id": "habits_complete_habit",
+      "community": 5,
+      "norm_label": "complete_habit()"
+    },
+    {
+      "label": "undo_completion()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L70",
+      "id": "habits_undo_completion",
+      "community": 5,
+      "norm_label": "undo_completion()"
+    },
+    {
+      "label": "habit_history()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L83",
+      "id": "habits_habit_history",
+      "community": 5,
+      "norm_label": "habit_history()"
+    },
+    {
+      "label": "mark_completion_legacy()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L98",
+      "id": "habits_mark_completion_legacy",
+      "community": 5,
+      "norm_label": "mark_completion_legacy()"
+    },
+    {
+      "label": "Mark a habit as completed on a given date.      Idempotent — calling twice for",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L59",
+      "id": "habits_rationale_59",
+      "community": 5,
+      "norm_label": "mark a habit as completed on a given date.      idempotent — calling twice for"
+    },
+    {
+      "label": "Undo a habit completion for a specific date.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L75",
+      "id": "habits_rationale_75",
+      "community": 5,
+      "norm_label": "undo a habit completion for a specific date."
+    },
+    {
+      "label": "Deprecated: Use `POST /habits/{habit_id}/complete` instead.          This endp",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\habits.py",
+      "source_location": "L103",
+      "id": "habits_rationale_103",
+      "community": 5,
+      "norm_label": "deprecated: use `post /habits/{habit_id}/complete` instead.          this endp"
+    },
+    {
+      "label": "subscriptions.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\subscriptions.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_routers_subscriptions_py",
+      "community": 2,
+      "norm_label": "subscriptions.py"
+    },
+    {
+      "label": "_repo()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\subscriptions.py",
+      "source_location": "L12",
+      "id": "subscriptions_repo",
+      "community": 2,
+      "norm_label": "_repo()"
+    },
+    {
+      "label": "list_subscriptions()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\subscriptions.py",
+      "source_location": "L17",
+      "id": "subscriptions_list_subscriptions",
+      "community": 2,
+      "norm_label": "list_subscriptions()"
+    },
+    {
+      "label": "add_subscription()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\subscriptions.py",
+      "source_location": "L30",
+      "id": "subscriptions_add_subscription",
+      "community": 2,
+      "norm_label": "add_subscription()"
+    },
+    {
+      "label": "update_subscription()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\subscriptions.py",
+      "source_location": "L45",
+      "id": "subscriptions_update_subscription",
+      "community": 2,
+      "norm_label": "update_subscription()"
+    },
+    {
+      "label": "delete_subscription()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\subscriptions.py",
+      "source_location": "L58",
+      "id": "subscriptions_delete_subscription",
+      "community": 2,
+      "norm_label": "delete_subscription()"
+    },
+    {
+      "label": "Get all active subscriptions for the specified year and month.     If no year or",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\subscriptions.py",
+      "source_location": "L22",
+      "id": "subscriptions_rationale_22",
+      "community": 2,
+      "norm_label": "get all active subscriptions for the specified year and month.     if no year or"
+    },
+    {
+      "label": "Adds a new subscription.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\subscriptions.py",
+      "source_location": "L34",
+      "id": "subscriptions_rationale_34",
+      "community": 2,
+      "norm_label": "adds a new subscription."
+    },
+    {
+      "label": "Updates an existing subscription (Edit price, Stop/Restart, etc.)",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\subscriptions.py",
+      "source_location": "L50",
+      "id": "subscriptions_rationale_50",
+      "community": 2,
+      "norm_label": "updates an existing subscription (edit price, stop/restart, etc.)"
+    },
+    {
+      "label": "Permanently removes a subscription.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\subscriptions.py",
+      "source_location": "L62",
+      "id": "subscriptions_rationale_62",
+      "community": 2,
+      "norm_label": "permanently removes a subscription."
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\routers\\__init__.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_routers_init_py",
+      "community": 8,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "auth.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_schemas_auth_py",
+      "community": 4,
+      "norm_label": "auth.py"
+    },
+    {
+      "label": "AuthStatus",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L5",
+      "id": "auth_authstatus",
+      "community": 4,
+      "norm_label": "authstatus"
+    },
+    {
+      "label": "BaseModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "id": "basemodel",
+      "community": 4,
+      "norm_label": "basemodel"
+    },
+    {
+      "label": "PinSetup",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L12",
+      "id": "auth_pinsetup",
+      "community": 4,
+      "norm_label": "pinsetup"
+    },
+    {
+      "label": "PinSetupResponse",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L17",
+      "id": "auth_pinsetupresponse",
+      "community": 4,
+      "norm_label": "pinsetupresponse"
+    },
+    {
+      "label": "PinLogin",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L23",
+      "id": "auth_pinlogin",
+      "community": 4,
+      "norm_label": "pinlogin"
+    },
+    {
+      "label": "PinChange",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L28",
+      "id": "auth_pinchange",
+      "community": 4,
+      "norm_label": "pinchange"
+    },
+    {
+      "label": "RecoverPin",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L34",
+      "id": "auth_recoverpin",
+      "community": 4,
+      "norm_label": "recoverpin"
+    },
+    {
+      "label": "TokenResponse",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L40",
+      "id": "auth_tokenresponse",
+      "community": 4,
+      "norm_label": "tokenresponse"
+    },
+    {
+      "label": "Current application lock/setup status.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L6",
+      "id": "auth_rationale_6",
+      "community": 4,
+      "norm_label": "current application lock/setup status."
+    },
+    {
+      "label": "Initial user PIN configuration.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L13",
+      "id": "auth_rationale_13",
+      "community": 4,
+      "norm_label": "initial user pin configuration."
+    },
+    {
+      "label": "Created status + plaintext recovery key for one-time display.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L18",
+      "id": "auth_rationale_18",
+      "community": 4,
+      "norm_label": "created status + plaintext recovery key for one-time display."
+    },
+    {
+      "label": "PIN recovery via key schema.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L35",
+      "id": "auth_rationale_35",
+      "community": 4,
+      "norm_label": "pin recovery via key schema."
+    },
+    {
+      "label": "Bearer token issued on successful auth.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\auth.py",
+      "source_location": "L41",
+      "id": "auth_rationale_41",
+      "community": 4,
+      "norm_label": "bearer token issued on successful auth."
+    },
+    {
+      "label": "expense.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\expense.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_schemas_expense_py",
+      "community": 3,
+      "norm_label": "expense.py"
+    },
+    {
+      "label": "ExpenseBase",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\expense.py",
+      "source_location": "L7",
+      "id": "expense_expensebase",
+      "community": 3,
+      "norm_label": "expensebase"
+    },
+    {
+      "label": "ExpenseCreate",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\expense.py",
+      "source_location": "L14",
+      "id": "expense_expensecreate",
+      "community": 3,
+      "norm_label": "expensecreate"
+    },
+    {
+      "label": "ExpenseResponse",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\expense.py",
+      "source_location": "L18",
+      "id": "expense_expenseresponse",
+      "community": 3,
+      "norm_label": "expenseresponse"
+    },
+    {
+      "label": "habit.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\habit.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_schemas_habit_py",
+      "community": 5,
+      "norm_label": "habit.py"
+    },
+    {
+      "label": "HabitBase",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\habit.py",
+      "source_location": "L8",
+      "id": "habit_habitbase",
+      "community": 5,
+      "norm_label": "habitbase"
+    },
+    {
+      "label": "HabitCreate",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\habit.py",
+      "source_location": "L17",
+      "id": "habit_habitcreate",
+      "community": 5,
+      "norm_label": "habitcreate"
+    },
+    {
+      "label": "HabitResponse",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\habit.py",
+      "source_location": "L21",
+      "id": "habit_habitresponse",
+      "community": 5,
+      "norm_label": "habitresponse"
+    },
+    {
+      "label": "HabitCompleteRequest",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\habit.py",
+      "source_location": "L31",
+      "id": "habit_habitcompleterequest",
+      "community": 5,
+      "norm_label": "habitcompleterequest"
+    },
+    {
+      "label": "HabitEntryResponse",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\habit.py",
+      "source_location": "L36",
+      "id": "habit_habitentryresponse",
+      "community": 5,
+      "norm_label": "habitentryresponse"
+    },
+    {
+      "label": "Request body for POST /habits/{id}/complete",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\habit.py",
+      "source_location": "L32",
+      "id": "habit_rationale_32",
+      "community": 5,
+      "norm_label": "request body for post /habits/{id}/complete"
+    },
+    {
+      "label": "subscription.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\subscription.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_schemas_subscription_py",
+      "community": 2,
+      "norm_label": "subscription.py"
+    },
+    {
+      "label": "SubscriptionBase",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\subscription.py",
+      "source_location": "L7",
+      "id": "subscription_subscriptionbase",
+      "community": 2,
+      "norm_label": "subscriptionbase"
+    },
+    {
+      "label": "SubscriptionCreate",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\subscription.py",
+      "source_location": "L17",
+      "id": "subscription_subscriptioncreate",
+      "community": 2,
+      "norm_label": "subscriptioncreate"
+    },
+    {
+      "label": "SubscriptionUpdate",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\subscription.py",
+      "source_location": "L21",
+      "id": "subscription_subscriptionupdate",
+      "community": 2,
+      "norm_label": "subscriptionupdate"
+    },
+    {
+      "label": "SubscriptionResponse",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\subscription.py",
+      "source_location": "L31",
+      "id": "subscription_subscriptionresponse",
+      "community": 2,
+      "norm_label": "subscriptionresponse"
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\schemas\\__init__.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_schemas_init_py",
+      "community": 38,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "auth_service.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_services_auth_service_py",
+      "community": 1,
+      "norm_label": "auth_service.py"
+    },
+    {
+      "label": "AuthService",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L13",
+      "id": "auth_service_authservice",
+      "community": 1,
+      "norm_label": "authservice"
+    },
+    {
+      "label": "generate_recovery_key()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L23",
+      "id": "auth_service_generate_recovery_key",
+      "community": 1,
+      "norm_label": "generate_recovery_key()"
+    },
+    {
+      "label": "hash_text()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L33",
+      "id": "auth_service_hash_text",
+      "community": 1,
+      "norm_label": "hash_text()"
+    },
+    {
+      "label": "verify_hash()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L39",
+      "id": "auth_service_verify_hash",
+      "community": 1,
+      "norm_label": "verify_hash()"
+    },
+    {
+      "label": ".get_config()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L43",
+      "id": "auth_service_authservice_get_config",
+      "community": 1,
+      "norm_label": ".get_config()"
+    },
+    {
+      "label": ".increment_fail()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L48",
+      "id": "auth_service_authservice_increment_fail",
+      "community": 1,
+      "norm_label": ".increment_fail()"
+    },
+    {
+      "label": ".reset_fail()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L70",
+      "id": "auth_service_authservice_reset_fail",
+      "community": 1,
+      "norm_label": ".reset_fail()"
+    },
+    {
+      "label": ".setup_auth()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L81",
+      "id": "auth_service_authservice_setup_auth",
+      "community": 1,
+      "norm_label": ".setup_auth()"
+    },
+    {
+      "label": ".is_locked()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L102",
+      "id": "auth_service_authservice_is_locked",
+      "community": 1,
+      "norm_label": ".is_locked()"
+    },
+    {
+      "label": "Handles local-first authentication logic: PIN hashing,      key generation, and",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L14",
+      "id": "auth_service_rationale_14",
+      "community": 1,
+      "norm_label": "handles local-first authentication logic: pin hashing,      key generation, and"
+    },
+    {
+      "label": "Generate a random alphanumeric recovery key: KFXN-8R2M-PQTV-4WHL",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L24",
+      "id": "auth_service_rationale_24",
+      "community": 1,
+      "norm_label": "generate a random alphanumeric recovery key: kfxn-8r2m-pqtv-4whl"
+    },
+    {
+      "label": "Hash plain text with bcrypt (12 rounds).",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L34",
+      "id": "auth_service_rationale_34",
+      "community": 1,
+      "norm_label": "hash plain text with bcrypt (12 rounds)."
+    },
+    {
+      "label": "Verify plain text against bcrypt hash.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L40",
+      "id": "auth_service_rationale_40",
+      "community": 1,
+      "norm_label": "verify plain text against bcrypt hash."
+    },
+    {
+      "label": "Fetch the single auth config row (ID=1).",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L44",
+      "id": "auth_service_rationale_44",
+      "community": 1,
+      "norm_label": "fetch the single auth config row (id=1)."
+    },
+    {
+      "label": "Atomically increment failed attempts and set lockout if threshold reached.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L49",
+      "id": "auth_service_rationale_49",
+      "community": 1,
+      "norm_label": "atomically increment failed attempts and set lockout if threshold reached."
+    },
+    {
+      "label": "Reset counters on successful login.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L71",
+      "id": "auth_service_rationale_71",
+      "community": 1,
+      "norm_label": "reset counters on successful login."
+    },
+    {
+      "label": "Initial PIN setup. Fails if already configured.         Returns the plaintext re",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L82",
+      "id": "auth_service_rationale_82",
+      "community": 1,
+      "norm_label": "initial pin setup. fails if already configured.         returns the plaintext re"
+    },
+    {
+      "label": "Check if currently in lockout duration.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\auth_service.py",
+      "source_location": "L103",
+      "id": "auth_service_rationale_103",
+      "community": 1,
+      "norm_label": "check if currently in lockout duration."
+    },
+    {
+      "label": "expense_service.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\expense_service.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_services_expense_service_py",
+      "community": 3,
+      "norm_label": "expense_service.py"
+    },
+    {
+      "label": "get_effective_expenses()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\expense_service.py",
+      "source_location": "L16",
+      "id": "expense_service_get_effective_expenses",
+      "community": 3,
+      "norm_label": "get_effective_expenses()"
+    },
+    {
+      "label": "get_monthly_totals()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\expense_service.py",
+      "source_location": "L32",
+      "id": "expense_service_get_monthly_totals",
+      "community": 2,
+      "norm_label": "get_monthly_totals()"
+    },
+    {
+      "label": "ExpenseService — business logic only.  Persistence is delegated to ExpenseRepo",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\expense_service.py",
+      "source_location": "L1",
+      "id": "expense_service_rationale_1",
+      "community": 3,
+      "norm_label": "expenseservice — business logic only.  persistence is delegated to expenserepo"
+    },
+    {
+      "label": "Calculates the merged total of one-off expenses and effective subscriptions for",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\expense_service.py",
+      "source_location": "L22",
+      "id": "expense_service_rationale_22",
+      "community": 3,
+      "norm_label": "calculates the merged total of one-off expenses and effective subscriptions for"
+    },
+    {
+      "label": "Retrieve monthly totals merging one-off expenses and tracking subscriptions acro",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\expense_service.py",
+      "source_location": "L33",
+      "id": "expense_service_rationale_33",
+      "community": 2,
+      "norm_label": "retrieve monthly totals merging one-off expenses and tracking subscriptions acro"
+    },
+    {
+      "label": "habit_service.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_services_habit_service_py",
+      "community": 0,
+      "norm_label": "habit_service.py"
+    },
+    {
+      "label": "get_daily_counts()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L51",
+      "id": "habit_service_get_daily_counts",
+      "community": 0,
+      "norm_label": "get_daily_counts()"
+    },
+    {
+      "label": "calculate_decay_score()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L58",
+      "id": "habit_service_calculate_decay_score",
+      "community": 0,
+      "norm_label": "calculate_decay_score()"
+    },
+    {
+      "label": "compute_streak()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L102",
+      "id": "habit_service_compute_streak",
+      "community": 0,
+      "norm_label": "compute_streak()"
+    },
+    {
+      "label": "calculate_streak_levels()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L125",
+      "id": "habit_service_calculate_streak_levels",
+      "community": 0,
+      "norm_label": "calculate_streak_levels()"
+    },
+    {
+      "label": "compute_completion_rate()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L165",
+      "id": "habit_service_compute_completion_rate",
+      "community": 0,
+      "norm_label": "compute_completion_rate()"
+    },
+    {
+      "label": "get_streaks_for_all()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L176",
+      "id": "habit_service_get_streaks_for_all",
+      "community": 0,
+      "norm_label": "get_streaks_for_all()"
+    },
+    {
+      "label": "get_habit_strengths()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L200",
+      "id": "habit_service_get_habit_strengths",
+      "community": 0,
+      "norm_label": "get_habit_strengths()"
+    },
+    {
+      "label": "get_streak_heatmap_for_habit()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L224",
+      "id": "habit_service_get_streak_heatmap_for_habit",
+      "community": 0,
+      "norm_label": "get_streak_heatmap_for_habit()"
+    },
+    {
+      "label": "HabitService — business logic only.  Persistence is delegated to HabitReposito",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L1",
+      "id": "habit_service_rationale_1",
+      "community": 0,
+      "norm_label": "habitservice — business logic only.  persistence is delegated to habitreposito"
+    },
+    {
+      "label": "Habit strength via exponential decay.     - 'month':   from the 1st of the curr",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L63",
+      "id": "habit_service_rationale_63",
+      "community": 0,
+      "norm_label": "habit strength via exponential decay.     - 'month':   from the 1st of the curr"
+    },
+    {
+      "label": "Current consecutive streak. Uses Rust native implementation when available.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L103",
+      "id": "habit_service_rationale_103",
+      "community": 0,
+      "norm_label": "current consecutive streak. uses rust native implementation when available."
+    },
+    {
+      "label": "GitHub-style intensity level (0–5) for each day in the window.     Uses Rust na",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L130",
+      "id": "habit_service_rationale_130",
+      "community": 0,
+      "norm_label": "github-style intensity level (0–5) for each day in the window.     uses rust na"
+    },
+    {
+      "label": "Completion rate (%) over the last N days.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L166",
+      "id": "habit_service_rationale_166",
+      "community": 0,
+      "norm_label": "completion rate (%) over the last n days."
+    },
+    {
+      "label": "Return streak for every non-archived habit, with 30-second TTL cache.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L177",
+      "id": "habit_service_rationale_177",
+      "community": 0,
+      "norm_label": "return streak for every non-archived habit, with 30-second ttl cache."
+    },
+    {
+      "label": "Monthly + rolling decay strength for every habit, with 30-second TTL cache.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L201",
+      "id": "habit_service_rationale_201",
+      "community": 0,
+      "norm_label": "monthly + rolling decay strength for every habit, with 30-second ttl cache."
+    },
+    {
+      "label": "Heatmap intensity data for a single habit, with 30-second TTL cache.",
+      "file_type": "rationale",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\habit_service.py",
+      "source_location": "L227",
+      "id": "habit_service_rationale_227",
+      "community": 0,
+      "norm_label": "heatmap intensity data for a single habit, with 30-second ttl cache."
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\backend\\app\\services\\__init__.py",
+      "source_location": "L1",
+      "id": "d_habit_tracker_backend_app_services_init_py",
+      "community": 39,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "eslint.config.js",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\eslint.config.js",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_eslint_config_js",
+      "community": 40,
+      "norm_label": "eslint.config.js"
+    },
+    {
+      "label": "vite.config.ts",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\vite.config.ts",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_vite_config_ts",
+      "community": 41,
+      "norm_label": "vite.config.ts"
+    },
+    {
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\App.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_app_tsx",
+      "community": 13,
+      "norm_label": "app.tsx"
+    },
+    {
+      "label": "PageLoader()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\App.tsx",
+      "source_location": "L15",
+      "id": "app_pageloader",
+      "community": 13,
+      "norm_label": "pageloader()"
+    },
+    {
+      "label": "handleUnauthorized()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\App.tsx",
+      "source_location": "L32",
+      "id": "app_handleunauthorized",
+      "community": 13,
+      "norm_label": "handleunauthorized()"
+    },
+    {
+      "label": "main.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\main.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_main_tsx",
+      "community": 13,
+      "norm_label": "main.tsx"
+    },
+    {
+      "label": "Layout.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\Layout.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_components_layout_tsx",
+      "community": 42,
+      "norm_label": "layout.tsx"
+    },
+    {
+      "label": "LockScreen.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\LockScreen.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_components_lockscreen_tsx",
+      "community": 10,
+      "norm_label": "lockscreen.tsx"
+    },
+    {
+      "label": "handlePinPress()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\LockScreen.tsx",
+      "source_location": "L29",
+      "id": "lockscreen_handlepinpress",
+      "community": 10,
+      "norm_label": "handlepinpress()"
+    },
+    {
+      "label": "handleDelete()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\LockScreen.tsx",
+      "source_location": "L36",
+      "id": "lockscreen_handledelete",
+      "community": 10,
+      "norm_label": "handledelete()"
+    },
+    {
+      "label": "handleSubmit()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\LockScreen.tsx",
+      "source_location": "L40",
+      "id": "lockscreen_handlesubmit",
+      "community": 10,
+      "norm_label": "handlesubmit()"
+    },
+    {
+      "label": "handleRecoverySubmit()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\LockScreen.tsx",
+      "source_location": "L66",
+      "id": "lockscreen_handlerecoverysubmit",
+      "community": 10,
+      "norm_label": "handlerecoverysubmit()"
+    },
+    {
+      "label": "Sidebar.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\Sidebar.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_components_sidebar_tsx",
+      "community": 21,
+      "norm_label": "sidebar.tsx"
+    },
+    {
+      "label": "handleConfirmLock()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\Sidebar.tsx",
+      "source_location": "L22",
+      "id": "sidebar_handleconfirmlock",
+      "community": 21,
+      "norm_label": "handleconfirmlock()"
+    },
+    {
+      "label": "StatCard.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\StatCard.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_components_statcard_tsx",
+      "community": 43,
+      "norm_label": "statcard.tsx"
+    },
+    {
+      "label": "button.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\ui\\button.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_components_ui_button_tsx",
+      "community": 44,
+      "norm_label": "button.tsx"
+    },
+    {
+      "label": "dropdown-menu.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\ui\\dropdown-menu.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_components_ui_dropdown_menu_tsx",
+      "community": 45,
+      "norm_label": "dropdown-menu.tsx"
+    },
+    {
+      "label": "Modal.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\ui\\Modal.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_components_ui_modal_tsx",
+      "community": 46,
+      "norm_label": "modal.tsx"
+    },
+    {
+      "label": "theme-toggle.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\components\\ui\\theme-toggle.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_components_ui_theme_toggle_tsx",
+      "community": 47,
+      "norm_label": "theme-toggle.tsx"
+    },
+    {
+      "label": "AddExpenseModal.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\expenses\\components\\AddExpenseModal.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_features_expenses_components_addexpensemodal_tsx",
+      "community": 22,
+      "norm_label": "addexpensemodal.tsx"
+    },
+    {
+      "label": "handleSubmit()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\expenses\\components\\AddExpenseModal.tsx",
+      "source_location": "L37",
+      "id": "addexpensemodal_handlesubmit",
+      "community": 22,
+      "norm_label": "handlesubmit()"
+    },
+    {
+      "label": "ExpenseRow.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\expenses\\components\\ExpenseRow.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_features_expenses_components_expenserow_tsx",
+      "community": 48,
+      "norm_label": "expenserow.tsx"
+    },
+    {
+      "label": "SubscriptionList.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\expenses\\components\\SubscriptionList.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_features_expenses_components_subscriptionlist_tsx",
+      "community": 49,
+      "norm_label": "subscriptionlist.tsx"
+    },
+    {
+      "label": "useExpenses.ts",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\expenses\\hooks\\useExpenses.ts",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_features_expenses_hooks_useexpenses_ts",
+      "community": 23,
+      "norm_label": "useexpenses.ts"
+    },
+    {
+      "label": "useExpenses()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\expenses\\hooks\\useExpenses.ts",
+      "source_location": "L7",
+      "id": "useexpenses_useexpenses",
+      "community": 23,
+      "norm_label": "useexpenses()"
+    },
+    {
+      "label": "AddHabitModal.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\habits\\components\\AddHabitModal.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_features_habits_components_addhabitmodal_tsx",
+      "community": 16,
+      "norm_label": "addhabitmodal.tsx"
+    },
+    {
+      "label": "handleModelChange()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\habits\\components\\AddHabitModal.tsx",
+      "source_location": "L26",
+      "id": "addhabitmodal_handlemodelchange",
+      "community": 16,
+      "norm_label": "handlemodelchange()"
+    },
+    {
+      "label": "handleSubmit()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\habits\\components\\AddHabitModal.tsx",
+      "source_location": "L32",
+      "id": "addhabitmodal_handlesubmit",
+      "community": 16,
+      "norm_label": "handlesubmit()"
+    },
+    {
+      "label": "HabitCard.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\habits\\components\\HabitCard.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_features_habits_components_habitcard_tsx",
+      "community": 11,
+      "norm_label": "habitcard.tsx"
+    },
+    {
+      "label": "toISO()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\habits\\components\\HabitCard.tsx",
+      "source_location": "L35",
+      "id": "habitcard_toiso",
+      "community": 11,
+      "norm_label": "toiso()"
+    },
+    {
+      "label": "HabitCard()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\habits\\components\\HabitCard.tsx",
+      "source_location": "L42",
+      "id": "habitcard_habitcard",
+      "community": 11,
+      "norm_label": "habitcard()"
+    },
+    {
+      "label": "getInterpolatedColor()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\habits\\components\\HabitCard.tsx",
+      "source_location": "L255",
+      "id": "habitcard_getinterpolatedcolor",
+      "community": 11,
+      "norm_label": "getinterpolatedcolor()"
+    },
+    {
+      "label": "getBarColor()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\habits\\components\\HabitCard.tsx",
+      "source_location": "L284",
+      "id": "habitcard_getbarcolor",
+      "community": 11,
+      "norm_label": "getbarcolor()"
+    },
+    {
+      "label": "useHabits.ts",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\habits\\hooks\\useHabits.ts",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_features_habits_hooks_usehabits_ts",
+      "community": 24,
+      "norm_label": "usehabits.ts"
+    },
+    {
+      "label": "useHabits()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\features\\habits\\hooks\\useHabits.ts",
+      "source_location": "L9",
+      "id": "usehabits_usehabits",
+      "community": 24,
+      "norm_label": "usehabits()"
+    },
+    {
+      "label": "api.ts",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\lib\\api.ts",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_lib_api_ts",
+      "community": 25,
+      "norm_label": "api.ts"
+    },
+    {
+      "label": "req()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\lib\\api.ts",
+      "source_location": "L12",
+      "id": "api_req",
+      "community": 25,
+      "norm_label": "req()"
+    },
+    {
+      "label": "utils.ts",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\lib\\utils.ts",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_lib_utils_ts",
+      "community": 26,
+      "norm_label": "utils.ts"
+    },
+    {
+      "label": "cn()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\lib\\utils.ts",
+      "source_location": "L4",
+      "id": "utils_cn",
+      "community": 26,
+      "norm_label": "cn()"
+    },
+    {
+      "label": "useIdleLock.ts",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\lib\\hooks\\useIdleLock.ts",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_lib_hooks_useidlelock_ts",
+      "community": 27,
+      "norm_label": "useidlelock.ts"
+    },
+    {
+      "label": "useIdleLock()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\lib\\hooks\\useIdleLock.ts",
+      "source_location": "L6",
+      "id": "useidlelock_useidlelock",
+      "community": 27,
+      "norm_label": "useidlelock()"
+    },
+    {
+      "label": "Dashboard.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Dashboard.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_pages_dashboard_tsx",
+      "community": 50,
+      "norm_label": "dashboard.tsx"
+    },
+    {
+      "label": "Expenses.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Expenses.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_pages_expenses_tsx",
+      "community": 12,
+      "norm_label": "expenses.tsx"
+    },
+    {
+      "label": "handleAdd()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Expenses.tsx",
+      "source_location": "L33",
+      "id": "expenses_handleadd",
+      "community": 12,
+      "norm_label": "handleadd()"
+    },
+    {
+      "label": "handleAddSub()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Expenses.tsx",
+      "source_location": "L37",
+      "id": "expenses_handleaddsub",
+      "community": 12,
+      "norm_label": "handleaddsub()"
+    },
+    {
+      "label": "nextMonth()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Expenses.tsx",
+      "source_location": "L41",
+      "id": "expenses_nextmonth",
+      "community": 12,
+      "norm_label": "nextmonth()"
+    },
+    {
+      "label": "prevMonth()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Expenses.tsx",
+      "source_location": "L50",
+      "id": "expenses_prevmonth",
+      "community": 12,
+      "norm_label": "prevmonth()"
+    },
+    {
+      "label": "Habits.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Habits.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_pages_habits_tsx",
+      "community": 28,
+      "norm_label": "habits.tsx"
+    },
+    {
+      "label": "handleAdd()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Habits.tsx",
+      "source_location": "L22",
+      "id": "habits_handleadd",
+      "community": 28,
+      "norm_label": "handleadd()"
+    },
+    {
+      "label": "Settings.tsx",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Settings.tsx",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_pages_settings_tsx",
+      "community": 14,
+      "norm_label": "settings.tsx"
+    },
+    {
+      "label": "handleExport()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Settings.tsx",
+      "source_location": "L14",
+      "id": "settings_handleexport",
+      "community": 14,
+      "norm_label": "handleexport()"
+    },
+    {
+      "label": "handleExportCSV()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Settings.tsx",
+      "source_location": "L35",
+      "id": "settings_handleexportcsv",
+      "community": 14,
+      "norm_label": "handleexportcsv()"
+    },
+    {
+      "label": "handleUpdatePin()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\pages\\Settings.tsx",
+      "source_location": "L60",
+      "id": "settings_handleupdatepin",
+      "community": 14,
+      "norm_label": "handleupdatepin()"
+    },
+    {
+      "label": "authStore.ts",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\store\\authStore.ts",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_store_authstore_ts",
+      "community": 51,
+      "norm_label": "authstore.ts"
+    },
+    {
+      "label": "expenseStore.ts",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\store\\expenseStore.ts",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_store_expensestore_ts",
+      "community": 52,
+      "norm_label": "expensestore.ts"
+    },
+    {
+      "label": "habitStore.ts",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\store\\habitStore.ts",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_store_habitstore_ts",
+      "community": 53,
+      "norm_label": "habitstore.ts"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\frontend\\src\\types\\index.ts",
+      "source_location": "L1",
+      "id": "d_habit_tracker_frontend_src_types_index_ts",
+      "community": 54,
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "lib.rs",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L1",
+      "id": "d_habit_tracker_habit_core_src_lib_rs",
+      "community": 6,
+      "norm_label": "lib.rs"
+    },
+    {
+      "label": "HabitState",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L11",
+      "id": "lib_habitstate",
+      "community": 6,
+      "norm_label": "habitstate"
+    },
+    {
+      "label": ".new()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L17",
+      "id": "lib_habitstate_new",
+      "community": 6,
+      "norm_label": ".new()"
+    },
+    {
+      "label": ".days_back()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L32",
+      "id": "lib_habitstate_days_back",
+      "community": 6,
+      "norm_label": ".days_back()"
+    },
+    {
+      "label": ".days_forward()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L37",
+      "id": "lib_habitstate_days_forward",
+      "community": 6,
+      "norm_label": ".days_forward()"
+    },
+    {
+      "label": "compute_streak()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L49",
+      "id": "lib_compute_streak",
+      "community": 6,
+      "norm_label": "compute_streak()"
+    },
+    {
+      "label": "calculate_decay_score()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L87",
+      "id": "lib_calculate_decay_score",
+      "community": 6,
+      "norm_label": "calculate_decay_score()"
+    },
+    {
+      "label": "calculate_streak_levels()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L130",
+      "id": "lib_calculate_streak_levels",
+      "community": 6,
+      "norm_label": "calculate_streak_levels()"
+    },
+    {
+      "label": "habit_core()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L181",
+      "id": "lib_habit_core",
+      "community": 6,
+      "norm_label": "habit_core()"
+    },
+    {
+      "label": "test_streak_calculation()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L196",
+      "id": "lib_test_streak_calculation",
+      "community": 6,
+      "norm_label": "test_streak_calculation()"
+    },
+    {
+      "label": "test_decay_score()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L208",
+      "id": "lib_test_decay_score",
+      "community": 6,
+      "norm_label": "test_decay_score()"
+    },
+    {
+      "label": "test_validation_errors()",
+      "file_type": "code",
+      "source_file": "D:\\Habit_Tracker\\habit_core\\src\\lib.rs",
+      "source_location": "L218",
+      "id": "lib_test_validation_errors",
+      "community": 6,
+      "norm_label": "test_validation_errors()"
+    }
+  ],
+  "edges": []
+}

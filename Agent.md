@@ -1,15 +1,15 @@
-# 🤖 Agent Instructions (Habit & Expense Tracker)
+# Agent Instructions (Habit & Expense Tracker)
 
 This file serves as the system rulebook for the AI Agent (Antigravity). It outlines the core principles, architecture constraints, and styling preferences for the Habit & Expense Tracker project. Always adhere to these rules when implementing new features or refactoring code.
 
-## 🎯 Project Core Philosophy
+## Project Core Philosophy
 1. **Local-First Baseline:** All data lives in a local SQLite file. Do NOT implement cloud synchronization, authentication, or external SaaS database dependencies.
 2. **Zero Bloat:** Keep dependencies to an absolute minimum. Prioritize standard built-in functions over third-party packages whenever possible.
 3. **High Performance Flow:** Minimize network chatter between frontend and backend. Use batched operations, optimal endpoint querying, and zero-network overhead navigation where applicable.
 
 ---
 
-## 🎨 Frontend Stack & Guidelines
+## Frontend Stack & Guidelines
 - **Core:** React 18 + TypeScript + Vite.
 - **Styling:** TailwindCSS v4 with an emphasis on rich UI.
   - **Aesthetics:** Use vibrant, harmonious OKLCH-based color palettes, smooth dark modes, glassmorphism, and elegant component design. Premium look over MVP simplicity.
@@ -20,7 +20,7 @@ This file serves as the system rulebook for the AI Agent (Antigravity). It outli
 
 ---
 
-## ⚙️ Backend Stack & Guidelines
+## Backend Stack & Guidelines
 - **Core:** Python 3.11+ using FastAPI.
 - **Package Management:** `uv` via `pyproject.toml`.
 - **Database:** Local SQLite using SQLAlchemy 2.0 (async). Always handle async DB sessions properly.
@@ -30,7 +30,7 @@ This file serves as the system rulebook for the AI Agent (Antigravity). It outli
   
 ---
 
-## 🚀 General Workflow Protocol
+## General Workflow Protocol
 1. **Analyze First:** Treat every user request with a localized architectural lens. Does this require a schema update? Is there a performance hit?
 2. **Documentation & Memory:** Reference `.planning/` directory when dealing with multi-step implementations or performance analysis.
 3. **No Placeholders:** Generate fully functioning, robust code. Implement full logic instead of `# TODO: implement this`.

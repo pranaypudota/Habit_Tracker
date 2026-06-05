@@ -69,3 +69,5 @@ dist-ssr/
 Thumbs.db
 desktop.ini
 graphify-out/
+.agents/
+docs/

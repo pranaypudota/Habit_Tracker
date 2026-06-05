@@ -12,10 +12,25 @@ class HabitBase(BaseModel):
     target_per_period: int = 1
     target_completions_per_day: int = 1
     tracking_model: str = "streak"
+    goal_type: str = "streak"
+    count_mode: str = ""
 
 
 class HabitCreate(HabitBase):
     pass
+
+
+class HabitUpdate(BaseModel):
+    """Fields that can be updated after creation."""
+    goal_type: Optional[str] = None
+    count_mode: Optional[str] = None
+    target_per_period: Optional[int] = None
+    target_completions_per_day: Optional[int] = None
+    tracking_model: Optional[str] = None
+    period: Optional[str] = None
+    name: Optional[str] = None
+    category: Optional[str] = None
+    archived: Optional[bool] = None
 
 
 class HabitResponse(HabitBase):
@@ -39,3 +54,8 @@ class HabitEntryResponse(BaseModel):
     id: str
     habit_id: str
     date: date
+
+
+class HabitCompleteResponse(HabitEntryResponse):
+    is_over_achievement: bool = False
+    over_achievement_warning: Optional[str] = None

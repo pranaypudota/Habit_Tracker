@@ -9,7 +9,7 @@ name = "habit_core"
 crate-type = ["cdylib"]  # Required for Python extension (.pyd / .so)
 
 [dependencies]
-pyo3 = { version = "0.22", features = ["extension-module"] }
+pyo3 = { version = "0.22", features = ["extension-module", "auto-initialize"] }
 chrono = { version = "0.4", features = ["serde"] }
 
 [profile.release]

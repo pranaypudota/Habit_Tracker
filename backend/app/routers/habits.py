@@ -1,12 +1,13 @@
 from datetime import date
+from calendar import monthrange
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_db
 from app.schemas.habit import (
-    HabitCreate, HabitResponse,
-    HabitCompleteRequest, HabitEntryResponse,
+    HabitCreate, HabitResponse, HabitUpdate,
+    HabitCompleteRequest, HabitCompleteResponse, HabitEntryResponse,
 )
 from app.repositories.habit_repository import HabitRepository
 
@@ -37,7 +38,48 @@ async def create_habit(
         target_per_period=payload.target_per_period,
         target_completions_per_day=payload.target_completions_per_day,
         tracking_model=payload.tracking_model,
+        goal_type=payload.goal_type,
+        count_mode=payload.count_mode,
     )
+
+
+@router.patch("/{habit_id}", response_model=HabitResponse)
+async def update_habit(
+    habit_id: str,
+    payload: HabitUpdate,
+    repo: HabitRepository = Depends(_repo),
+):
+    habit = await repo.update(habit_id, **payload.model_dump(exclude_unset=True))
+    if not habit:
+        raise HTTPException(status_code=404, detail="Habit not found")
+    return habit
+
+
+@router.post("/{habit_id}/suggestions/{suggestion_type}/accept")
+async def accept_suggestion(
+    habit_id: str,
+    suggestion_type: str,
+    new_target: int = Query(..., ge=1, le=100, description="Suggested new target value"),
+    repo: HabitRepository = Depends(_repo),
+):
+    """Accept a goal bump suggestion and apply the new target."""
+    from app.services.habit_service import accept_suggestion as accept_fn
+    habit = await repo.update(habit_id, target_per_period=new_target)
+    if not habit:
+        raise HTTPException(status_code=404, detail="Habit not found")
+    accept_fn(habit_id, new_target)
+    return {"status": "accepted", "new_target": new_target, "habit_id": habit_id}
+
+
+@router.post("/{habit_id}/suggestions/{suggestion_type}/dismiss")
+async def dismiss_suggestion(
+    habit_id: str,
+    suggestion_type: str,
+):
+    """Dismiss a suggestion. Clears cache so it may reappear if conditions persist."""
+    from app.services.habit_service import accept_suggestion as clear_fn
+    clear_fn(habit_id, 0)
+    return {"status": "dismissed", "habit_id": habit_id}
 
 
 @router.delete("/{habit_id}", status_code=204)
@@ -50,7 +92,7 @@ async def delete_habit(
         raise HTTPException(status_code=404, detail="Habit not found")
 
 
-@router.post("/{habit_id}/complete", response_model=HabitEntryResponse, status_code=201)
+@router.post("/{habit_id}/complete", response_model=HabitCompleteResponse, status_code=201)
 async def complete_habit(
     habit_id: str,
     payload: HabitCompleteRequest,
@@ -59,11 +101,53 @@ async def complete_habit(
     """Mark a habit as completed on a given date.
 
     Idempotent — calling twice for the same date returns the same entry.
+    For non-streak habits, detects over-achievement and flags the entry.
     """
     habit = await repo.get_by_id(habit_id)
     if not habit:
         raise HTTPException(status_code=404, detail="Habit not found")
-    return await repo.create_entry(habit_id, payload.date)
+
+    is_over = False
+    warning: Optional[str] = None
+
+    if habit.goal_type != "streak":
+        today = payload.date
+        if habit.goal_type == "daily":
+            period_start = today
+            period_end = today
+        elif habit.goal_type == "weekly":
+            weekday = today.weekday()
+            period_start = today - date.resolution * weekday
+            period_end = period_start + date.resolution * 6
+        elif habit.goal_type == "monthly":
+            period_start = today.replace(day=1)
+            _, last_day = monthrange(today.year, today.month)
+            period_end = today.replace(day=last_day)
+        else:
+            period_start = today
+            period_end = today
+
+        existing_entries = await repo.get_entries(habit_id, period_start, period_end)
+
+        if habit.count_mode == "distinct_days":
+            existing_days = len({e.date for e in existing_entries})
+            if existing_days >= habit.target_per_period:
+                is_over = True
+                warning = f"You've met your goal of {habit.target_per_period} days. Mark as {existing_days + 1}?"
+        else:
+            existing_count = len(existing_entries)
+            if existing_count >= habit.target_per_period:
+                is_over = True
+                warning = f"You've met your goal of {habit.target_per_period}. Mark as {existing_count + 1}?"
+
+    entry = await repo.create_entry(habit_id, payload.date, is_over_achievement=is_over)
+    return HabitCompleteResponse(
+        id=entry.id,
+        habit_id=entry.habit_id,
+        date=entry.date,
+        is_over_achievement=is_over,
+        over_achievement_warning=warning,
+    )
 
 
 @router.delete("/{habit_id}/complete", status_code=204)

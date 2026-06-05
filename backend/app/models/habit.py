@@ -17,6 +17,8 @@ class Habit(Base):
     target_per_period: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     target_completions_per_day: Mapped[int] = mapped_column(Integer, nullable=False, default=1)
     tracking_model: Mapped[str] = mapped_column(String(20), nullable=False, default="streak")
+    goal_type: Mapped[str] = mapped_column(String(20), nullable=False, default="streak")
+    count_mode: Mapped[str] = mapped_column(String(20), nullable=False, default="")
     archived: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
@@ -42,6 +44,7 @@ class HabitEntry(Base):
         String, ForeignKey("habits.id", ondelete="CASCADE"), nullable=False
     )
     date: Mapped[date] = mapped_column(Date, nullable=False)
+    is_over_achievement: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
 
     habit: Mapped["Habit"] = relationship("Habit", back_populates="entries")
 

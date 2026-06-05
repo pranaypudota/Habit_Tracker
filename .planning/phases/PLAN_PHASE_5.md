@@ -6,9 +6,25 @@
 
 Phase 5 is broken into 3 sub-phases to manage complexity:
 
-- **5.1**: Core goal modes (streak/target) + period tracking
+- **5.1**: Core goal modes (streak/daily/weekly/monthly) + period tracking
 - **5.2**: Over-achiever baseline (mark-as-done + confirmation)
 - **5.3**: Adaptive system (weighted triggers, goal suggestions)
+
+### Goal Type Taxonomy (Decided 2026-06-04)
+
+| `goal_type` | `count_mode` | Meaning | Example |
+|---|---|---|---|
+| `streak` | (n/a) | Do at least once per day, binary | Legacy default |
+| `daily` | `total` | Do N times today | "Drink 5 glasses of water" |
+| `weekly` | `total` | N times total in week | "Gym 3x/week" (can batch same day) |
+| `weekly` | `distinct_days` | N different days in week | "Exercise 4 different days/week" |
+| `monthly` | `total` | N times total in month | "Read 20 chapters/month" |
+| `monthly` | `distinct_days` | N different days in month | "Meditate 25 days/month" |
+
+### Key Decisions
+
+1. **Incomplete first period**: Show daily progress until first full period completes, then switch to period-based display.
+2. **count_mode**: `"total"` = aggregate count in period, `"distinct_days"` = unique days with >=1 completion.
 
 ---
 

@@ -2,26 +2,43 @@ import { useState, useEffect } from 'react';
 import { useHabitStore } from '../store/habitStore';
 import { HabitCard } from '../features/habits/components/HabitCard';
 import { AddHabitModal } from '../features/habits/components/AddHabitModal';
+import { InsightCard } from '../features/habits/components/InsightCard';
 import { Plus, Leaf } from 'lucide-react';
 
 export function Habits() {
     const {
-        habits, streaks, strengths, isLoading, createHabit, deleteHabit, fetchAll,
+        habits, streaks, strengths, targetProgress, insights, isLoading, createHabit, deleteHabit, fetchAll, fetchInsights,
     } = useHabitStore();
 
     const [showModal, setShowModal] = useState(false);
     const entries = useHabitStore((s) => s.entries);
 
-    // Initial load handled by store
     useEffect(() => {
         if (habits.length === 0) {
             fetchAll();
         }
+        fetchInsights();
     }, []);
 
-    const handleAdd = async (name: string, category: string, period: "daily" | "weekly", tracking_model: "streak" | "decay", target_completions_per_day: number) => {
-        await createHabit({ name, category, period, tracking_model, target_completions_per_day });
-        // Instead of manual refresh, fetchAll keeps it clean
+    const handleAdd = async (
+        name: string,
+        category: string,
+        period: "daily" | "weekly",
+        tracking_model: "streak" | "decay",
+        target_completions_per_day: number,
+        goal_type: "streak" | "daily" | "weekly" | "monthly",
+        count_mode: "total" | "distinct_days" | "",
+    ) => {
+        await createHabit({
+            name,
+            category,
+            period,
+            tracking_model,
+            target_completions_per_day,
+            target_per_period: goal_type === 'streak' ? 1 : target_completions_per_day,
+            goal_type,
+            count_mode,
+        });
         await fetchAll();
     };
 
@@ -90,11 +107,25 @@ export function Habits() {
                                 streak={streaks[habit.id] ?? 0}
                                 habitStrength={monthlyStrength}
                                 completionRate={isDecay ? Math.round(rollingStrength * 100) : standardRate}
+                                targetProgress={targetProgress[habit.id]}
                                 onDelete={deleteHabit}
                             />
                         );
                     })}
                 </div>
+
+                {insights.length > 0 && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '0.5rem' }}>
+                        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                            Smart Suggestions
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '1rem' }}>
+                            {insights.map((insight) => (
+                                <InsightCard key={insight.habit_id} insight={insight} />
+                            ))}
+                        </div>
+                    </div>
+                )}
 
             </div>
 

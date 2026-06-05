@@ -47,6 +47,8 @@ async def dashboard_today(db: AsyncSession = Depends(get_db)):
             "completed_today": [],
             "streaks": {},
             "habit_strengths": {},
+            "target_progress": {},
+            "heatmaps": {},
             "recent_expenses": [ExpenseResponse.model_validate(e) for e in recent_expenses],
             "monthly_expense_total": monthly_total + sub_total,
             "active_subscriptions": [SubscriptionResponse.model_validate(s) for s in active_subs],
@@ -76,13 +78,14 @@ async def dashboard_today(db: AsyncSession = Depends(get_db)):
     streaks = {}
     habit_strengths = {}
     heatmaps = {}
+    target_progress = {}
 
     for h in habits:
         entries = entries_by_habit.get(h.id, [])
         
         # 1. Streaks or Strength
         if h.tracking_model == "streak":
-            streaks[h.id] = habit_service.compute_streak(entries)
+            streaks[h.id] = habit_service.compute_streak(entries, h.target_completions_per_day)
         else:
             habit_strengths[h.id] = {
                 "monthly": habit_service.calculate_decay_score(entries, window_type="month"),
@@ -90,9 +93,14 @@ async def dashboard_today(db: AsyncSession = Depends(get_db)):
             }
         
         # 2. Heatmaps (Required for rendering without re-fetching)
-        # We format as a simple dict for O(1) frontend access
         levels = habit_service.calculate_streak_levels(entries, h.target_completions_per_day, window_days=90)
         heatmaps[h.id] = {item["date"]: item["level"] for item in levels}
+
+        # 3. Target progress for non-streak habits
+        if h.goal_type != "streak":
+            target_progress[h.id] = habit_service.calculate_target_progress(
+                entries, h.goal_type, h.target_per_period, h.count_mode
+            )
 
     # 10. Entries for Today (to prevent individual re-fetching)
     entries_today = {}
@@ -106,6 +114,7 @@ async def dashboard_today(db: AsyncSession = Depends(get_db)):
         "entries_today": entries_today,
         "streaks": streaks,
         "habit_strengths": habit_strengths,
+        "target_progress": target_progress,
         "heatmaps": heatmaps,
         "recent_expenses": [ExpenseResponse.model_validate(e) for e in recent_expenses],
         "monthly_expense_total": monthly_total + sub_total,

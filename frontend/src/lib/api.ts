@@ -3,7 +3,7 @@ import type {
     Expense, ExpenseCreate,
     Subscription, SubscriptionCreate, SubscriptionUpdate,
     HabitStreak, MonthlyTotal,
-    DashboardToday, HabitStrength,
+    DashboardToday, HabitStrength, HabitInsight,
     AuthStatus, TokenResponse
 } from '../types';
 
@@ -68,11 +68,14 @@ export const api = {
             req<Habit[]>(`/habits/?include_archived=${includeArchived}`),
         create: (data: HabitCreate) =>
             req<Habit>('/habits/', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: Partial<Habit>) =>
+            req<Habit>(`/habits/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
         delete: (id: string) =>
             req<void>(`/habits/${id}`, { method: 'DELETE' }),
-        /** Mark habit as completed on a date (idempotent) */
+        /** Mark habit as completed on a date (idempotent).
+         * Returns the entry + over-achievement info if goal was exceeded. */
         complete: (id: string, date: string) =>
-            req<HabitEntry>(`/habits/${id}/complete`, {
+            req<HabitEntry & { is_over_achievement?: boolean; over_achievement_warning?: string }>(`/habits/${id}/complete`, {
                 method: 'POST',
                 body: JSON.stringify({ date }),
             }),
@@ -81,6 +84,10 @@ export const api = {
             req<void>(`/habits/${id}/complete?entry_date=${date}`, { method: 'DELETE' }),
         entries: (id: string) =>
             req<HabitEntry[]>(`/habits/${id}/entries`),
+        acceptSuggestion: (id: string, type: string, newTarget: number) =>
+            req<{ status: string }>(`/habits/${id}/suggestions/${type}/accept?new_target=${newTarget}`, { method: 'POST' }),
+        dismissSuggestion: (id: string, type: string) =>
+            req<{ status: string }>(`/habits/${id}/suggestions/${type}/dismiss`, { method: 'POST' }),
     },
 
     expenses: {
@@ -116,6 +123,7 @@ export const api = {
         habitStrength: () => req<HabitStrength[]>('/analytics/habit-strength'),
         streakHeatmap: (id: string) => req<{ habit_id: string, heatmap: { date: string, level: number }[] }>(`/analytics/streak-heatmap/${id}`),
         monthlyTotals: () => req<MonthlyTotal[]>('/analytics/expenses/monthly'),
+        insights: () => req<HabitInsight[]>('/analytics/insights'),
     },
 
     dashboard: {

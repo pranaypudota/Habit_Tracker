@@ -32,24 +32,30 @@ class HabitRepository:
         return result.scalar_one_or_none()
 
     async def create(
-        self,
-        name: str,
-        category: str,
-        period: str = "daily",
-        target_per_period: int = 1,
-        target_completions_per_day: int = 1,
+        self, name: str, category: str, period: str = "daily",
+        target_per_period: int = 1, target_completions_per_day: int = 1,
         tracking_model: str = "streak",
+        goal_type: str = "streak", count_mode: str = "",
     ) -> Habit:
         habit = Habit(
-            id=_uuid(),
-            name=name,
-            category=category,
-            period=period,
+            id=_uuid(), name=name, category=category, period=period,
             target_per_period=target_per_period,
             target_completions_per_day=target_completions_per_day,
             tracking_model=tracking_model,
+            goal_type=goal_type, count_mode=count_mode,
         )
         self._db.add(habit)
+        await self._db.flush()
+        await self._db.refresh(habit)
+        return habit
+
+    async def update(self, habit_id: str, **kwargs) -> Optional[Habit]:
+        habit = await self.get_by_id(habit_id)
+        if not habit:
+            return None
+        for key, value in kwargs.items():
+            if value is not None and hasattr(habit, key):
+                setattr(habit, key, value)
         await self._db.flush()
         await self._db.refresh(habit)
         return habit
@@ -90,11 +96,8 @@ class HabitRepository:
         )
         return list(result.scalars().all())
 
-    async def create_entry(self, habit_id: str, entry_date: date) -> HabitEntry:
-        """Create a completion entry for the habit on a specific date.
-        Multiple calls for the same date are allowed (multi-completion).
-        """
-        entry = HabitEntry(id=_uuid(), habit_id=habit_id, date=entry_date)
+    async def create_entry(self, habit_id: str, entry_date: date, is_over_achievement: bool = False) -> HabitEntry:
+        entry = HabitEntry(id=_uuid(), habit_id=habit_id, date=entry_date, is_over_achievement=is_over_achievement)
         self._db.add(entry)
         await self._db.flush()
         await self._db.refresh(entry)

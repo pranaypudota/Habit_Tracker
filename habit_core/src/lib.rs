@@ -177,11 +177,64 @@ fn calculate_streak_levels(
     Ok(output.into())
 }
 
+#[pyfunction]
+#[pyo3(signature = (dates, period_start, period_end, target_count, count_mode))]
+fn calculate_target_progress(
+    py: Python<'_>,
+    dates: Vec<String>,
+    period_start: String,
+    period_end: String,
+    target_count: u32,
+    count_mode: String,
+) -> PyResult<Py<PyDict>> {
+    if target_count == 0 {
+        return Err(PyValueError::new_err("target_count must be at least 1"));
+    }
+
+    let start = NaiveDate::parse_from_str(&period_start, "%Y-%m-%d")
+        .map_err(|e| PyValueError::new_err(format!("Invalid period_start: {}", e)))?;
+    let end = NaiveDate::parse_from_str(&period_end, "%Y-%m-%d")
+        .map_err(|e| PyValueError::new_err(format!("Invalid period_end: {}", e)))?;
+
+    let mut total_entries: u32 = 0;
+    let mut distinct_days: HashSet<NaiveDate> = HashSet::new();
+
+    for d in &dates {
+        if let Ok(naive) = NaiveDate::parse_from_str(d, "%Y-%m-%d") {
+            if naive >= start && naive <= end {
+                total_entries += 1;
+                distinct_days.insert(naive);
+            }
+        }
+    }
+
+    let completed = match count_mode.as_str() {
+        "distinct_days" => distinct_days.len() as u32,
+        _ => total_entries,
+    };
+
+    let percentage = if target_count > 0 {
+        ((completed as f64 / target_count as f64) * 100.0 * 100.0).round() / 100.0
+    } else {
+        0.0
+    };
+
+    let dict = PyDict::new_bound(py);
+    dict.set_item("completed", completed)?;
+    dict.set_item("target", target_count)?;
+    dict.set_item("percentage", percentage)?;
+    dict.set_item("completed_days", distinct_days.len() as u32)?;
+    dict.set_item("total_entries", total_entries)?;
+
+    Ok(dict.into())
+}
+
 #[pymodule]
 fn habit_core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(compute_streak, m)?)?;
     m.add_function(wrap_pyfunction!(calculate_decay_score, m)?)?;
     m.add_function(wrap_pyfunction!(calculate_streak_levels, m)?)?;
+    m.add_function(wrap_pyfunction!(calculate_target_progress, m)?)?;
     Ok(())
 }
 
@@ -220,4 +273,103 @@ fn test_validation_errors() {
     let result = compute_streak(dates, 0); // target=0 is invalid
     assert!(result.is_err());
 }
+
+    #[test]
+    fn test_target_progress_total() {
+        let dates = vec![
+            "2026-06-01".to_string(),
+            "2026-06-01".to_string(),
+            "2026-06-02".to_string(),
+        ];
+        Python::with_gil(|py| {
+            let result = calculate_target_progress(
+                py,
+                dates.clone(),
+                "2026-06-01".to_string(),
+                "2026-06-07".to_string(),
+                5,
+                "total".to_string(),
+            ).unwrap();
+            let d: &Bound<'_, PyDict> = result.bind(py).downcast().unwrap();
+            assert_eq!(d.get_item("completed").unwrap().unwrap().extract::<u32>().unwrap(), 3);
+            assert_eq!(d.get_item("completed_days").unwrap().unwrap().extract::<u32>().unwrap(), 2);
+            assert_eq!(d.get_item("target").unwrap().unwrap().extract::<u32>().unwrap(), 5);
+        });
+    }
+
+    #[test]
+    fn test_target_progress_distinct() {
+        let dates = vec![
+            "2026-06-01".to_string(),
+            "2026-06-01".to_string(),
+            "2026-06-03".to_string(),
+        ];
+        Python::with_gil(|py| {
+            let result = calculate_target_progress(
+                py,
+                dates.clone(),
+                "2026-06-01".to_string(),
+                "2026-06-07".to_string(),
+                4,
+                "distinct_days".to_string(),
+            ).unwrap();
+            let d: &Bound<'_, PyDict> = result.bind(py).downcast().unwrap();
+            assert_eq!(d.get_item("completed").unwrap().unwrap().extract::<u32>().unwrap(), 2);
+            assert_eq!(d.get_item("completed_days").unwrap().unwrap().extract::<u32>().unwrap(), 2);
+            assert_eq!(d.get_item("total_entries").unwrap().unwrap().extract::<u32>().unwrap(), 3);
+        });
+    }
+
+    #[test]
+    fn test_target_progress_zero_target() {
+        let dates = vec!["2026-06-01".to_string()];
+        Python::with_gil(|py| {
+            let result = calculate_target_progress(
+                py,
+                dates,
+                "2026-06-01".to_string(),
+                "2026-06-07".to_string(),
+                0,
+                "total".to_string(),
+            );
+            assert!(result.is_err());
+        });
+    }
+
+    #[test]
+    fn test_target_progress_empty_dates() {
+        Python::with_gil(|py| {
+            let result = calculate_target_progress(
+                py,
+                vec![],
+                "2026-06-01".to_string(),
+                "2026-06-07".to_string(),
+                5,
+                "total".to_string(),
+            ).unwrap();
+            let d: &Bound<'_, PyDict> = result.bind(py).downcast().unwrap();
+            assert_eq!(d.get_item("completed").unwrap().unwrap().extract::<u32>().unwrap(), 0);
+        });
+    }
+
+    #[test]
+    fn test_target_progress_outside_period() {
+        let dates = vec![
+            "2026-05-28".to_string(),
+            "2026-05-29".to_string(),
+            "2026-06-08".to_string(),
+        ];
+        Python::with_gil(|py| {
+            let result = calculate_target_progress(
+                py,
+                dates,
+                "2026-06-01".to_string(),
+                "2026-06-07".to_string(),
+                5,
+                "total".to_string(),
+            ).unwrap();
+            let d: &Bound<'_, PyDict> = result.bind(py).downcast().unwrap();
+            assert_eq!(d.get_item("completed").unwrap().unwrap().extract::<u32>().unwrap(), 0);
+        });
+    }
 }

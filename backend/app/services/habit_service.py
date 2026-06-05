@@ -6,6 +6,7 @@ Analytics results are cached with a 30-second TTL to eliminate redundant
 recomputation on repeated page loads.
 """
 import math
+from calendar import monthrange
 from datetime import date, timedelta
 from typing import Optional
 from cachetools import TTLCache
@@ -31,6 +32,7 @@ _DECAY_WEIGHTS: list[float] = [math.exp(-DECAY_LAMBDA * i) for i in range(_MAX_D
 _streak_cache: TTLCache = TTLCache(maxsize=256, ttl=30)
 _strength_cache: TTLCache = TTLCache(maxsize=256, ttl=30)
 _heatmap_cache: TTLCache = TTLCache(maxsize=256, ttl=30)
+_progress_cache: TTLCache = TTLCache(maxsize=256, ttl=30)
 
 # ---------------------------------------------------------------------------
 # Rust acceleration (optional — transparent hot-swap)
@@ -238,5 +240,325 @@ async def get_streak_heatmap_for_habit(
     result = {"habit_id": habit_id, "heatmap": heatmap_data}
     _heatmap_cache[cache_key] = result
     return result
+
+
+# ---------------------------------------------------------------------------
+# Target progress (Phase 5.1 — Flexible Goals)
+# ---------------------------------------------------------------------------
+
+def get_current_period(goal_type: str) -> tuple[date, date]:
+    today = date.today()
+    if goal_type == "daily":
+        return today, today
+    elif goal_type == "weekly":
+        weekday = today.weekday()
+        start = today - timedelta(days=weekday)
+        end = start + timedelta(days=6)
+        return start, end
+    elif goal_type == "monthly":
+        start = today.replace(day=1)
+        _, last_day = monthrange(today.year, today.month)
+        end = today.replace(day=last_day)
+        return start, end
+    else:
+        return today, today
+
+
+def calculate_target_progress(
+    entries: list[HabitEntry],
+    goal_type: str,
+    target_count: int,
+    count_mode: str,
+) -> dict:
+    period_start, period_end = get_current_period(goal_type)
+
+    # Count over-achievements (entries flagged as beyond goal)
+    over_achievement_count = sum(1 for e in entries if e.is_over_achievement)
+
+    if _RUST_AVAILABLE:
+        date_strings = [e.date.isoformat() for e in entries]
+        result = _rust.calculate_target_progress(
+            date_strings,
+            period_start.isoformat(),
+            period_end.isoformat(),
+            target_count,
+            count_mode or "total",
+        )
+        return {
+            "completed": result["completed"],
+            "target": result["target"],
+            "percentage": result["percentage"],
+            "completed_days": result["completed_days"],
+            "total_entries": result["total_entries"],
+            "over_achievement_count": over_achievement_count,
+            "period_start": period_start.isoformat(),
+            "period_end": period_end.isoformat(),
+        }
+
+    total_entries = 0
+    distinct_days: set[date] = set()
+    for e in entries:
+        if period_start <= e.date <= period_end:
+            total_entries += 1
+            distinct_days.add(e.date)
+
+    completed = len(distinct_days) if count_mode == "distinct_days" else total_entries
+    percentage = round((completed / target_count) * 100, 1) if target_count > 0 else 0.0
+
+    return {
+        "completed": completed,
+        "target": target_count,
+        "percentage": percentage,
+        "completed_days": len(distinct_days),
+        "total_entries": total_entries,
+        "over_achievement_count": over_achievement_count,
+        "period_start": period_start.isoformat(),
+        "period_end": period_end.isoformat(),
+    }
+
+
+async def get_target_progress_for_all(repo: HabitRepository) -> dict[str, dict]:
+    cache_key = hashkey("target_progress")
+    if cache_key in _progress_cache:
+        return _progress_cache[cache_key]
+
+    habits = await repo.get_all()
+    if not habits:
+        return {}
+
+    entries_by_habit = await repo.get_entries_for_all_habits([h.id for h in habits])
+    result: dict[str, dict] = {}
+    for h in habits:
+        if h.goal_type == "streak":
+            continue  # streaks already handled separately
+        entries = entries_by_habit.get(h.id, [])
+        result[h.id] = calculate_target_progress(
+            entries, h.goal_type, h.target_per_period, h.count_mode
+        )
+    _progress_cache[cache_key] = result
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Adaptive trend analysis (Phase 5.3 — Goal Bump Suggestions)
+# ---------------------------------------------------------------------------
+
+# Pre-computed weights for 8-week rolling window (week 0 = current, weight decays)
+_WEIGHT_DECAY = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3]
+
+# Cache for insights (30s TTL)
+_insights_cache: TTLCache = TTLCache(maxsize=256, ttl=30)
+
+
+def _analyze_weekly_trend(
+    entries: list[HabitEntry],
+    goal_type: str,
+    target: int,
+    count_mode: str,
+) -> dict | None:
+    """Analyze last 8 weeks for weekly goal type; return suggestion dict or None."""
+    today = date.today()
+    weekly_rates: list[float] = []
+    consecutive_met = 0
+
+    for w in reversed(range(8)):
+        # Week boundaries (Mon-Sun)
+        offset = w * 7
+        week_end = today - timedelta(days=offset + today.weekday() - 6) if w > 0 else today
+        week_start = today - timedelta(days=offset + today.weekday())
+
+        # Skip incomplete current week
+        if w == 0:
+            continue
+
+        if week_start > today:
+            continue
+
+        # Count completions in this week
+        total = 0
+        distinct: set[date] = set()
+        for e in entries:
+            if week_start <= e.date <= week_end:
+                total += 1
+                distinct.add(e.date)
+
+        completed = len(distinct) if count_mode == "distinct_days" else total
+        rate = (completed / target * 100) if target > 0 else 0
+        weekly_rates.append(min(rate, 200))  # cap at 200% to avoid outliers
+
+        if completed >= target:
+            consecutive_met += 1
+        else:
+            consecutive_met = 0
+
+    if len(weekly_rates) < 4:
+        return None
+
+    # Weighted score
+    weights = _WEIGHT_DECAY[:len(weekly_rates)]
+    weight_sum = sum(weights)
+    weighted_score = sum(r * w for r, w in zip(weekly_rates, weights)) / weight_sum if weight_sum else 0
+
+    # Check spike-then-drop: if most recent complete week is under 100%, don't trigger
+    if weekly_rates and weekly_rates[0] < 100:
+        return None
+
+    if consecutive_met < 4 or weighted_score <= 120:
+        return None
+
+    # Determine suggestion
+    if weighted_score >= 200:
+        new_target = target + 2
+    elif weighted_score >= 150:
+        new_target = target + 2
+    else:
+        new_target = target + 1
+
+    return {
+        "habit_id": None,  # set by caller
+        "goal_type": goal_type,
+        "current_target": target,
+        "suggested_target": new_target,
+        "confidence": round(weighted_score),
+        "consecutive_periods": consecutive_met,
+        "reason": f"You've met or exceeded your goal for {consecutive_met} consecutive weeks "
+                  f"({round(weighted_score)}% average). Consider increasing to {new_target}.",
+        "type": "goal_bump",
+    }
+
+
+def _analyze_monthly_trend(
+    entries: list[HabitEntry],
+    goal_type: str,
+    target: int,
+    count_mode: str,
+) -> dict | None:
+    """Analyze last 6 months for monthly goal type; return suggestion dict or None."""
+    today = date.today()
+    monthly_rates: list[float] = []
+    consecutive_met = 0
+
+    for m in reversed(range(6)):
+        # Month boundaries
+        year = today.year
+        month = today.month - m
+        while month <= 0:
+            month += 12
+            year -= 1
+        month_start = date(year, month, 1)
+        _, last_day = monthrange(year, month)
+        month_end = date(year, month, last_day)
+
+        # Skip current (incomplete) month
+        if m == 0:
+            continue
+
+        if month_start > today:
+            continue
+
+        total = 0
+        distinct: set[date] = set()
+        for e in entries:
+            if month_start <= e.date <= month_end:
+                total += 1
+                distinct.add(e.date)
+
+        completed = len(distinct) if count_mode == "distinct_days" else total
+        rate = (completed / target * 100) if target > 0 else 0
+        monthly_rates.append(min(rate, 200))
+
+        if completed >= target:
+            consecutive_met += 1
+        else:
+            consecutive_met = 0
+
+    if len(monthly_rates) < 3:
+        return None
+
+    weights = _WEIGHT_DECAY[:len(monthly_rates)]
+    weight_sum = sum(weights)
+    weighted_score = sum(r * w for r, w in zip(monthly_rates, weights)) / weight_sum if weight_sum else 0
+
+    if monthly_rates and monthly_rates[0] < 100:
+        return None
+
+    if consecutive_met < 3 or weighted_score <= 120:
+        return None
+
+    new_target = target + 1 if weighted_score < 200 else target + 2
+
+    return {
+        "habit_id": None,
+        "goal_type": goal_type,
+        "current_target": target,
+        "suggested_target": new_target,
+        "confidence": round(weighted_score),
+        "consecutive_periods": consecutive_met,
+        "reason": f"You've met or exceeded your goal for {consecutive_met} consecutive months "
+                  f"({round(weighted_score)}% average). Consider increasing to {new_target}.",
+        "type": "goal_bump",
+    }
+
+
+def generate_insights(
+    habit: Habit,
+    entries: list[HabitEntry],
+) -> dict | None:
+    """Generate adaptive goal suggestion for a single habit. Returns dict or None."""
+    if habit.goal_type in ("streak", "daily"):
+        return None
+
+    target = habit.target_per_period
+    if target <= 0:
+        return None
+
+    if habit.goal_type == "weekly":
+        result = _analyze_weekly_trend(entries, habit.goal_type, target, habit.count_mode)
+    elif habit.goal_type == "monthly":
+        result = _analyze_monthly_trend(entries, habit.goal_type, target, habit.count_mode)
+    else:
+        return None
+
+    if result:
+        result["habit_id"] = habit.id
+        result["habit_name"] = habit.name
+    return result
+
+
+async def get_all_insights(repo: HabitRepository) -> list[dict]:
+    """Return actionable insights for all eligible habits, with 30s TTL cache."""
+    cache_key = hashkey("insights")
+    if cache_key in _insights_cache:
+        return _insights_cache[cache_key]
+
+    habits = await repo.get_all()
+    if not habits:
+        return []
+
+    entries_by_habit = await repo.get_entries_for_all_habits([h.id for h in habits])
+    suggestions: list[dict] = []
+    for h in habits:
+        entries = entries_by_habit.get(h.id, [])
+        insight = generate_insights(h, entries)
+        if insight:
+            suggestions.append(insight)
+
+    _insights_cache[cache_key] = suggestions
+    return suggestions
+
+
+def accept_suggestion(habit_id: str, suggested_target: int) -> bool:
+    """Clear insights cache so next fetch recomputes. Returns True if any insight was affected."""
+    cache_key = hashkey("insights")
+    if cache_key in _insights_cache:
+        del _insights_cache[cache_key]
+    # Also clear progress cache since target changed
+    progress_key = hashkey("target_progress")
+    if progress_key in _progress_cache:
+        del _progress_cache[progress_key]
+    streak_key = hashkey("streaks")
+    if streak_key in _streak_cache:
+        del _streak_cache[streak_key]
+    return True
 
 # (End of module)

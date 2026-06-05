@@ -35,6 +35,13 @@ async def get_streak_heatmap(habit_id: str, db: AsyncSession = Depends(get_db)):
     return await habit_service.get_streak_heatmap_for_habit(repo, habit_id)
 
 
+@router.get("/insights")
+async def get_insights(db: AsyncSession = Depends(get_db)):
+    """Adaptive goal suggestions based on trend analysis."""
+    repo = HabitRepository(db)
+    return await habit_service.get_all_insights(repo)
+
+
 from app.repositories.subscription_repository import SubscriptionRepository
 
 @router.get("/expenses/monthly")

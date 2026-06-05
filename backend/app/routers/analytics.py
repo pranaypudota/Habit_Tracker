@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.database import get_db
 from app.repositories.habit_repository import HabitRepository
 from app.repositories.expense_repository import ExpenseRepository
+from app.repositories.subscription_repository import SubscriptionRepository
 from app.services import habit_service, expense_service
 
 router = APIRouter(prefix="/analytics", tags=["Analytics"])
@@ -42,7 +43,6 @@ async def get_insights(db: AsyncSession = Depends(get_db)):
     return await habit_service.get_all_insights(repo)
 
 
-from app.repositories.subscription_repository import SubscriptionRepository
 
 @router.get("/expenses/monthly")
 async def monthly_totals(db: AsyncSession = Depends(get_db)):

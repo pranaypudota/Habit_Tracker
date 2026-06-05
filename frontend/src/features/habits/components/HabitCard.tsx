@@ -9,30 +9,9 @@ import type { Habit, TargetProgress } from '../../../types';
 import { useHabitStore } from '../../../store/habitStore';
 import { Check, Target, Trash2, Calendar, Flame, TrendingUp } from 'lucide-react';
 import { TooltipSimple } from '@/components/ui/tooltip';
+import { CATEGORY_BADGE_COLORS } from '../../../constants/categories';
 
-const categoryColors: Record<string, string> = {
-  'Health': 'badge-cyan',
-  'Nutrition': 'badge-green',
-  'Fitness': 'badge-red',
-  'Learning': 'badge-blue',
-  'Mindfulness': 'badge-teal',
-  'Work': 'badge-indigo',
-  'Creative': 'badge-pink',
-  'Social': 'badge-lavender',
-  'Finance': 'badge-emerald',
-  'Self-Care': 'badge-coral',
-  'Outdoor': 'badge-lime',
-  'Other': 'badge-gray',
-};
-
-interface Props {
-    habit: Habit;
-    streak: number;
-    completionRate: number;
-    habitStrength: number;
-    targetProgress?: TargetProgress;
-    onDelete: (id: string) => void;
-}
+import { CATEGORY_BADGE_COLORS } from '../../../constants/categories';
 
 function toISO(d: Date) {
     const yy = d.getFullYear();
@@ -42,7 +21,7 @@ function toISO(d: Date) {
 }
 
 export function HabitCard({ habit, streak, completionRate, habitStrength, targetProgress, onDelete }: Props) {
-    const EMPTY_ARRAY: any[] = useMemo(() => [], []);
+    const EMPTY_ARRAY: HabitEntry[] = useMemo(() => [], []);
     const entries = useHabitStore((s) => s.entries[habit.id] || EMPTY_ARRAY);
     const heatmaps = useHabitStore((s) => s.heatmaps);
     const completeHabit = useHabitStore((s) => s.completeHabit);
@@ -129,7 +108,7 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, target
                             {habit.name}
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <span className={`badge ${categoryColors[habit.category] || categoryColors.default}`}>
+                            <span className={`badge ${CATEGORY_BADGE_COLORS[habit.category] || CATEGORY_BADGE_COLORS.default}`}>
                                 {habit.category}
                             </span>
                             {habit.goal_type === 'daily' && (

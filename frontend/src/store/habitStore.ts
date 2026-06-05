@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { api } from '../lib/api';
-import type { Habit, HabitCreate, HabitEntry, TargetProgress, HabitInsight } from '../types';
+import type { Habit, HabitCreate, HabitEntry, TargetProgress, HabitInsight, Expense, Subscription } from '../types';
 
 interface HabitState {
     habits: Habit[];
@@ -12,10 +12,10 @@ interface HabitState {
     targetProgress: Record<string, TargetProgress>;
     insights: HabitInsight[];
     completedToday: string[];
-    recentExpenses: any[];
+    recentExpenses: Expense[];
     monthlyExpenseTotal: number;
     monthlyBurn: number;
-    activeSubscriptions: any[];
+    activeSubscriptions: Subscription[];
     isLoading: boolean;
     error: string | null;
 }
@@ -45,16 +45,35 @@ export const useHabitStore = create<HabitStore>()(
         targetProgress: {},
         insights: [],
         completedToday: [],
+        recentExpenses: [],
+        monthlyExpenseTotal: 0,
+        monthlyBurn: 0,
+        activeSubscriptions: [],
+        isLoading: false,
+        error: null,
 
-        ...
-
-        fetchHeatmap: async (id) => {
-            const res = await api.analytics.streakHeatmap(id);
-            const levelMap: Record<string, number> = {};
-            res.heatmap.forEach(h => {
-                levelMap[h.date] = h.level;
-            });
-            set((s) => ({ heatmaps: { ...s.heatmaps, [id]: levelMap } }));
+        fetchAll: async () => {
+            set({ isLoading: true, error: null });
+            try {
+                const data = await api.dashboard.today();
+                set({
+                    habits: data.habits,
+                    streaks: data.streaks,
+                    strengths: data.habit_strengths,
+                    targetProgress: data.target_progress || {},
+                    completedToday: data.completed_today,
+                    entries: data.entries_today,
+                    heatmaps: data.heatmaps,
+                    recentExpenses: data.recent_expenses,
+                    monthlyExpenseTotal: data.monthly_expense_total,
+                    monthlyBurn: data.monthly_committed_burn,
+                    activeSubscriptions: data.active_subscriptions || [],
+                });
+            } catch (e: unknown) {
+                set({ error: e instanceof Error ? e.message : String(e) });
+            } finally {
+                set({ isLoading: false });
+            }
         },
 
         fetchInsights: async () => {

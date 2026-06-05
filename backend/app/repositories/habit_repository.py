@@ -97,6 +97,15 @@ class HabitRepository:
         return list(result.scalars().all())
 
     async def create_entry(self, habit_id: str, entry_date: date, is_over_achievement: bool = False) -> HabitEntry:
+        existing = await self._db.execute(
+            select(HabitEntry).where(
+                and_(HabitEntry.habit_id == habit_id, HabitEntry.date == entry_date)
+            ).limit(1)
+        )
+        found = existing.scalar_one_or_none()
+        if found:
+            return found
+
         entry = HabitEntry(id=_uuid(), habit_id=habit_id, date=entry_date, is_over_achievement=is_over_achievement)
         self._db.add(entry)
         await self._db.flush()

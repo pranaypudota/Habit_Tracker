@@ -6,6 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { CATEGORIES } from '../../../constants/categories';
 
 interface Props {
     onClose: () => void;
@@ -19,8 +20,6 @@ interface Props {
         count_mode: "total" | "distinct_days" | "",
     ) => void;
 }
-
-const CATEGORIES = ['Health', 'Nutrition', 'Fitness', 'Learning', 'Mindfulness', 'Work', 'Creative', 'Social', 'Finance', 'Self-Care', 'Outdoor', 'Other'];
 
 const GOAL_TYPES = [
     { value: 'streak', label: 'Streak (once/day)' },

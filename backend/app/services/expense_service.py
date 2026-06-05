@@ -22,8 +22,7 @@ async def get_effective_expenses(
     """Calculates the merged total of one-off expenses and effective subscriptions for a month."""
     monthly_expense = await expense_repo.get_monthly_total_single(year, month)
     monthly_subs = await sub_repo.get_effective_monthly_total(year, month)
-    return float(monthly_expense) + float(monthly_subs) 
-_monthly_cache = TTLCache(maxsize=128, ttl=60)
+    return float(monthly_expense) + float(monthly_subs)
 
 
 from datetime import date

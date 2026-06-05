@@ -10,6 +10,7 @@ from app.schemas.habit import (
     HabitCompleteRequest, HabitCompleteResponse, HabitEntryResponse,
 )
 from app.repositories.habit_repository import HabitRepository
+from app.services.habit_service import invalidate_caches, detect_over_achievement
 
 router = APIRouter(prefix="/habits", tags=["Habits"])
 
@@ -31,7 +32,7 @@ async def create_habit(
     payload: HabitCreate,
     repo: HabitRepository = Depends(_repo),
 ):
-    return await repo.create(
+    habit = await repo.create(
         name=payload.name,
         category=payload.category,
         period=payload.period,
@@ -41,6 +42,8 @@ async def create_habit(
         goal_type=payload.goal_type,
         count_mode=payload.count_mode,
     )
+    invalidate_caches()
+    return habit
 
 
 @router.patch("/{habit_id}", response_model=HabitResponse)
@@ -52,6 +55,7 @@ async def update_habit(
     habit = await repo.update(habit_id, **payload.model_dump(exclude_unset=True))
     if not habit:
         raise HTTPException(status_code=404, detail="Habit not found")
+    invalidate_caches()
     return habit
 
 
@@ -63,11 +67,10 @@ async def accept_suggestion(
     repo: HabitRepository = Depends(_repo),
 ):
     """Accept a goal bump suggestion and apply the new target."""
-    from app.services.habit_service import accept_suggestion as accept_fn
     habit = await repo.update(habit_id, target_per_period=new_target)
     if not habit:
         raise HTTPException(status_code=404, detail="Habit not found")
-    accept_fn(habit_id, new_target)
+    invalidate_caches()
     return {"status": "accepted", "new_target": new_target, "habit_id": habit_id}
 
 
@@ -77,8 +80,7 @@ async def dismiss_suggestion(
     suggestion_type: str,
 ):
     """Dismiss a suggestion. Clears cache so it may reappear if conditions persist."""
-    from app.services.habit_service import accept_suggestion as clear_fn
-    clear_fn(habit_id, 0)
+    invalidate_caches()
     return {"status": "dismissed", "habit_id": habit_id}
 
 
@@ -90,6 +92,7 @@ async def delete_habit(
     deleted = await repo.delete(habit_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Habit not found")
+    invalidate_caches()
 
 
 @router.post("/{habit_id}/complete", response_model=HabitCompleteResponse, status_code=201)
@@ -98,49 +101,14 @@ async def complete_habit(
     payload: HabitCompleteRequest,
     repo: HabitRepository = Depends(_repo),
 ):
-    """Mark a habit as completed on a given date.
-
-    Idempotent — calling twice for the same date returns the same entry.
-    For non-streak habits, detects over-achievement and flags the entry.
-    """
+    """Mark a habit as completed on a given date. Idempotent. Detects over-achievement."""
     habit = await repo.get_by_id(habit_id)
     if not habit:
         raise HTTPException(status_code=404, detail="Habit not found")
 
-    is_over = False
-    warning: Optional[str] = None
-
-    if habit.goal_type != "streak":
-        today = payload.date
-        if habit.goal_type == "daily":
-            period_start = today
-            period_end = today
-        elif habit.goal_type == "weekly":
-            weekday = today.weekday()
-            period_start = today - date.resolution * weekday
-            period_end = period_start + date.resolution * 6
-        elif habit.goal_type == "monthly":
-            period_start = today.replace(day=1)
-            _, last_day = monthrange(today.year, today.month)
-            period_end = today.replace(day=last_day)
-        else:
-            period_start = today
-            period_end = today
-
-        existing_entries = await repo.get_entries(habit_id, period_start, period_end)
-
-        if habit.count_mode == "distinct_days":
-            existing_days = len({e.date for e in existing_entries})
-            if existing_days >= habit.target_per_period:
-                is_over = True
-                warning = f"You've met your goal of {habit.target_per_period} days. Mark as {existing_days + 1}?"
-        else:
-            existing_count = len(existing_entries)
-            if existing_count >= habit.target_per_period:
-                is_over = True
-                warning = f"You've met your goal of {habit.target_per_period}. Mark as {existing_count + 1}?"
-
+    is_over, warning = await detect_over_achievement(habit, payload.date, repo)
     entry = await repo.create_entry(habit_id, payload.date, is_over_achievement=is_over)
+    invalidate_caches()
     return HabitCompleteResponse(
         id=entry.id,
         habit_id=entry.habit_id,

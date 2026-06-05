@@ -214,7 +214,7 @@ fn calculate_target_progress(
     };
 
     let percentage = if target_count > 0 {
-        ((completed as f64 / target_count as f64) * 100.0 * 100.0).round() / 100.0
+        ((completed as f64 / target_count as f64) * 100.0 * 10.0).round() / 10.0
     } else {
         0.0
     };

@@ -21,103 +21,62 @@ from app.schemas.subscription import SubscriptionResponse
 router = APIRouter(prefix="/dashboard", tags=["Dashboard"])
 
 
+def _sub_total(subs) -> float:
+    return sum(float(s.amount) for s in subs)
+
+
 @router.get("/today")
 async def dashboard_today(db: AsyncSession = Depends(get_db)):
-    """
-    Aggregated dashboard data — single request for the frontend dashboard page.
-    Parallelizes I/O across habit and expense tables.
-    """
     habit_repo = HabitRepository(db)
     expense_repo = ExpenseRepository(db)
     sub_repo = SubscriptionRepository(db)
     today = date.today()
 
-    # 1. Start I/O in parallel: fetch all habits and expense totals
     habits = await habit_repo.get_all()
     if not habits:
-        # Expenses can still be fetched
         recent_expenses, monthly_total, active_subs = await asyncio.gather(
             expense_repo.get_recent(limit=5),
             expense_repo.get_monthly_total_single(year=today.year, month=today.month),
-            sub_repo.get_all_active(year=today.year, month=today.month)
+            sub_repo.get_all_active(year=today.year, month=today.month),
         )
-        sub_total = sum(float(s.amount) for s in active_subs)
+        burn = _sub_total(active_subs)
         return {
             "habits": [],
             "completed_today": [],
+            "entries_today": {},
             "streaks": {},
             "habit_strengths": {},
             "target_progress": {},
             "heatmaps": {},
             "recent_expenses": [ExpenseResponse.model_validate(e) for e in recent_expenses],
-            "monthly_expense_total": monthly_total + sub_total,
+            "monthly_expense_total": monthly_total + burn,
             "active_subscriptions": [SubscriptionResponse.model_validate(s) for s in active_subs],
-            "monthly_committed_burn": sub_total,
+            "monthly_committed_burn": burn,
         }
 
     habit_ids = [h.id for h in habits]
-
-    # 2. Parallelize: batch-fetch habit entries AND expenses concurrently
     entries_task = habit_repo.get_entries_for_all_habits(habit_ids)
     expenses_task = expense_repo.get_recent(limit=5)
     monthly_total_task = expense_repo.get_monthly_total_single(year=today.year, month=today.month)
     subs_task = sub_repo.get_all_active(year=today.year, month=today.month)
 
     entries_by_habit, recent_expenses, monthly_total, active_subs = await asyncio.gather(
-        entries_task, expenses_task, monthly_total_task, subs_task
+        entries_task, expenses_task, monthly_total_task, subs_task,
     )
-    sub_total = sum(float(s.amount) for s in active_subs)
 
-    # Which habits are completed today
-    completed_today = [
-        hid for hid, entries in entries_by_habit.items()
-        if any(e.date == today for e in entries)
-    ]
-
-    # Streaks, Habit Strengths, and Heatmaps (All in ONE trip!)
-    streaks = {}
-    habit_strengths = {}
-    heatmaps = {}
-    target_progress = {}
-
-    for h in habits:
-        entries = entries_by_habit.get(h.id, [])
-        
-        # 1. Streaks or Strength
-        if h.tracking_model == "streak":
-            streaks[h.id] = habit_service.compute_streak(entries, h.target_completions_per_day)
-        else:
-            habit_strengths[h.id] = {
-                "monthly": habit_service.calculate_decay_score(entries, window_type="month"),
-                "rolling": habit_service.calculate_decay_score(entries, window_type="rolling")
-            }
-        
-        # 2. Heatmaps (Required for rendering without re-fetching)
-        levels = habit_service.calculate_streak_levels(entries, h.target_completions_per_day, window_days=90)
-        heatmaps[h.id] = {item["date"]: item["level"] for item in levels}
-
-        # 3. Target progress for non-streak habits
-        if h.goal_type != "streak":
-            target_progress[h.id] = habit_service.calculate_target_progress(
-                entries, h.goal_type, h.target_per_period, h.count_mode
-            )
-
-    # 10. Entries for Today (to prevent individual re-fetching)
-    entries_today = {}
-    for hid, entries in entries_by_habit.items():
-        day_entries = [e for e in entries if e.date == today]
-        entries_today[hid] = [{"id": str(e.id), "habit_id": str(e.habit_id), "date": str(e.date)} for e in day_entries]
+    aggregates = habit_service.aggregate_habits(habits, entries_by_habit, today)
+    burn = _sub_total(active_subs)
 
     return {
         "habits": [HabitResponse.model_validate(h) for h in habits],
-        "completed_today": completed_today,
-        "entries_today": entries_today,
-        "streaks": streaks,
-        "habit_strengths": habit_strengths,
-        "target_progress": target_progress,
-        "heatmaps": heatmaps,
+        "completed_today": aggregates["completed_today"],
+        "entries_today": aggregates["entries_today"],
+        "streaks": aggregates["streaks"],
+        "habit_strengths": aggregates["habit_strengths"],
+        "target_progress": aggregates["target_progress"],
+        "heatmaps": aggregates["heatmaps"],
         "recent_expenses": [ExpenseResponse.model_validate(e) for e in recent_expenses],
-        "monthly_expense_total": monthly_total + sub_total,
+        "monthly_expense_total": monthly_total + burn,
         "active_subscriptions": [SubscriptionResponse.model_validate(s) for s in active_subs],
-        "monthly_committed_burn": sub_total,
+        "monthly_committed_burn": burn,
     }

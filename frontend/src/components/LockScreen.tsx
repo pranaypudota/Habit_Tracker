@@ -54,9 +54,10 @@ export const LockScreen: React.FC = () => {
                 const res = await api.auth.login(pin);
                 unlock(res.access_token);
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             if (window.navigator?.vibrate) window.navigator.vibrate(100);
-            setError(err.response?.data?.detail || 'Authentication failed');
+            const msg = (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail || 'Authentication failed';
+            setError(msg);
             setPin('');
         } finally {
             setIsLoading(false);

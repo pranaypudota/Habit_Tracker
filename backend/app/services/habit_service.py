@@ -547,18 +547,112 @@ async def get_all_insights(repo: HabitRepository) -> list[dict]:
     return suggestions
 
 
+# ---------------------------------------------------------------------------
+# Cache management
+# ---------------------------------------------------------------------------
+
+def invalidate_caches() -> None:
+    """Clear all TTL caches. Call after any mutation (create/update/delete/complete)."""
+    for cache in (_streak_cache, _strength_cache, _heatmap_cache, _progress_cache, _insights_cache):
+        cache.clear()
+
+
+# ---------------------------------------------------------------------------
+# Over-achievement detection (Phase 5.2 — extracted from router)
+# ---------------------------------------------------------------------------
+
+async def detect_over_achievement(
+    habit: Habit,
+    entry_date: date,
+    repo: HabitRepository,
+) -> tuple[bool, Optional[str]]:
+    """Check if completing on entry_date would exceed the habit's period target.
+    
+    Returns (is_over, warning_string). The warning string is None if not over.
+    """
+    if habit.goal_type == "streak":
+        return False, None
+
+    period_start, period_end = get_current_period(habit.goal_type)
+    existing_entries = await repo.get_entries(habit.id, period_start, period_end)
+
+    if habit.count_mode == "distinct_days":
+        existing_days = len({e.date for e in existing_entries})
+        if existing_days >= habit.target_per_period:
+            return True, f"You've met your goal of {habit.target_per_period} days. Mark as {existing_days + 1}?"
+    else:
+        existing_count = len(existing_entries)
+        if existing_count >= habit.target_per_period:
+            return True, f"You've met your goal of {habit.target_per_period}. Mark as {existing_count + 1}?"
+
+    return False, None
+
+
 def accept_suggestion(habit_id: str, suggested_target: int) -> bool:
-    """Clear insights cache so next fetch recomputes. Returns True if any insight was affected."""
-    cache_key = hashkey("insights")
-    if cache_key in _insights_cache:
-        del _insights_cache[cache_key]
-    # Also clear progress cache since target changed
-    progress_key = hashkey("target_progress")
-    if progress_key in _progress_cache:
-        del _progress_cache[progress_key]
-    streak_key = hashkey("streaks")
-    if streak_key in _streak_cache:
-        del _streak_cache[streak_key]
+    """Clear caches after accepting a goal bump suggestion."""
+    invalidate_caches()
     return True
+
+
+# ---------------------------------------------------------------------------
+# Dashboard aggregation (single computation pass over pre-fetched data)
+# ---------------------------------------------------------------------------
+
+def aggregate_habits(
+    habits: list[Habit],
+    entries_by_habit: dict[str, list[HabitEntry]],
+    today: date,
+) -> dict:
+    """Compute all habit-related dashboard aggregates in one pass.
+    
+    Takes pre-fetched I/O and returns streaks, strengths, heatmaps, 
+    target_progress, completed_today, and entries_today — no additional I/O.
+    """
+    streaks: dict[str, int] = {}
+    habit_strengths: dict[str, dict] = {}
+    heatmaps: dict[str, dict[str, int]] = {}
+    target_progress: dict[str, dict] = {}
+    completed_today: list[str] = []
+    entries_today: dict[str, list[dict]] = {}
+
+    for h in habits:
+        entries = entries_by_habit.get(h.id, [])
+
+        # Streak or decay strength
+        if h.tracking_model == "streak":
+            streaks[h.id] = compute_streak(entries, h.target_completions_per_day)
+        else:
+            habit_strengths[h.id] = {
+                "monthly": calculate_decay_score(entries, window_type="month"),
+                "rolling": calculate_decay_score(entries, window_type="rolling"),
+            }
+
+        # Heatmap
+        levels = calculate_streak_levels(entries, h.target_completions_per_day, window_days=90)
+        heatmaps[h.id] = {item["date"]: item["level"] for item in levels}
+
+        # Target progress for non-streak habits
+        if h.goal_type != "streak":
+            target_progress[h.id] = calculate_target_progress(
+                entries, h.goal_type, h.target_per_period, h.count_mode
+            )
+
+        # Today's entries and completion status
+        day_entries = [e for e in entries if e.date == today]
+        entries_today[h.id] = [
+            {"id": str(e.id), "habit_id": str(e.habit_id), "date": str(e.date)}
+            for e in day_entries
+        ]
+        if day_entries:
+            completed_today.append(h.id)
+
+    return {
+        "streaks": streaks,
+        "habit_strengths": habit_strengths,
+        "heatmaps": heatmaps,
+        "target_progress": target_progress,
+        "completed_today": completed_today,
+        "entries_today": entries_today,
+    }
 
 # (End of module)

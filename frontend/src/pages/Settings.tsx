@@ -79,8 +79,8 @@ export const Settings: React.FC = () => {
             setCurrentPin('');
             setNewPin('');
             setConfirmPin('');
-        } catch (err: any) {
-            setError(err.response?.data?.detail || 'Failed to update PIN');
+        } catch (err: unknown) {
+            setError(String((err as { response?: { data?: { detail?: string } } })?.response?.data?.detail || 'Failed to update PIN'));
         } finally {
             setIsLoading(false);
         }

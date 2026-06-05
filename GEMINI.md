@@ -14,12 +14,12 @@ The agent must parse and abide by these rules before executing any task, writing
 ---
 
 ## 2. Frontend Stack & Guidelines
-- **Core:** React 18 + TypeScript + Vite.
+- **Core:** React 20 + TypeScript + Vite 8.
 - **Styling:** TailwindCSS v4 with an emphasis on rich UI.
   - **Aesthetics:** Use vibrant, harmonious OKLCH-based color palettes, smooth dark modes, glassmorphism, and elegant component design. 
   - **Interactivity:** Utilize micro-animations, fluid hover states, and dynamic elements. Always aim for a "premium" feel over a simple MVP.
 - **State Management:** Zustand for global state handling. Synchronize thoroughly with the backend.
-- **Component Rules:** Modularize UI elements logically inside `src/components`. Maintain strict TypeScript types in `src/types/index.ts`.
+- **Component Rules:** Feature-based organization under `src/features/`. Shared primitives under `src/components/ui/`. Maintain strict TypeScript types in `src/types/index.ts`.
 - **Performance:** Follow Vite optimization practices. Rely on `lazy()` routing and standard code-splitting techniques natively.
 
 ---
@@ -28,6 +28,7 @@ The agent must parse and abide by these rules before executing any task, writing
 - **Core:** Python 3.11+ using FastAPI.
 - **Package Management:** `uv` via `pyproject.toml`.
 - **Database:** Local SQLite using SQLAlchemy 2.0 (async). Always handle async DB sessions efficiently.
+- **Acceleration:** Rust `habit_core` (PyO3) for performance-critical calculations (streak, decay, heatmap, target progress). Python fallback via transparent hot-swap in `habit_service.py`.
 - **Data Validation:** Pydantic V2 schemas (`app/schemas/`). Maintain strict typing all the way down.
 - **Logging:** Use `loguru` exclusively. Ensure console output is visually clean, color-coded, and avoids unnecessary debug spam.
 - **Architecture Details:** Keep code strictly organized by business concern (`models`, `schemas`, `services`, `routers`).
@@ -62,3 +63,19 @@ To maintain the repository efficiently, the agent must prioritize deploying thes
 3. **Anticipate Scale:** Write code that expects future local expansions (e.g., CSV/JSON data exports, CSS-native heatmaps, heavy offline caching). All implementations should remain local, modular, and fast.
 4. **Daily Upkeep:** Actively maintain `VersionChangeLog.md` and `TODO.md`. When generating a daily roundup or doing the "usual upkeep", log all architectural/logical changes into the `VersionChangeLog.md`, and ensure the `TODO.md` is accurately tracking pending tasks (organized by task, not date).
    - **Version Change Log Rule:** Entries must follow the "2 W's & 1 H" structure: **What** we changed, **Why** we changed it (what it solves), and **How** it affects the project. Logs should be detailed enough to be understood clearly but with minimal, concise word usage.
+
+---
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues at `github.com/pranaypudota/Habit_Tracker.git`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default canonical labels: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context repo. `CONTEXT.md` and `docs/adr/` at repo root (not yet created — use `.planning/` in the meantime). See `docs/agents/domain.md`.

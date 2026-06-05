@@ -13,6 +13,12 @@ class Settings:
         "DATABASE_URL",
         f"sqlite+aiosqlite:///{BASE_DIR}/tracker.db"
     )
+    JWT_SECRET: str = os.getenv(
+        "JWT_SECRET",
+        "habit-tracker-local-gate-key-change-me-later"
+    )
+    JWT_ALGORITHM: str = "HS256"
+    JWT_EXPIRE_MINUTES: int = 1440
     CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
 
 

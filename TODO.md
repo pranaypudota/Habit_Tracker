@@ -53,8 +53,31 @@ This document tracks upcoming and planned changes for the Habit Tracker project.
 - [x] Audit all tooltips for uniform delay and animation (Custom Radix Tooltip System).
 - [x] Implement glassmorphic premium tooltips across Sidebar, HabitCard, and Expenses.
 
+- [x] **Feature: Flexible Goal System (Phase 5)**
+  - [x] Phase 5.1: Core Goal Modes — 6 goal types (streak/daily/weekly/monthly with total/distinct_days), Rust-backed progress, goal type selector UI, progress bars.
+  - [x] Phase 5.2: Over-Achiever Baseline — period-aware detection, confirmation dialog, golden star indicator, "+N over" counter.
+  - [x] Phase 5.3: Adaptive System — weighted trend analysis (8-week window), dual-condition triggers, goal bump suggestions, accept/dismiss flow, InsightCard UI.
+
 ## Pending Tasks (Priority Order)
 
-### 1. [LOW] Future Expansion
-- [ ] Mobile-first grid optimization (deferred for native app).
-- [ ] Multi-stage habit habituation tracking logic.
+### 1. [HIGH] Feature: Habit Strength Algorithm (Phase 6)
+- [ ] Gradual strength decay instead of instant streak reset.
+- [ ] Color-coded strength indicator on habit cards.
+- [ ] Wire up decay on missed days.
+
+### 2. [HIGH] Feature: Data Export (Phase 7)
+- [ ] CSV export endpoint for habit data.
+- [ ] JSON export endpoint for habit data.
+- [ ] Export UI in settings/preferences.
+
+### 3. [MEDIUM] UI/UX Enhancement (Phase 8)
+- [ ] Single-tap check-in with instant feedback animation.
+- [ ] Milestone celebrations (Day 7, 30, 100).
+- [ ] Glassmorphism performance audit and optimization.
+- [ ] Final mobile responsiveness pass.
+
+### 4. [MEDIUM] Performance Optimization (Phase 9)
+- [ ] Profile and optimize dashboard load path.
+- [ ] Cache dashboard snapshots for instant load.
+- [ ] Verify background calc is non-blocking.
+- [ ] Target: <200ms dashboard, <100ms check-in.

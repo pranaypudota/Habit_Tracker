@@ -33,26 +33,34 @@
 ## Milestone 2: Feature Expansion & Polish (V1.1)
 > Focus: New features, performance optimization, UI/UX enhancements.
 
-### Phase 5: Flexible Goal System (with Adaptive Intelligence)
+### Phase 5: Flexible Goal System (with Adaptive Intelligence) ✅ (Completed)
 **Goal:** Move beyond binary streaks to flexible tracking modes with intelligent goal adaptation.
 
-**Phase 5.1: Core Goal Modes** (Not Started)
-- [ ] Implement weekly/monthly target mode toggle per habit.
-- [ ] Add "X of Y days" progress display for target mode.
-- [ ] Update habit card UI to show goal type indicator.
+**Phase 5.1: Core Goal Modes** ✅ (Completed)
+- [x] Implement weekly/monthly target mode toggle per habit.
+- [x] Add "X of Y days" progress display for target mode.
+- [x] Update habit card UI to show goal type indicator.
+- [x] Rust `calculate_target_progress()` native function.
+- [x] Backend service with period boundary calculations.
 
-**Phase 5.2: Over-Achiever Baseline** (Not Started)
-- [ ] Allow users to mark habit as done beyond goal target.
-- [ ] Show confirmation dialog when exceeding goal.
-- [ ] Track over-achievement stats separately.
-- [ ] Visual distinction for over-achieved completions.
+**Phase 5.2: Over-Achiever Baseline** ✅ (Completed)
+- [x] Allow users to mark habit as done beyond goal target.
+- [x] Show confirmation dialog when exceeding goal.
+- [x] Track over-achievement stats separately.
+- [x] Visual distinction for over-achieved completions (+N over indicator).
+- [x] Backend `detect_over_achievement()` function.
 
-**Phase 5.3: Adaptive System** (Not Started)
-- [ ] Implement weighted trend analysis (8-week rolling window).
-- [ ] Dual-condition trigger (4+ weeks consistency + 120% threshold).
-- [ ] Goal bump suggestions with pre-filled values.
-- [ ] Passive insight notifications.
-- [ ] Handle edge cases (underperforming after spike).
+**Phase 5.3: Adaptive System** ✅ (Completed)
+- [x] Implement weighted trend analysis (8-week rolling window).
+- [x] Dual-condition trigger (4+ weeks consistency + 120% threshold).
+- [x] Goal bump suggestions with pre-filled values.
+- [x] Passive insight notifications (Smart Suggestions section).
+- [x] Handle edge cases (underperforming after spike).
+- [x] Insights API endpoint with accept/dismiss actions.
+
+**Completion Date:** 2026-07-19
+**Test Results:** 11/11 backend tests ✅ | 3/3 frontend tests ✅ | 8/8 Rust tests ✅
+**Code Review:** Approved with minor recommendations (see `.planning/phases/PHASE_5_CODE_REVIEW.md`)
 
 ### Phase 6: Habit Strength Algorithm
 **Goal:** Gradual strength decay instead of instant streak reset.

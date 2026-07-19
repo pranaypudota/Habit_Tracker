@@ -64,9 +64,11 @@
 
 ### Phase 6: Habit Strength Algorithm
 **Goal:** Gradual strength decay instead of instant streak reset.
-- [ ] Implement strength score algorithm in Rust.
-- [ ] Add strength visualization (color-coded indicator).
-- [ ] Wire up strength decay on missed days.
+
+**Plans:**
+- [ ] 06-01-PLAN.md — Verify strength algorithm with comprehensive testing
+
+**Status:** In Planning
 
 ### Phase 7: Data Export
 **Goal:** Give users true data ownership.

@@ -264,3 +264,239 @@ class TestHabitStrength:
         # Both should be > 0 since we have completions
         assert strength_single > 0, "Strength should be > 0 with single entries"
         assert strength_double > 0, "Strength should be > 0 with double entries"
+
+
+# ---------------------------------------------------------------------------
+# TestStrengthCache - TDD tests for cache invalidation (Phase 6, Task 4)
+# ---------------------------------------------------------------------------
+
+class TestStrengthCache:
+    """Test suite for habit strength cache behavior and invalidation."""
+
+    async def test_cache_populated_on_first_call(self, monkeypatch):
+        """Test 1: Strength cache is populated on first call."""
+        from app.services.habit_service import get_habit_strengths
+        from app.models.habit import Habit, HabitEntry
+        from unittest.mock import AsyncMock, MagicMock
+        from datetime import date
+
+        # Create a mock repository
+        mock_repo = MagicMock()
+        mock_repo.get_all = AsyncMock(return_value=[
+            Habit(id="h1", name="Test Habit", category="Test", period="daily",
+                  target_per_period=1, target_completions_per_day=1,
+                  tracking_model="decay", goal_type="streak", count_mode="")
+        ])
+
+        today = date.today()
+        entries = [
+            HabitEntry(id=f"e{i}", habit_id="h1", date=today - timedelta(days=i))
+            for i in range(5)
+        ]
+        mock_repo.get_entries_for_all_habits = AsyncMock(return_value={"h1": entries})
+
+        # Clear caches to ensure clean state
+        from app.services.habit_service import invalidate_caches
+        invalidate_caches()
+
+        # First call should populate cache and invoke repo methods
+        result1 = await get_habit_strengths(mock_repo)
+
+        # Verify repo was called
+        assert mock_repo.get_all.called, "get_all should be called on first invocation"
+        assert mock_repo.get_entries_for_all_habits.called, "get_entries_for_all_habits should be called"
+
+        # Verify result structure
+        assert len(result1) == 1, "Should return one habit strength"
+        assert result1[0]["habit_id"] == "h1"
+        assert "strength_monthly" in result1[0]
+        assert "strength_rolling" in result1[0]
+
+        # Verify strength values are valid (0.0-1.0 range)
+        assert 0.0 <= result1[0]["strength_monthly"] <= 1.0
+        assert 0.0 <= result1[0]["strength_rolling"] <= 1.0
+
+    async def test_cached_result_returned_on_second_call(self, monkeypatch):
+        """Test 2: Cached result returned on second call within TTL."""
+        from app.services.habit_service import get_habit_strengths
+        from app.models.habit import Habit, HabitEntry
+        from unittest.mock import AsyncMock, MagicMock
+        from datetime import date
+
+        # Create a mock repository
+        mock_repo = MagicMock()
+        mock_repo.get_all = AsyncMock(return_value=[
+            Habit(id="h1", name="Test Habit", category="Test", period="daily",
+                  target_per_period=1, target_completions_per_day=1,
+                  tracking_model="decay", goal_type="streak", count_mode="")
+        ])
+
+        today = date.today()
+        entries = [
+            HabitEntry(id=f"e{i}", habit_id="h1", date=today - timedelta(days=i))
+            for i in range(5)
+        ]
+        mock_repo.get_entries_for_all_habits = AsyncMock(return_value={"h1": entries})
+
+        # Clear caches to ensure clean state
+        from app.services.habit_service import invalidate_caches
+        invalidate_caches()
+
+        # First call populates cache
+        result1 = await get_habit_strengths(mock_repo)
+        call_count_after_first = mock_repo.get_all.call_count
+
+        # Second call should use cache (no additional repo calls)
+        result2 = await get_habit_strengths(mock_repo)
+        call_count_after_second = mock_repo.get_all.call_count
+
+        # Verify repo call count didn't increase
+        assert call_count_after_first == call_count_after_second, \
+            f"Expected no additional repo calls (cache hit), but calls went from {call_count_after_first} to {call_count_after_second}"
+
+        # Verify results are identical (cached)
+        assert result1 == result2, "Cached result should be identical to first result"
+
+        # Verify result structure
+        assert len(result2) == 1
+        assert result2[0]["habit_id"] == "h1"
+
+    async def test_cache_cleared_after_invalidate_caches_call(self):
+        """Test 3: Cache cleared after invalidate_caches() call."""
+        from app.services.habit_service import get_habit_strengths, invalidate_caches
+        from app.models.habit import Habit, HabitEntry
+        from unittest.mock import AsyncMock, MagicMock
+        from datetime import date
+
+        # Create a mock repository
+        mock_repo = MagicMock()
+        mock_repo.get_all = AsyncMock(return_value=[
+            Habit(id="h1", name="Test Habit", category="Test", period="daily",
+                  target_per_period=1, target_completions_per_day=1,
+                  tracking_model="decay", goal_type="streak", count_mode="")
+        ])
+
+        today = date.today()
+        entries = [
+            HabitEntry(id=f"e{i}", habit_id="h1", date=today - timedelta(days=i))
+            for i in range(5)
+        ]
+        mock_repo.get_entries_for_all_habits = AsyncMock(return_value={"h1": entries})
+
+        # Clear caches to ensure clean state
+        invalidate_caches()
+
+        # First call populates cache
+        result1 = await get_habit_strengths(mock_repo)
+        call_count_after_first = mock_repo.get_all.call_count
+
+        # Invalidate caches
+        invalidate_caches()
+
+        # Next call should NOT use cache (repo should be called again)
+        result2 = await get_habit_strengths(mock_repo)
+        call_count_after_invalidation = mock_repo.get_all.call_count
+
+        # Verify repo was called again after invalidation
+        assert call_count_after_invalidation > call_count_after_first, \
+            f"Expected repo to be called again after cache invalidation, but call count went from {call_count_after_first} to {call_count_after_invalidation}"
+
+        # Verify results are still valid (recomputation occurred)
+        assert len(result2) == 1
+        assert result2[0]["habit_id"] == "h1"
+
+    async def test_strength_recalculated_after_cache_invalidation(self):
+        """Test 4: Strength recalculated after cache invalidation."""
+        from app.services.habit_service import get_habit_strengths, invalidate_caches, _strength_cache
+        from app.models.habit import Habit, HabitEntry
+        from unittest.mock import AsyncMock, MagicMock
+        from datetime import date
+        from cachetools.keys import hashkey
+
+        # Create a mock repository with mutable state
+        mock_repo = MagicMock()
+
+        # Initial habit with 5 entries
+        habit = Habit(id="h1", name="Test Habit", category="Test", period="daily",
+                     target_per_period=1, target_completions_per_day=1,
+                     tracking_model="decay", goal_type="streak", count_mode="")
+
+        today = date.today()
+        initial_entries = [
+            HabitEntry(id=f"e{i}", habit_id="h1", date=today - timedelta(days=i))
+            for i in range(5)
+        ]
+
+        mock_repo.get_all = AsyncMock(return_value=[habit])
+        mock_repo.get_entries_for_all_habits = AsyncMock(return_value={"h1": initial_entries})
+
+        # Clear caches to ensure clean state
+        invalidate_caches()
+
+        # First call: compute with 5 entries
+        result1 = await get_habit_strengths(mock_repo)
+        strength_with_5_entries = result1[0]["strength_rolling"]
+
+        # Verify cache is populated
+        cache_key = hashkey("strengths")
+        assert cache_key in _strength_cache, "Cache should be populated after first call"
+
+        # Modify repository to return more entries (simulate new completions)
+        updated_entries = [
+            HabitEntry(id=f"e{i}", habit_id="h1", date=today - timedelta(days=i))
+            for i in range(10)  # Now 10 entries instead of 5
+        ]
+        mock_repo.get_entries_for_all_habits = AsyncMock(return_value={"h1": updated_entries})
+
+        # Before invalidation, still returns old cached result
+        result_cached = await get_habit_strengths(mock_repo)
+        assert result_cached[0]["strength_rolling"] == strength_with_5_entries, \
+            "Before invalidation, should return cached strength from 5 entries"
+
+        # Invalidate cache
+        invalidate_caches()
+        assert cache_key not in _strength_cache, "Cache should be empty after invalidation"
+
+        # After invalidation, new call should recompute with updated entries
+        result_recomputed = await get_habit_strengths(mock_repo)
+        strength_with_10_entries = result_recomputed[0]["strength_rolling"]
+
+        # Verify recomputation occurred (more entries = higher strength)
+        assert strength_with_10_entries != strength_with_5_entries, \
+            f"Strength should change after cache invalidation: was {strength_with_5_entries:.4f}, now {strength_with_10_entries:.4f}"
+
+        # With more entries (10 vs 5), strength should be higher
+        assert strength_with_10_entries > strength_with_5_entries, \
+            f"Strength with 10 entries ({strength_with_10_entries:.4f}) should be greater than with 5 entries ({strength_with_5_entries:.4f})"
+
+    def test_invalidate_caches_clears_all_caches(self):
+        """Test 5: invalidate_caches() clears all cache types."""
+        from app.services.habit_service import (
+            invalidate_caches, _streak_cache, _strength_cache,
+            _heatmap_cache, _progress_cache, _insights_cache
+        )
+        from cachetools.keys import hashkey
+
+        # Populate all caches with dummy data
+        _streak_cache[hashkey("test")] = {"data": "streak"}
+        _strength_cache[hashkey("test")] = {"data": "strength"}
+        _heatmap_cache[hashkey("test")] = {"data": "heatmap"}
+        _progress_cache[hashkey("test")] = {"data": "progress"}
+        _insights_cache[hashkey("test")] = {"data": "insights"}
+
+        # Verify caches are populated
+        assert len(_streak_cache) > 0
+        assert len(_strength_cache) > 0
+        assert len(_heatmap_cache) > 0
+        assert len(_progress_cache) > 0
+        assert len(_insights_cache) > 0
+
+        # Invalidate all caches
+        invalidate_caches()
+
+        # Verify all caches are cleared
+        assert len(_streak_cache) == 0, "streak_cache should be empty"
+        assert len(_strength_cache) == 0, "strength_cache should be empty"
+        assert len(_heatmap_cache) == 0, "heatmap_cache should be empty"
+        assert len(_progress_cache) == 0, "progress_cache should be empty"
+        assert len(_insights_cache) == 0, "insights_cache should be empty"

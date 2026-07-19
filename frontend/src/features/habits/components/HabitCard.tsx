@@ -5,12 +5,10 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
-import type { Habit, TargetProgress } from '../../../types';
+import type { Habit, TargetProgress, HabitEntry } from '../../../types';
 import { useHabitStore } from '../../../store/habitStore';
 import { Check, Target, Trash2, Calendar, Flame, TrendingUp } from 'lucide-react';
 import { TooltipSimple } from '@/components/ui/tooltip';
-import { CATEGORY_BADGE_COLORS } from '../../../constants/categories';
-
 import { CATEGORY_BADGE_COLORS } from '../../../constants/categories';
 
 function toISO(d: Date) {
@@ -20,8 +18,17 @@ function toISO(d: Date) {
     return `${yy}-${mm}-${dd}`;
 }
 
+interface Props {
+    habit: Habit;
+    streak: number;
+    completionRate: number;
+    habitStrength: number;
+    targetProgress?: TargetProgress;
+    onDelete: (id: string) => void;
+}
+
 export function HabitCard({ habit, streak, completionRate, habitStrength, targetProgress, onDelete }: Props) {
-    const EMPTY_ARRAY: HabitEntry[] = useMemo(() => [], []);
+    const EMPTY_ARRAY: HabitEntry[] = [];
     const entries = useHabitStore((s) => s.entries[habit.id] || EMPTY_ARRAY);
     const heatmaps = useHabitStore((s) => s.heatmaps);
     const completeHabit = useHabitStore((s) => s.completeHabit);
@@ -41,6 +48,40 @@ export function HabitCard({ habit, streak, completionRate, habitStrength, target
     const isOverThreshold = habit.goal_type !== 'streak' && targetProgress
         ? targetProgress.completed >= (targetProgress.target || habit.target_per_period)
         : completedToday;
+
+    // Computed values for rendering
+    const monthData = useMemo(() => {
+        const months: { label: string; days: { date: string }[]; completedCount: number; totalInMonth: number }[] = [];
+        const now = new Date();
+
+        for (let i = 0; i < 3; i++) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const monthLabel = d.toLocaleString('default', { month: 'short' });
+            const totalDaysInMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+            const effectiveDays = i === 0 ? now.getDate() : totalDaysInMonth;
+            let monthCompleted = 0;
+            const days: { date: string }[] = [];
+
+            for (let day = 1; day <= totalDaysInMonth; day++) {
+                const dateObj = new Date(d.getFullYear(), d.getMonth(), day);
+                const isoDate = toISO(dateObj);
+                days.push({ date: isoDate });
+                if (completedDates.has(isoDate)) {
+                    monthCompleted++;
+                }
+            }
+
+            months.push({
+                label: monthLabel.toLowerCase(),
+                days,
+                completedCount: monthCompleted,
+                totalInMonth: effectiveDays
+            });
+        }
+        return months;
+    }, [completedDates]);
+
+    const isTargetGoal = habit.goal_type !== 'streak' && targetProgress;
 
     const handleToggle = async (e?: React.MouseEvent) => {
         e?.stopPropagation();

@@ -14,8 +14,8 @@ class SubscriptionBase(BaseModel):
     billing_day: int = 1
 
 
-class SubscriptionCreate(SubscriptionBase):
-    pass
+# ponytail: Empty class removed, use SubscriptionBase directly
+SubscriptionCreate = SubscriptionBase
 
 
 class SubscriptionUpdate(BaseModel):

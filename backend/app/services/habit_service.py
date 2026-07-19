@@ -29,10 +29,14 @@ _MAX_DECAY_WINDOW = 31
 _DECAY_WEIGHTS: list[float] = [math.exp(-DECAY_LAMBDA * i) for i in range(_MAX_DECAY_WINDOW)]
 
 # In-memory TTL caches (maxsize=256, ttl=30 seconds).  Keyed by habit_id(s).
-_streak_cache: TTLCache = TTLCache(maxsize=256, ttl=30)
-_strength_cache: TTLCache = TTLCache(maxsize=256, ttl=30)
-_heatmap_cache: TTLCache = TTLCache(maxsize=256, ttl=30)
-_progress_cache: TTLCache = TTLCache(maxsize=256, ttl=30)
+# ponytail: Factory to reduce repetition
+def _cache(ttl: int = 30) -> TTLCache:
+    return TTLCache(maxsize=256, ttl=ttl)
+
+_streak_cache: TTLCache = _cache()
+_strength_cache: TTLCache = _cache()
+_heatmap_cache: TTLCache = _cache()
+_progress_cache: TTLCache = _cache()
 
 # ---------------------------------------------------------------------------
 # Rust acceleration (optional — transparent hot-swap)
@@ -347,7 +351,7 @@ async def get_target_progress_for_all(repo: HabitRepository) -> dict[str, dict]:
 _WEIGHT_DECAY = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3]
 
 # Cache for insights (30s TTL)
-_insights_cache: TTLCache = TTLCache(maxsize=256, ttl=30)
+_insights_cache: TTLCache = _cache()
 
 
 def _analyze_weekly_trend(

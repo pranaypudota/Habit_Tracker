@@ -2,10 +2,10 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import event
 
-from app.core.config import settings
+from app.core.config import DATABASE_URL
 
 engine = create_async_engine(
-    settings.DATABASE_URL,
+    DATABASE_URL,
     connect_args={"check_same_thread": False},
     echo=False,
 )

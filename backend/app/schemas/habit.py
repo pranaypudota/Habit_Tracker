@@ -16,8 +16,8 @@ class HabitBase(BaseModel):
     count_mode: str = ""
 
 
-class HabitCreate(HabitBase):
-    pass
+# ponytail: Empty class removed, use HabitBase directly
+HabitCreate = HabitBase
 
 
 class HabitUpdate(BaseModel):

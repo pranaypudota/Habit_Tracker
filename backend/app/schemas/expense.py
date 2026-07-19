@@ -11,8 +11,8 @@ class ExpenseBase(BaseModel):
     note: Optional[str] = ""
 
 
-class ExpenseCreate(ExpenseBase):
-    pass
+# ponytail: Empty class removed, use ExpenseBase directly
+ExpenseCreate = ExpenseBase
 
 
 class ExpenseResponse(ExpenseBase):
